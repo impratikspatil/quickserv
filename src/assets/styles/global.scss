@@ -1,0 +1,19 @@
+/* _global.scss */
+body {
+  font-family: 'Poppins', sans-serif; /* Apply Poppins font globally */
+  margin: 0;
+  padding: 0;
+}
+  
+  /* src/styles/globals.css */
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --font-family: 'Poppins', sans-serif;
+    --font-size-base: 16px;
+    --spacing-unit: 16px;
+    --border-radius: 4px;
+    --max-width: 1200px;
+    --text-color:#252424;
+  }
+  

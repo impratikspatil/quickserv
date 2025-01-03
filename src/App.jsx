@@ -1,8 +1,7 @@
 import { useState } from 'react'
-import './App.css'
 import LandingPage from './pages/LandingPage';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-
+import './assets/styles/main.scss'; 
 
 function App() {
 
