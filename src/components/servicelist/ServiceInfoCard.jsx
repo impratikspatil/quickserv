@@ -16,6 +16,7 @@ import theme from "../../theme/theme";
 import CallIcon from '@mui/icons-material/Call';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
+import { VerifiedOutlined } from '@mui/icons-material';
 
 const ServiceCardInfo = ({ 
   imageUrl, 
@@ -34,18 +35,18 @@ const ServiceCardInfo = ({
 
   return (
     <ThemeProvider theme={theme}>
-          <Card sx={{ display: 'flex',flexDirection:'row',margin: 2 ,width:'70vw',height:"14rem" ,borderRadius:2,boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)'}} >
+          <Card sx={{ display: 'flex',flexDirection:'row',marginLeft: 2,marginRight:2,marginBottom:2 ,width:'60vw',height:"12rem" ,borderRadius:2,boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'}} >
      
       <CardMedia
         component="img"
-        sx={{ width: '20%',padding: 2,borderRadius:5 }}
+        sx={{ width: '20%',padding:2 ,borderRadius:5 }}
         image={imageUrl}
         alt={serviceName}
       />
       <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 1,width:'80%' }}>
         <CardContent>
          <Box sx={{ display: 'flex', flexDirection:'row',width:'100%',justifyContent:'space-between'}}>
-         <Typography   variant="h5" component="div">
+         <Typography  sx={{fontSize:20}}> 
             {serviceName}
           </Typography>
 
@@ -55,17 +56,17 @@ const ServiceCardInfo = ({
 
          </Box>
 
-          <Box sx={{ display: 'flex', flexDirection:'row',marginTop:'0.5rem'}}>
+          <Box sx={{ display: 'flex', flexDirection:'row'}}>
           
-          <Rating name="read-only" value={rating} readOnly />
+          <Rating name="read-only" value={rating} readOnly size="small" />
 
-            <Typography variant="textcolor"   sx={{marginLeft:2,lineHeight:1.7}}>
+            <Typography variant="textcolor"   sx={{marginLeft:2,fontSize:12}}>
             {ratingCount} Ratings
           </Typography>
 
           <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: '1rem' }}>
           {isVerified ? (
-            <VerifiedUserIcon color="success" sx={{fontSize:20}} />
+            <VerifiedOutlined color="success" sx={{fontSize:18}} />
           ) : (
             <CancelIcon color="error" />
           )}
@@ -74,32 +75,32 @@ const ServiceCardInfo = ({
 
 
           <Box sx={{ display: 'flex', flexDirection:'row',marginTop:'0.2rem'}}>
-            <LocationOnOutlinedIcon sx={{fontSize:'1.2rem'}}></LocationOnOutlinedIcon>
+            <LocationOnOutlinedIcon sx={{fontSize:'0.9rem'}}></LocationOnOutlinedIcon>
 
-          <Typography variant="textcolor" sx={{lineHeight:1.2}}>
+          <Typography variant="textcolor" sx={{fontSize:12}}>
             {location}
           </Typography>
           </Box>
           
-          <Box sx={{ display: 'flex', flexDirection:'row',marginTop:'1rem',gap:1}}>
-          <Button variant="outlined" sx={{height:'1.5rem',fontSize:'0.6rem',width:'max-content',padding:'0.4rem'}}>Daily Cloths</Button>
-          <Button variant="outlined" sx={{height:'1.5rem',fontSize:'0.6rem',width:'max-content',padding:'0.4rem'}}>Shoes Wash</Button>
-          <Button variant="outlined" sx={{height:'1.5rem',fontSize:'0.6rem',width:'max-content',padding:'0.4rem'}}>Daily Cloths</Button>
-          <Button variant="outlined" sx={{height:'1.5rem',fontSize:'0.6rem',width:'max-content',padding:'0.4rem'}}>Daily Cloths</Button>
+          <Box sx={{ display: 'flex', flexDirection:'row',marginTop:'0.5rem',gap:1}}>
+          <Button variant="outlined" sx={{height:'1.5rem',fontSize:'0.5rem',width:'max-content',padding:'0.4rem',textTransform:'none'}}>Daily Cloths</Button>
+          <Button variant="outlined" sx={{height:'1.5rem',fontSize:'0.5rem',width:'max-content',padding:'0.4rem',textTransform:'none'}}>Shoes Wash</Button>
+          <Button variant="outlined" sx={{height:'1.5rem',fontSize:'0.5rem',width:'max-content',padding:'0.4rem',textTransform:'none'}}>Daily Cloths</Button>
+          <Button variant="outlined" sx={{height:'1.5rem',fontSize:'0.5rem',width:'max-content',padding:'0.4rem',textTransform:'none'}}>Daily Cloths</Button>
 
 
           </Box>
           
             <Box sx={{ display: 'flex', flexDirection:'row',marginTop:'1rem',gap:2}}>
-                <Button  startIcon={<CallIcon/>} variant="contained" color="primary" sx={{borderRadius:2,backgroundColor:'#028b06'}}>{contactNumber}</Button>
-                <Button  startIcon={<WhatsAppIcon sx={{color:'#028b06'}}/>} variant="contained" color="primary" sx={{borderRadius:2,backgroundColor:'#ffffff',color:'#000000'}}>WhatsApp</Button>
-                <Button  startIcon={<QuestionAnswerIcon/>} variant="contained" color="primary" sx={{borderRadius:2}}>Enquiry</Button>
+                <Button  startIcon={<CallIcon/>} variant="contained" color="primary" sx={{borderRadius:2,backgroundColor:'#028b06',textTransform:'none',fontSize:12}}>{contactNumber}</Button>
+                <Button  startIcon={<WhatsAppIcon sx={{color:'#028b06'}}/>} variant="contained" color="primary" sx={{borderRadius:2,backgroundColor:'#ffffff',color:'#000000',textTransform:'none',fontSize:12}}>WhatsApp</Button>
+                <Button  startIcon={<QuestionAnswerIcon/>} variant="contained" color="primary" sx={{borderRadius:2,textTransform:'none',fontSize:12}}>Enquiry</Button>
             </Box>
         </CardContent>
         
       </Box>
     
-    </Card>
+          </Card>
 
     </ThemeProvider>
   
