@@ -19,3 +19,17 @@ body {
     --nav-bar-button-color:#ffb703;
   }
   
+.flex-row{
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column{
+  display: flex;
+  flex-direction: column;
+}
+
+.text-center{
+  width: 100%;
+  text-align: center;
+}

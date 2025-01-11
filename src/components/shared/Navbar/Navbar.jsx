@@ -1,5 +1,6 @@
 // src/components/Shared/Navbar.jsx
 import React from 'react';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Navbar.css'; // Import CSS for styling
 import logo from '../../../assets/images/quickserv_logo.png'
@@ -8,9 +9,7 @@ import { red } from '@mui/material/colors';
 import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
-
-
-
+import LoginDialog from '../../login/Login.jsx'
 const Navbar = (
     {
         isLogin=true,
@@ -26,6 +25,16 @@ const Navbar = (
           children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
         };
       }
+
+      const [open, setOpen] = useState(false);
+
+      const handleClickOpen = () => {
+        setOpen(true);
+      };
+    
+      const handleClose = () => {
+        setOpen(false);
+      };
 
      
       
@@ -52,11 +61,13 @@ const Navbar = (
                 <Box>
                 {
                     isLogin ? 
-                    <Avatar  {...stringAvatar(userName)} />
+                    <Avatar  {...stringAvatar(userName)} onClick={handleClickOpen}/>
                     :
-                    <Button className='navbar-buttons' >Login/Sign Up</Button>
+                    <Button className='navbar-buttons' onClick={handleClickOpen}>Login/Sign Up</Button>
                 }
                 </Box>
+                <LoginDialog open={open} onClose={handleClose} />
+
                 
                 </Box>
 

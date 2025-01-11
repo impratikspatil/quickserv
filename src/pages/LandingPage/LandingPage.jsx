@@ -4,6 +4,8 @@ import Hero from '../../components/home/hero/Hero'
 import CategoryGrid from '../../components/home/categoryGrid/categoryGrid'
 
 const LandingPage = () => {
+
+
   return (
     <div>
       <Navbar />
