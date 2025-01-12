@@ -15,5 +15,21 @@ body {
     --border-radius: 4px;
     --max-width: 1200px;
     --text-color:#252424;
+    --nav-bar-background-color: #ffffff;
+    --nav-bar-button-color:#ffb703;
   }
   
+.flex-row{
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column{
+  display: flex;
+  flex-direction: column;
+}
+
+.text-center{
+  width: 100%;
+  text-align: center;
+}

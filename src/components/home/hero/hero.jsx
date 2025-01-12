@@ -1,9 +1,9 @@
 import React from 'react'
 import './hero.css'
-import Button from '../../shared/Button/Button'
 import painters from '../../../assets/images/painters.png'
 import delivery from '../../../assets/images/delivery.png'
 import cleaners from '../../../assets/images/cleaners.png'
+import { Button } from '@mui/material'
 
 const Hero = () => {
   return (
@@ -12,9 +12,9 @@ const Hero = () => {
             <span className='hero__left__title'>Connecting You with <br></br>Local Experts for Every Need</span>
             <p className='hero__left__description'>Quick, reliable, and affordable services tailored to your needs.</p>
             <div className='hero__left__buttons'>
-                <Button variant='default' size='medium'>Find Service</Button>
+                <Button className='navbar-buttons' >Find Service</Button>
                 <span style={{marginLeft:"1rem"}}></span>
-                <Button variant='default' size='medium'>Post Service</Button>
+                <Button className='navbar-buttons'>Post Service</Button>
             </div>
 
         </div>

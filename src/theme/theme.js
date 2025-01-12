@@ -27,8 +27,25 @@ const theme = createTheme({
     },
     textcolor:
     {
+      fontFamily: 'Poppins, sans-serif',
       color: 'black',
     },
+    boldtext:{
+      fontFamily: 'Poppins, sans-serif',
+      fontWeight: 500 ,
+      color: '#000000',
+  
+    },
+    text:{
+      fontFamily: 'Poppins, sans-serif',
+      color: '#000000',
+    }
+    ,
+    smalltext:{
+      fontFamily: 'Poppins, sans-serif',
+      color: '#000000',
+      fontSize: '0.8rem'
+    }
   },
   palette: {
     primary: {
@@ -38,6 +55,7 @@ const theme = createTheme({
       main: '#dc004e', // Example secondary color
     },
   },
+
 });
 
 export default theme;
