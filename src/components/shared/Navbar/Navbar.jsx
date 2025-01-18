@@ -10,12 +10,17 @@ import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import LoginDialog from '../../login/Login.jsx'
+
+
 const Navbar = (
     {
         isLogin=true,
         userName='Pratik Patil'
     }
 ) => {
+
+    const navigate = useNavigate();
+
 
     function stringAvatar(name) {
         return {
@@ -36,6 +41,19 @@ const Navbar = (
         setOpen(false);
       };
 
+
+      const onClickPostService =()=>{
+        navigate('/post_service');
+      }
+
+      const onClickFindService =()=>{
+        navigate('/?section=category');
+      }
+
+
+        
+      
+
      
       
     return (
@@ -54,8 +72,8 @@ const Navbar = (
                 <a href='/' className='remove_link_style' > About</a>
                 <a href='/' className='remove_link_style' > Services</a>
                 <Box sx={{display:'flex', flexDirection:'row',gap:2}}>
-                <Button className='navbar-buttons'>Find Service</Button>
-                <Button className='navbar-buttons' >Post Service</Button>
+                <Button className='navbar-buttons' onClick={onClickFindService}>Find Service</Button>
+                <Button className='navbar-buttons' onClick={onClickPostService}>Post Service</Button>
 
                 
                 <Box>

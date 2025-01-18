@@ -42,3 +42,4 @@ export const category_list = [
     category_image: category_1,
   },
 ];
+
