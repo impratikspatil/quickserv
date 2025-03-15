@@ -1,36 +1,44 @@
 /* _global.scss */
 body {
-  font-family: 'Poppins', sans-serif; /* Apply Poppins font globally */
+  font-family: 'Poppins', sans-serif;
+  /* Apply Poppins font globally */
   margin: 0;
   padding: 0;
 }
-  
-  /* src/styles/globals.css */
+
+/* src/styles/globals.css */
 :root {
-    --primary-color: #3498db;
-    --secondary-color: #2ecc71;
-    --font-family: 'Poppins', sans-serif;
-    --font-size-base: 16px;
-    --spacing-unit: 16px;
-    --border-radius: 4px;
-    --max-width: 1200px;
-    --text-color:#252424;
-    --nav-bar-background-color: #ffffff;
-    --nav-bar-button-color:#ffb703;
-  }
-  
-.flex-row{
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --font-family: 'Poppins', sans-serif;
+  --font-size-base: 16px;
+  --spacing-unit: 16px;
+  --border-radius: 4px;
+  --max-width: 1200px;
+  --text-color: #252424;
+  --nav-bar-background-color: #ffffff;
+  --nav-bar-button-color: #ffb703;
+}
+
+.flex-row {
   display: flex;
   flex-direction: row;
 }
 
-.flex-column{
+.flex-column {
   display: flex;
   flex-direction: column;
 }
 
-.text-center{
+.text-center {
   width: 100%;
   text-align: center;
 }
 
+.gap-2 {
+  gap: 2rem;
+}
+
+.gap-1 {
+  gap: 2rem;
+}

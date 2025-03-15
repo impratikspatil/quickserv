@@ -22,14 +22,14 @@ const GlobalSearchFilter = ({
     return (
         <Autocomplete
             size='small'
-            sx={{ width: 300,alignSelf:'center' }} 
+            sx={{ width: 300, alignSelf: 'center' }}
             id="free-solo-demo"
             freeSolo
             options={globalSearchData.map((option) => option.title)}
             renderInput={(params) => (
-                <TextField 
-                    {...params} 
-                    label="Search" 
+                <TextField
+                    {...params}
+                    label="Search"
                     InputProps={{
                         ...params.InputProps,
                         startAdornment: (
@@ -37,7 +37,7 @@ const GlobalSearchFilter = ({
                                 <SearchIcon />
                             </InputAdornment>
                         ),
-                    }} 
+                    }}
                 />
             )}
             disableClearable // Optional: To hide the clear button

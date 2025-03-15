@@ -1,19 +1,22 @@
-.service_enquiry{
+.service_enquiry {
     box-shadow: 0 0 10px 0 rgba(0, 0, 1, 0.2);
     padding-left: 2rem;
     padding-right: 2rem;
     padding-top: 1rem;
     border-radius: 0.5rem;
-    margin-top: -3rem;
-    height: 40vh;
+    height: fit-content;
     position: fixed;
     overflow: hidden;
+    padding-bottom: 2rem;
     z-index: 1000;
     background-color: white;
-    margin-left: 70vw;
+    /* margin-left: 70vw; */
+    margin-left: 1rem ;
+    margin-top: 48vh;
     
+
 }
 
-.service_query_user_info{
+.service_query_user_info {
     width: 20rem;
 }

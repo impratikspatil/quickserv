@@ -30,18 +30,18 @@ const theme = createTheme({
       fontFamily: 'Poppins, sans-serif',
       color: 'black',
     },
-    boldtext:{
+    boldtext: {
       fontFamily: 'Poppins, sans-serif',
-      fontWeight: 500 ,
+      fontWeight: 500,
       color: '#000000',
-  
+
     },
-    text:{
+    text: {
       fontFamily: 'Poppins, sans-serif',
       color: '#000000',
     }
     ,
-    smalltext:{
+    smalltext: {
       fontFamily: 'Poppins, sans-serif',
       color: '#000000',
       fontSize: '0.8rem'

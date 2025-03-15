@@ -1,25 +1,25 @@
-.navbar{
+.navbar {
     width: 100vw;
     height: 4rem;
     display: flex;
     flex-direction: row;
     background-color: var(--nav-bar-background-color);
-    position:fixed;
-    overflow: hidden;  
+    position: fixed;
+    overflow: hidden;
     z-index: 1000;
 }
 
-.navbar__left{
+.navbar__left {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
     width: 40vw;
     margin-left: 1rem;
-    
+
 }
 
-.navbar__right{
+.navbar__right {
     display: flex;
     flex-direction: row;
     gap: 5rem;
@@ -31,41 +31,66 @@
 }
 
 
-.remove_link_style:active{
+.remove_link_style:active {
+    text-decoration: none;
+    
+}
+
+.remove_link_style:hover {
     text-decoration: none;
 }
 
-.remove_link_style:hover{
+.remove_link_style:link {
     text-decoration: none;
 }
 
-.remove_link_style:link{
+.remove_link_style:visited {
     text-decoration: none;
 }
 
-.remove_link_style:visited{
-    text-decoration: none;
-}
-
-.remove_link_style{
+.remove_link_style {
     color: var(--text-color);
-    font-size: 0.9rem;
+    font-size: 1rem;
+    cursor: pointer;
 }
 
-.navbar__left__logo{
+.navbar__left__logo {
     font-size: 1.5rem;
     font-weight: 500;
     color: black;
 }
 
-.navbar-buttons{
+.navbar-buttons {
     text-transform: none !important;
     color: #000000 !important;
     font-size: 0.9rem !important;
     background-color: var(--nav-bar-button-color) !important;
-    padding: 0.3rem 1rem !important;
+    padding: 0.6rem 1rem !important;
     border-radius: 5px !important;
     font-family: "Poppins", sans-serif !important;
-    font-weight: 1 !important; ;
+    font-weight: 100 !important;
+
+}
+
+.circular-image{
+    
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-color: red;
+}
+
+.circular-image-container {
+    width: 3rem; 
+    height: 3rem;
+    border-radius: 50%; 
+    overflow: hidden; 
+  }
+
+.profile-container{
+    width: 4rem; 
+    height: 4rem; 
+    border-radius: 50%; 
+    overflow: hidden; 
 
 }

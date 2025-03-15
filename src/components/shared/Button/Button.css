@@ -5,37 +5,43 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-family: 'Poppins', sans-serif; 
+    font-family: 'Poppins', sans-serif;
 }
 
 .button.default {
-    background-color: #ffb703; /* Default blue color */
+    background-color: #ffb703;
+    /* Default blue color */
     color: #000000;
 }
 
 .button.default:hover {
-    background-color: #fb8500; /* Darker blue on hover */
+    background-color: #fb8500;
+    /* Darker blue on hover */
     color: white;
 }
 
 .button.outline {
     background-color: transparent;
-    border: 2px solid #3498db; /* Outline color */
+    border: 2px solid #3498db;
+    /* Outline color */
     color: #3498db;
 }
 
 .button.outline:hover {
-    background-color: #3498db; /* Fill on hover */
+    background-color: #3498db;
+    /* Fill on hover */
     color: white;
 }
 
 .button.danger {
-    background-color: #e74c3c; /* Red color */
+    background-color: #e74c3c;
+    /* Red color */
     color: white;
 }
 
 .button.danger:hover {
-    background-color: #c0392b; /* Darker red on hover */
+    background-color: #c0392b;
+    /* Darker red on hover */
 }
 
 /* Size variants */

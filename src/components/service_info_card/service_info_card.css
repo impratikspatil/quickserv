@@ -1,0 +1,15 @@
+.service-info-card{
+    box-shadow: 0 0 10px 0 rgba(0, 0, 1, 0.2);
+    padding-left: 2rem;
+    padding-right: 6rem;
+    padding-top: 1rem;
+    border-radius: 0.5rem;
+    background-color: white;
+    margin-left: 1rem ;
+    padding-bottom: 2rem;
+    margin-top: 1rem;
+    position: fixed;
+    overflow: hidden;
+    height: 17rem;
+    width: 17.5rem;
+}
