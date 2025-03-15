@@ -15,7 +15,7 @@ import appliance_repair_service from '../../../assets/images/waste_management_se
 import { Button } from '@mui/material'
 import { PestControl } from '@mui/icons-material'
 
-const Hero = React.forwardRef((props, ref) =>  {
+const hero = React.forwardRef((props, ref) =>  {
   return (
     <div className='hero__container' ref={ref}>
       <div className='hero__left'>
@@ -60,4 +60,4 @@ const Hero = React.forwardRef((props, ref) =>  {
   )
 })
 
-export default Hero
+export default hero

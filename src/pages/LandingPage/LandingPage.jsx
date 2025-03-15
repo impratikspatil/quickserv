@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from '../../components/shared/Navbar/Navbar'
-import Hero from '../../components/home/hero/Hero'
+import Hero from '../../components/home/hero/hero.jsx'
 import CategoryGrid from '../../components/home/categoryGrid/categoryGrid'
 import { useLocation } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
