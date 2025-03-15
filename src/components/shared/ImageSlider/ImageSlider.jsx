@@ -6,7 +6,7 @@ const ImageSlider = ({ images }) => {
     <div className="image_slider">
       <div
         className="image_slides"
-        style={{ backgroundImage: `url(${images[currentIndx].url})`}}
+        style={{ backgroundImage: `url(${images[currentIndx].url})` }}
       ></div>
     </div>
   );

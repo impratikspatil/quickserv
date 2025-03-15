@@ -1,4 +1,4 @@
-.image_slides{
+.image_slides {
     height: 100%;
     width: 100%;
     border-radius: 0.5rem;
@@ -7,7 +7,7 @@
 
 }
 
-.image_slider{
+.image_slider {
     height: 100%;
     position: relative;
 }

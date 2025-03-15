@@ -25,9 +25,9 @@ const LocationFilter = ({
             sx={{ width: 300, alignSelf: 'center' }}
             size='small'
             renderInput={(params) => (
-                <TextField 
-                    {...params} 
-                    label="Location" 
+                <TextField
+                    {...params}
+                    label="Location"
                     InputProps={{
                         ...params.InputProps,
                         startAdornment: (
@@ -35,7 +35,7 @@ const LocationFilter = ({
                                 <LocationOnOutlinedIcon />
                             </InputAdornment>
                         ),
-                    }} 
+                    }}
                 />
             )}
         />

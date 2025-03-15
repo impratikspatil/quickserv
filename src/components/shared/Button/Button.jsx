@@ -4,8 +4,8 @@ import './Button.css'; // Optional: Import CSS for styling
 
 const Button = ({ onClick, children, variant = 'default', size = 'medium' }) => {
     return (
-        <button 
-            className={`button ${variant} ${size}`} 
+        <button
+            className={`button ${variant} ${size}`}
             onClick={onClick}
         >
             {children}

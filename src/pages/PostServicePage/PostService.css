@@ -1,7 +1,7 @@
-.post-form-card-container{
-    padding:2rem;
+.post-form-card-container {
+    padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     margin-top: 5rem;
     margin-left: 2rem;
     margin-right: 2rem;
@@ -10,25 +10,25 @@
 
 }
 
-.form-field{
-    margin-bottom: 1rem  !important;
+.form-field {
+    margin-bottom: 1rem !important;
     width: 22vw !important;
 }
 
-.form-field-container{
-   display:flex;
-   flex-direction: column;
-   gap: 1rem;
-   margin-top: 2rem;
+.form-field-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
 }
 
 
 
-.mr-top-1rem{
+.mr-top-1rem {
     margin-top: 1rem !important;
 }
 
-.form-row{
+.form-row {
     display: flex;
     flex-direction: row;
     gap: 1rem !important;

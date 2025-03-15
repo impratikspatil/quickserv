@@ -1,0 +1,19 @@
+.why_to_choose {
+    width: 40vw;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    padding:2rem;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    margin-left: 1rem ;
+    border-radius: 1rem;
+  }
+
+  .remove_list_style{
+    list-style-type: none; /* Remove bullet points */
+    padding-left: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+  }
+
+
+
+
