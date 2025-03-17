@@ -7,7 +7,7 @@ import './VerifyOTP.css'
 
 
 
-const VerifyOTP = ({ mobile, onClose }) => {
+const VerifyOTP = ({ mobile, onClose,onClickVerifyOTP}) => {
     const [otp, setOtp] = useState('');
 
     return (
@@ -20,7 +20,7 @@ const VerifyOTP = ({ mobile, onClose }) => {
                             e.target.value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
                             setOtp(e.target.value);
                         }} sx={{ width: "23rem", alignSelf: "center" }} />
-                        <Button variant="contained" className="text-center login-singup-buttons" >Verify OTP</Button>
+                        <Button variant="contained" className="text-center login-singup-buttons" onClick={onClickVerifyOTP} >Verify OTP</Button>
                     </Box>
 
                 </div>

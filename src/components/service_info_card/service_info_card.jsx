@@ -1,7 +1,7 @@
 import React from "react";
 import { Divider } from "@mui/material";
 import { internal_service_details } from "../../assets/internal_service_details";
-import './service_info_card.css';
+import "./service_info_card.css";
 
 const ServiceInfoCard = ({ service_name = "Maintenance & Repairs" }) => {
   // Find the service category based on the service_name
@@ -17,13 +17,13 @@ const ServiceInfoCard = ({ service_name = "Maintenance & Repairs" }) => {
   return (
     <div className="service-info-card">
       <div className="service-info-card-header">
-        <span style={{fontSize: '1.5rem',paddingBottom: '1rem'}}>{serviceCategory.service_name}</span>
-        <Divider  style={{marginBottom: '1rem',marginTop:'1rem'}}/>
+        <h2>{serviceCategory.service_name}</h2>
+        <Divider className="service-divider" />
         <div className="service-info-card-body">
-          <ul style={{textDecoration:'none',lineHeight:'2.5rem'}}>
+          <ul className="service-list">
             {serviceCategory.internal_service_details.map((service, index) => (
               <li key={index}>
-                <span style={{fontSize: '1rem'}}>{service.service_includes}</span>
+                <span>{service.service_includes}</span>
               </li>
             ))}
           </ul>

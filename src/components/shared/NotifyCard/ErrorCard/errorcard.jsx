@@ -1,34 +1,19 @@
-import React from 'react'
-import { Button, Dialog, DialogContent, Typography } from "@mui/material";
-import './errorcard.css'
-import CancelIcon from '@mui/icons-material/Cancel';
+import React from "react";
+import { Dialog, DialogContent, Typography } from "@mui/material";
+import CancelIcon from "@mui/icons-material/Cancel";
+import "./errorcard.css";
 
-
-const errorcard = ({
-    msg="Failed to sent otp",
-    onClose,
-
-
-}) => {
+const ErrorCard = ({ msg = "Failed to send OTP", onClose }) => {
   return (
-    <div className='success-info-card'>
-       
-        <Dialog open={open} onClose={onClose} >
-            <DialogContent>
-                <div className='notify-dialog'>
-                    <div className='dialog-icon' >
-                    <CancelIcon  className='info-icon-style' style={{color:"red "}}/>
-                    </div>
-                    <span style={{ alignSelf: "center",fontSize:'1.2rem' }}>{msg}</span>
-                    
-                </div>
+    <Dialog open={open} onClose={onClose} PaperProps={{ className: "error-dialog" }}>
+      <DialogContent>
+        <div className="error-content">
+          <CancelIcon className="error-icon" />
+          <Typography className="error-text">{msg}</Typography>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
-            </DialogContent>
-
-        </Dialog>
-      
-    </div>
-  )
-}
-
-export default errorcard
+export default ErrorCard;

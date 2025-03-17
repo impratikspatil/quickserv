@@ -1,98 +1,140 @@
 .category_grid {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 2rem;
+  animation: fadeIn 0.8s ease-in-out;
 }
 
 .category_grid h1 {
-    font-weight: 500;
-    text-align: center;
+  font-weight: 600;
+  text-align: center;
+  font-size: 2rem;
+  color: #333;
+  position: relative;
 }
 
-.category_grid_text {
-    max-width: 60%;
-    padding: 5%;
-    columns: #808080;
+.category_grid h1::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #ff9900, #ffb703);
+  margin: 8px auto 0;
+  border-radius: 2px;
+  animation: slideIn 1s ease-in-out;
 }
 
 .category_grid_list {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-gap: 1rem;
-    padding: 1rem;
-    text-align: center;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(13rem, 1fr));
+  grid-gap: 2rem;
+  padding: 1rem;
+  text-align: center;
+  justify-content: center;
+  max-width: 90%;
 }
 
-.category_grid_list::-webkit-scrollbar {
-    display: none;
-}
-
-.category_list_item img {
-    width: 50%;
-    height: fit-content;
-   
-    transition: 0.2s;
- 
-}
-
-
-.category_list_item p {
-    margin-top: 1rem;
-    color: black;
-    font-size: max(1vw, 16px);
-    cursor: pointer;
-    font-weight: 500;
-    border-radius: 1rem;
-}
-
-.category_grid hr {
-    margin: 1rem;
-    height: 0.1rem;
-    background-color: rgb(201, 199, 199);
-    border: none;
-}
-
-.category_list_item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
- 
-/* Existing Styles */
+/* Category Item Styling */
 .category_list_item {
-    border-radius: 1rem;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-    height: 10rem;
-    width: 13rem;
-    align-content: center;
-    position: relative; /* Required for pseudo-element positioning */
-    overflow: hidden; /* Ensures the pseudo-element doesn't overflow */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
+  border-radius: 1rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  height: 12rem;
+  width: 14rem;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  transition: all 0.4s ease-in-out;
+}
+
+/* Hover Effect */
+.category_list_item:hover {
+  transform: translateY(-8px) scale(1.08);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #ff6a00, #ffb703);
+}
+
+/* Overlay Effect */
+.category_list_item::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 100%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 166, 0, 0.5), transparent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.5s ease-in-out;
+}
+
+.category_list_item:hover::before {
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+/* Icon Styling */
+.category_list_item i {
+  position: relative;
+  font-size: 3rem;
+  color: #ff9900;
+  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.category_list_item:hover i {
+  transform: scale(1.3) rotate(10deg);
+  color: white;
+}
+
+/* Text Styling */
+.category_list_item p {
+  position: relative;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #808080;
+  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.category_list_item:hover p {
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Scrollbar Removal */
+.category_grid_list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Divider */
+.category_grid hr {
+  margin: 1rem;
+  height: 2px;
+  background-color: rgb(201, 199, 199);
+  border: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(-10px);
   }
-  
-  /* Hover Effect for Card */
-  .category_list_item:hover {
-    transform: translateY(-10px); /* Slight lift on hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+  to {
+      opacity: 1;
+      transform: translateY(0);
   }
-  
-  /* Pseudo-Element for Full-Card Overlay */
-  .category_list_item::before {
-    content: "";
-    position: absolute;
-    bottom: 100%; /* Start from bottom */
-    left: 100%; /* Start from left */
-    width: 100%;
-    height: 100%;
-    background-color: #ffb703; /* Overlay color */
-    border-radius: 1rem; /* Match card border-radius */
-    transform: translate(100%, 100%); /* Start off-screen */
-    transition: transform 0.5s ease;
-    z-index: 1; /* Ensure it's above the card content */
+}
+
+@keyframes slideIn {
+  from {
+      width: 0;
   }
-  
-  /* Hover Animation */
-  .category_list_item:hover::before {
-    transform: translate(0, 0); /* Cover the entire card */
+  to {
+      width: 80px;
   }
+}

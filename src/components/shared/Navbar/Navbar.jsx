@@ -1,155 +1,66 @@
-// src/components/Shared/Navbar.jsx
-import React from 'react';
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import './Navbar.css'; // Import CSS for styling
-import logo from '../../../assets/images/quickserv_logo.png'
-import Avatar from '@mui/material/Avatar';
-import { red } from '@mui/material/colors';
-import Box from '@mui/material/Box';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
-import LoginDialog from '../../login/Login.jsx'
+import React, { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { Avatar, Box, Button, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider } from '@mui/material';
+import { Inbox as InboxIcon, Mail as MailIcon, Person as PersonIcon } from '@mui/icons-material';
+import logo from '../../../assets/images/quickserv_logo.png';
+import profile from '../../../assets/images/image.png';
+import LoginDialog from '../../login/Login.jsx';
 import VerifyOTP from '../../login/VerifyOTP.jsx';
-import { FALSE } from 'sass';
-import Drawer from '@mui/material/Drawer';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import profile from '../../../assets/images/image.png'
-import PersonIcon from '@mui/icons-material/Person';
 import SucessCard from '../NotifyCard/SuccessCard/sucesscard.jsx';
 import WaitingCard from '../NotifyCard/WaitingCard/waitingcard.jsx';
 import ErrorCard from '../NotifyCard/ErrorCard/errorcard.jsx'
+import './Navbar.css';
 
-const Navbar = (
-  {
-    isLogin = false,
-    userName = 'Pratik Patil'
-  }
-) => {
-
+const Navbar = ({ isLogin = false, userName = 'Pratik Patil' }) => {
   const navigate = useNavigate();
-  const [ShowWatingCard, setShowWatingCard] = useState(false);
+  const [showWaitingCard, setShowWaitingCard] = useState(false);
+  const [showSuccessCard, setShowSuccessCard] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showOtp, setShowOtp] = useState(false);
   const [mobile, setMobile] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
 
+  const navigateTo = (section) => {
+    navigate(`/?section=${section}`);
+  };
 
-  function stringAvatar(name) {
-    return {
-      sx: {
-        bgcolor: red,
-      },
-      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-    };
-  }
-
-
-
-  const onClickPostService = () => {
-    navigate('/post_service');
-  }
-
-  const onClickFindService = (section) => {
-    if(section==='category')
-    {
-      navigate('/?section=category');
-    }
-
-    if(section==='about')
-    {
-      navigate('/?section=about');
-    }
-
-    if(section==='home')
-    {
-      navigate('/?section=home');
-    }
-
-
-    
-  }
-
+  const handlePostService = () => navigate('/post_service');
 
   const handleOTPSend = (mobile) => {
     setShowLogin(false);
-    setShowWatingCard(true);
-    setTimeout(()=>{
-      setShowWatingCard(false);
+    setShowWaitingCard(true);
+    setTimeout(() => {
+      setShowWaitingCard(false);
       setShowOtp(true);
-    setMobile(mobile);
-      
-    },2000)    
-    
+      setMobile(mobile);
+    }, 2000);
+  };
 
-
-  }
-
-  const handleClickOpen = () => {
-    console.log("handleClickOpen called");
-    
-
-    setShowLogin(true);
-  }
-
-  const handleLoginClose = () => {
-    setShowLogin(false)
-  }
-
-  const handleOtpClose = () => {
-    setShowOtp(FALSE)
-  }
+  const handleVerifyOTP = () => {
+    setShowOtp(false);
+    setShowSuccessCard(true);
+    setTimeout(() => setShowSuccessCard(false), 2000);
+  };
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-
-    setIsOpen(open);
+    setDrawerOpen(open);
   };
 
-
-  const list = () => (
-    <Box
-      sx={{ width: 250 }}
-      role="presentation"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
-    >
-      <div style={{display:"flex",flexDirection:"row",padding:"1rem",fontSize:"1.5rem",gap:"1rem",alignItems:"center"}}>
-       <span>Pratik Patil</span>
-       <span className="circular-image-container">
-       <img  src={profile} className="circular-image" style={{borderRadius:'50%'}}></img>
-       </span>
+  const drawerList = (
+    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+      <div className="profile-header">
+        <span>{userName}</span>
+        <img src={profile} alt="profile" className="circular-image" />
       </div>
-      <List>
-        <Divider></Divider>
-        {['Favorites', 'Saved', 'Posted by you', 'Privacy Policy','Logout'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
       <Divider />
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+        {['Favorites', 'Saved', 'Posted by you', 'Privacy Policy', 'Logout'].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
+              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
@@ -158,68 +69,42 @@ const Navbar = (
     </Box>
   );
 
-
-
-
   return (
     <div className='navbar'>
-
       <div className='navbar__left'>
         <NavLink to='/' className='navbar__left__logo remove_link_style'>
-          <img src={logo} alt='logo' style={{ width: "15rem", marginTop: "1rem" }} />
+          <img src={logo} alt='logo' className="logo-img" />
         </NavLink>
-
       </div>
-
       <div className='navbar__right'>
-        <a onClick={()=>onClickFindService('home')} className='remove_link_style' > Home</a>
-        <a onClick={()=>onClickFindService('about')} className='remove_link_style' > About</a>
-        <a  onClick={()=>onClickFindService('category')} className='remove_link_style' > Services</a>
-        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
-          <Button className='navbar-buttons' onClick={()=>onClickFindService('category')}>Find Service</Button>
-          <Button className='navbar-buttons' onClick={onClickPostService}>Post Service</Button>
-
-
+        <a onClick={() => navigateTo('home')} className='remove_link_style'>Home</a>
+        <a onClick={() => navigateTo('about')} className='remove_link_style'>About</a>
+        <a onClick={() => navigateTo('category')} className='remove_link_style'>Services</a>
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 ,marginRight:'2rem'}}>
+          <Button className='navbar-buttons' onClick={() => navigateTo('category')}>Find Service</Button>
+          <Button className='navbar-buttons' onClick={handlePostService}>Post Service</Button>
           <Box>
-            {
-              isLogin ?
-              <div>
-                  {/* <Avatar  {...stringAvatar(userName)} onClick={toggleDrawer(true)} /> */}
-                  <img  onClick={toggleDrawer(true)} src={profile}  style={{borderRadius:'50%',width:'2.7rem',height:'2.7rem',marginRight:'0.5rem'}}></img>
-                  
-                <Drawer anchor="right" open={isOpen} onClose={toggleDrawer(false)}>
-                  {list()}
-                </Drawer>
-              </div>
-                
-                :
-                <PersonIcon style={{width:"2.3rem",height:"2.3rem",alignItems:"center",color:'grey',border:'1px solid grey',borderRadius:'50%',marginRight:'0.5rem',marginTop:'0.2rem'}} onClick={handleClickOpen}></PersonIcon>
-                
-            }
+            {isLogin ? (
+              <img
+                src={profile}
+                className='circular-image'
+                onClick={toggleDrawer(true)}
+                alt='Profile'
+              />
+            ) : (
+              <PersonIcon className='profile-icon' onClick={() => setShowLogin(true)} />
+            )}
           </Box>
-
-          {
-            showLogin && <LoginDialog onClose={handleLoginClose} onClickSendOTP={handleOTPSend} />
-
-          }
-
-          {
-            showOtp && <VerifyOTP mobile={mobile} onClose={handleOtpClose}> </VerifyOTP>
-          }
-
-          {
-            ShowWatingCard && <WaitingCard mobile={mobile} onClose={handleOtpClose}> </WaitingCard>
-          }
-
-
         </Box>
-
       </div>
-
-
-
+      <Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer(false)}>
+        {drawerList}
+      </Drawer>
+      {showLogin && <LoginDialog onClose={() => setShowLogin(false)} onClickSendOTP={handleOTPSend} />}
+      {showOtp && <VerifyOTP mobile={mobile} onClose={() => setShowOtp(false)} onClickVerifyOTP={handleVerifyOTP} />}
+      {showWaitingCard && <WaitingCard msg="Sending OTP to Mobile" mobile={mobile} />}
+      {showSuccessCard && <SucessCard msg="OTP Verified Successfully" />}
     </div>
-
   );
 };
 

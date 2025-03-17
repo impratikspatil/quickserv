@@ -1,6 +1,6 @@
 export const internal_service_details = [
     {
-        service_name: 'Cleaning Service',
+        service_name: 'Cleaning Services',
         internal_service_details: [
             {
                 service_includes: 'General House Cleaning',
@@ -27,22 +27,37 @@ export const internal_service_details = [
     {
         service_name: 'Maintenance & Repairs',
         internal_service_details: [
-            {
-                service_includes: 'Plumbing Services',
-               
-            },
-            {
-                service_includes: 'Electrical Services',
-               
-            },  
-            {
-                service_includes: 'Handyman Services',
-               
-            },
-            {
-                service_includes: 'Appliance Repair',
-               
-            }
+            { service_includes: 'Plumbing Services' },
+            { service_includes: 'Electrical Services' },
+            { service_includes: 'Appliance Repair' },
+            { service_includes: 'Water Heater Repair ' },
+            { service_includes: 'Gutter Cleaning & Repair' },
+            { service_includes: 'Septic Tank Maintenance' },
+            { service_includes: 'Chimney Inspection & Repair' },
+            { service_includes: 'Garage Door Maintenance & Repair' },
+            { service_includes: 'Foundation Crack Repairs' },
+            { service_includes: 'Waterproofing & Leak Repairs' }
+        ]
+    },
+    {
+        service_name: 'Handyman Services',
+        internal_service_details: [
+            { service_includes: 'Furniture Assembly' },
+            { service_includes: 'Door & Window Repairs' },
+            { service_includes: 'Drywall Repair' },
+            { service_includes: 'Carpentry Services' },
+            { service_includes: 'Mounting & Installation' }
+        ]
+    },
+    {
+        service_name: 'Appliance Repair',
+        internal_service_details: [
+            { service_includes: 'Refrigerator Repair' },
+            { service_includes: 'Washing Machine Repair' },
+            { service_includes: 'Microwave Repair' },
+            { service_includes: 'Dishwasher Repair' },
+            { service_includes: 'Oven & Stove Repair' },
+            { service_includes: 'TV & Home Theater Repair' }
         ]
     },
     {
@@ -198,6 +213,17 @@ export const internal_service_details = [
             {
                 service_includes: 'Sustainable Landscaping',
             }
+        ]
+    },
+    {
+        service_name: 'Waste Management',
+        internal_service_details: [
+            { service_includes: 'Residential Waste Collection' },
+            { service_includes: 'Commercial Waste Disposal' },
+            { service_includes: 'Recycling Services' },
+            { service_includes: 'Electronic Waste Disposal' },
+            { service_includes: 'Hazardous Waste Removal' },
+            { service_includes: 'Composting Solutions' }
         ]
     }
 ]
