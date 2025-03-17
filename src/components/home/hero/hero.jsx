@@ -1,6 +1,6 @@
 import React from 'react'
 import './hero.css'
-import cleaning_service from '../../../assets/images/cleaning_service.jpg'
+// import cleaning_service from '../../../assets/images/cleaning_service.jpg'
 import handyman_service from '../../../assets/images/handyman_service.jpg'
 import pest_control_service from '../../../assets/images/pest_control_service.jpg'
 import moving_service from '../../../assets/images/moving_service.jpg'
@@ -9,7 +9,14 @@ import hvac_service from '../../../assets/images/hvac_service.jpg'
 import home_security_service from '../../../assets/images/home_security_service.jpg'
 import waste_management_service from '../../../assets/images/waste_management_service.jpg'
 import appliance_repair_service from '../../../assets/images/waste_management_service.jpg'
-
+import carpenter from '../../../assets/images/carpenter.png'
+import waste_management from '../../../assets/images/waste_management.png'
+import movers from '../../../assets/images/movers.png'
+import gardening from '../../../assets/images/gardening.png'
+import electrician from '../../../assets/images/electrician.png'
+import cleaning_service from '../../../assets/images/cleaning_service.png'
+import Maintenance from '../../../assets/images/Maintenance.png'
+import home_improvement from '../../../assets/images/home_improvement.png'
 
 
 import { Button } from '@mui/material'
@@ -32,23 +39,22 @@ const hero = React.forwardRef((props, ref) =>  {
       <div className='hero__right'>
 
         <div className='hero__right__image_section1'>
-          <img src={cleaning_service} alt='image' className='hero__right__image' />
-          <img src={hvac_service} alt='image' className='hero__right__image' />
-          <img src={appliance_repair_service} alt='image' className='hero__right__image' />
+          <img src={gardening} alt='image' className='hero__right__image' />
+          <img src={electrician} alt='image' className='hero__right__image' />
 
         </div>
 
         <div className='hero__right__image_section2'>
-          <img src={handyman_service} alt='image' className='hero__right__image' />
-          <img src={pest_control_service} alt='image' className='hero__right__image' />
-          <img src={moving_service} alt='image' className='hero__right__image' />
+          <img src={waste_management} alt='image' className='hero__right__image' />
+          <img src={Maintenance} alt='image' className='hero__right__image' />
+          <img src={home_improvement} alt='image' className='hero__right__image' />
 
         </div>
 
         <div className='hero__right__image_section3'>
-          <img src={maintanence_repair_service} alt='image' className='hero__right__image' />
-          <img src={home_security_service} alt='image' className='hero__right__image' />
-          <img src={waste_management_service  } alt='image' className='hero__right__image' />
+          <img src={movers} alt='image' className='hero__right__image' />
+          <img src={cleaning_service} alt='image' className='hero__right__image' />
+          {/* <img src={waste_management_service  } alt='image' className='hero__right__image' /> */}
 
         </div>
 

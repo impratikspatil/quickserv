@@ -23,18 +23,19 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import profile from '../../../assets/images/image.png'
 import PersonIcon from '@mui/icons-material/Person';
-
-
-
+import SucessCard from '../NotifyCard/SuccessCard/sucesscard.jsx';
+import WaitingCard from '../NotifyCard/WaitingCard/waitingcard.jsx';
+import ErrorCard from '../NotifyCard/ErrorCard/errorcard.jsx'
 
 const Navbar = (
   {
-    isLogin = true,
+    isLogin = false,
     userName = 'Pratik Patil'
   }
 ) => {
 
   const navigate = useNavigate();
+  const [ShowWatingCard, setShowWatingCard] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showOtp, setShowOtp] = useState(false);
   const [mobile, setMobile] = useState("");
@@ -79,8 +80,14 @@ const Navbar = (
 
   const handleOTPSend = (mobile) => {
     setShowLogin(false);
-    setShowOtp(true);
+    setShowWatingCard(true);
+    setTimeout(()=>{
+      setShowWatingCard(false);
+      setShowOtp(true);
     setMobile(mobile);
+      
+    },2000)    
+    
 
 
   }
@@ -190,6 +197,7 @@ const Navbar = (
                 
             }
           </Box>
+
           {
             showLogin && <LoginDialog onClose={handleLoginClose} onClickSendOTP={handleOTPSend} />
 
@@ -199,7 +207,9 @@ const Navbar = (
             showOtp && <VerifyOTP mobile={mobile} onClose={handleOtpClose}> </VerifyOTP>
           }
 
-          
+          {
+            ShowWatingCard && <WaitingCard mobile={mobile} onClose={handleOtpClose}> </WaitingCard>
+          }
 
 
         </Box>

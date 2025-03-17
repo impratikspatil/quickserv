@@ -7,7 +7,8 @@ import Checkbox from "@mui/material/Checkbox";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
 import GoogleIcon from '@mui/icons-material/Google';
-
+import BaseURL from "../../config";
+import './Login.css'
 
 
 
@@ -27,6 +28,21 @@ const LoginDialog = ({ onClose, onClickSendOTP }) => {
     }
   };
 
+  const handleSendOtp = async () => {
+    try {
+      const response = await axios.post(BaseURL+'/api/otp/send', {
+        phoneNumber,
+      });
+
+      if (response.data.success) {
+        alert('OTP sent!');
+      } else {
+        setError('Failed to send OTP');
+      }
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   return (
 
@@ -52,14 +68,14 @@ const LoginDialog = ({ onClose, onClickSendOTP }) => {
           <div style={{ width: "100%", textAlign: "center" }}>
             <a href='/' style={{ color: 'blue', fontSize: "0.8rem" }}>T&C's Privacy Policy</a>
           </div>
-          <Button variant="contained" className="text-center" onClick={handleLoginClick} style={{ marginTop: "1rem", height: "3.5rem", textTransform: "none", fontSize: "1rem" }}>Login with OTP</Button>
+          <Button  className="text-center login-singup-buttons" onClick={handleLoginClick} >Login with OTP</Button>
 
 
           <Divider>
             <Chip label="Or Login Using" size="small" sx={{ marginTop: '1rem' }} />
           </Divider>
 
-          <Button startIcon={<GoogleIcon />} variant="contained" className="text-center" sx={{ marginTop: "1rem", height: "3.5rem", textTransform: "none", fontSize: "1rem" }}>Google</Button>
+          <Button startIcon={<GoogleIcon />}  className="text-center login-singup-buttons" >Google</Button>
         </div>
       </DialogContent>
     </Dialog>

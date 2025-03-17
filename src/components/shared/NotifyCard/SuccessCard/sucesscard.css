@@ -1,0 +1,12 @@
+.notify-dialog{
+    width: 20rem;
+    height: 7rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.dialog-icon .info-icon-style {
+    font-size: 4rem;
+    color: green;
+}
