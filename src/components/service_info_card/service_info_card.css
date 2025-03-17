@@ -1,15 +1,84 @@
-.service-info-card{
-    box-shadow: 0 0 10px 0 rgba(0, 0, 1, 0.2);
-    padding-left: 2rem;
-    padding-right: 6rem;
-    padding-top: 1rem;
-    border-radius: 0.5rem;
-    background-color: white;
-    margin-left: 1rem ;
-    padding-bottom: 2rem;
-    margin-top: 1rem;
-    position: fixed;
+.service-info-card {
+    width: 20rem;
+    background: linear-gradient(135deg, #ffffff, #f9f9f9);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin: 2rem auto;
+    border-radius: 1.5rem;
+    text-align: left;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    position: relative;
     overflow: hidden;
-    height: 17rem;
-    width: 17.5rem;
-}
+  }
+  
+  .service-info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .service-info-card-header h2 {
+    font-weight: 600;
+    font-size: 1.75rem;
+    color: #333;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  
+  .service-info-card-header h2::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #ff9900, #ffb703);
+    margin: 8px 0 0;
+    border-radius: 2px;
+  }
+  
+  .service-divider {
+    margin: 1rem 0 !important;
+    background-color: #eee;
+  }
+  
+  .service-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .service-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+    color: #555;
+    padding: 0.8rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+  }
+  
+  .service-list li:hover {
+    transform: translateX(10px);
+    background: linear-gradient(135deg, #ffb703, #ff9900);
+    color: white;
+  }
+  
+  @media (max-width: 768px) {
+    .service-info-card {
+      width: 80%;
+      padding: 1.5rem;
+    }
+  
+    .service-info-card-header h2 {
+      font-size: 1.5rem;
+    }
+  
+    .service-list li {
+      font-size: 0.9rem;
+      padding: 0.6rem;
+    }
+  }

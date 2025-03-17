@@ -1,35 +1,20 @@
-import React from 'react'
+import React from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { Button, Dialog, DialogContent, Typography } from "@mui/material";
-import './waitingcard.css'
+import { Dialog, DialogContent, Typography } from "@mui/material";
+import './waitingcard.css';
 
-
-const waitingcard = ({
-    msg="Sending OTP to mobile number",
-    onClose,
-
-
-}) => {
+const WaitingCard = ({ msg = "Sending OTP to mobile number" }) => {
   return (
-    <div className='waiting-info-card'>
-       
-        <Dialog open={open} onClose={onClose} >
-            <DialogContent>
-                <div className='notify-dialog'>
-                    <div className='dialog-icon' >
-                    <CircularProgress  className='info-icon-style' style={{color:'lightblue'}}/>
-                    </div>
-                    <span style={{ alignSelf: "center",fontSize:'1.2rem' }}>{msg}</span>
-                    
-                </div>
+    <Dialog 
+      open={open} 
+      PaperProps={{ style: { borderRadius: "1rem", padding: "1.5rem", textAlign: "center" } }}
+    >
+      <DialogContent className="waiting-dialog">
+        <CircularProgress className='loading-icon' />
+        <Typography className="waiting-message">{msg}</Typography>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
-            </DialogContent>
-
-        </Dialog>
-      
-    </div>
-  )
-}
-
-export default waitingcard
+export default WaitingCard;

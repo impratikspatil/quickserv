@@ -7,9 +7,11 @@ import { useEffect, useRef } from 'react';
 import Footer from '../../components/home/footer/footer';
 import AboutUs from '../../components/home/about_us/about_us';
 import WhyToChoose from '../../components/home/why_to_choose/why_to_choose';
+import { useNavigate } from "react-router-dom";
 
 
 const LandingPage = () => {
+  const navigate = useNavigate();
 
   const categorySectionRef = useRef(null);
   const aboutSectionRef = useRef(null);
@@ -20,6 +22,10 @@ const LandingPage = () => {
   console.log("location", location);
 
 
+  const handleServiceCategoryClick=(category_name)=>{
+    navigate("/service", { state: { service_category: category_name } });
+
+  }
 
 
   useEffect(() => {
@@ -59,7 +65,7 @@ const LandingPage = () => {
     <div>
       <Navbar  />
       <Hero ref={homeSectionRef} />
-      <CategoryGrid ref={categorySectionRef} />
+      <CategoryGrid ref={categorySectionRef} onClickServiceCategory={handleServiceCategoryClick}/>
       <div  ref={aboutSectionRef} style={{display:"flex",flexDirection:"row",justifyContent:'space-around'}}>
         <AboutUs />
         <WhyToChoose/>

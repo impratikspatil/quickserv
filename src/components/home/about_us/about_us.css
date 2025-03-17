@@ -1,9 +1,55 @@
 .about_us {
-  width: 40vw;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-  padding:2rem;
-  margin-top: 4rem;
-  margin-bottom: 4rem;
-  margin-left: 1rem ;
-  border-radius: 1rem;
+  width: 50vw;
+  max-width: 600px;
+  background: linear-gradient(135deg, #ffffff, #f9f9f9);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 3rem;
+  margin: 4rem auto;
+  border-radius: 1.5rem;
+  text-align: center;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.about_us:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.about_us h1 {
+  font-weight: 600;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.about_us h1::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #ff9900, #ffb703);
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+
+.about_us p {
+  font-size: 1.1rem;
+  line-height: 1.8rem;
+  color: #555;
+  text-align: justify;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .about_us {
+    width: 80vw;
+    padding: 2rem;
+  }
+
+  .about_us p {
+    font-size: 1rem;
+    line-height: 1.6rem;
+  }
 }

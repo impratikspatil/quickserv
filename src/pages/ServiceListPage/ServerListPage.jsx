@@ -15,9 +15,15 @@ import ServiceEnquiry from '../../components/service_enquiry/ServiceEnquiry';
 import wash from '../../assets/images/wash.jpg';
 import { internal_service_details } from '../../assets/internal_service_details';
 import ServiceInfoCard from '../../components/service_info_card/service_info_card';
+import { useLocation } from "react-router-dom";
 
 
 const ServerInfoPage = () => {
+
+  const location = useLocation();
+  const { service_category } = location.state || {};
+  console.log("service_category",service_category);
+  
 
   const ServiceInfoData = [
     {
@@ -163,8 +169,8 @@ const ServerInfoPage = () => {
 
     
         <div style={{display: 'flex', flexDirection: 'column', gap: 2}}>
-          <ServiceEnquiry></ServiceEnquiry>
-          <ServiceInfoCard></ServiceInfoCard>
+          {/* <ServiceEnquiry></ServiceEnquiry> */}
+          <ServiceInfoCard service_name={service_category}></ServiceInfoCard>
         </div>
         
 

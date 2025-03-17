@@ -3,7 +3,12 @@ import { category_list } from "../../../assets/assets";
 import "./categoryGrid.css";
 
 
-const categoryGrid = React.forwardRef((props, ref) => {
+const categoryGrid = React.forwardRef(({onClickServiceCategory }, ref) => {
+
+
+  const handleServiceCategoryChange=(category_name)=>{
+    onClickServiceCategory(category_name)
+  }
   
   return (
     <div className="category_grid"  ref={ref} >
@@ -12,9 +17,9 @@ const categoryGrid = React.forwardRef((props, ref) => {
       <div className="category_grid_list">
         {category_list.map((item, index) => {
           return (
-            <div key={index} className="category_list_item">
+            <div key={index} className="category_list_item" onClick={()=>handleServiceCategoryChange(item.category_name)}>
               <i className="material-icons">{item.category_icon}</i>
-              <p style={{color: "#808080"}}>{item.category_name}</p>
+              <p >{item.category_name}</p>
             </div>
           );
         })}

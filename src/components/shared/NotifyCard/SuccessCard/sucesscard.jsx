@@ -1,34 +1,22 @@
-import React from 'react'
+import React from 'react';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { Button, Dialog, DialogContent, Typography } from "@mui/material";
-import './sucesscard.css'
+import './sucesscard.css';
 
-
-const sucesscard = ({
-    msg="OTP Sent Successfully",
-    onClose,
-
-
-}) => {
+const Sucesscard = ({  onClose, msg = "OTP Sent Successfully" }) => {
   return (
-    <div className='success-info-card'>
-       
-        <Dialog open={open} onClose={onClose} >
-            <DialogContent>
-                <div className='notify-dialog'>
-                    <div className='dialog-icon' >
-                    <CheckCircleOutlineIcon  className='info-icon-style'/>
-                    </div>
-                    <span style={{ alignSelf: "center",fontSize:'1.2rem' }}>{msg}</span>
-                    
-                </div>
+    <Dialog 
+      open={open} 
+      onClose={onClose} 
+      PaperProps={{ style: { borderRadius: "1rem", padding: "1.5rem", textAlign: "center" } }}
+    >
+      <DialogContent className="notify-dialog">
+        <CheckCircleOutlineIcon className='info-icon-style' />
+        <Typography className="success-message">{msg}</Typography>
+        <Button onClick={onClose} className="success-btn">OK</Button>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
-            </DialogContent>
-
-        </Dialog>
-      
-    </div>
-  )
-}
-
-export default sucesscard
+export default Sucesscard;
