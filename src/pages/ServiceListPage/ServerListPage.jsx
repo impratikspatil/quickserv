@@ -182,7 +182,12 @@ const ServerInfoPage = () => {
         <GlobalSearchFilter></GlobalSearchFilter>
         </Box>
 
-        <List sx={{ width: '70%', }}>
+        <List sx={{
+    width: '100%',
+    height: 'calc(90vh - 5rem)', // Adjust height as needed
+    overflowY: 'auto', // Enable vertical scrolling
+    paddingRight: '8px', // Add padding to prevent scrollbar overlap
+  }}>
           {ServiceInfoData.map((service) => (
             <ServiceCard
               key={service.id}

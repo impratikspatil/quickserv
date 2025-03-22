@@ -4,9 +4,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import { Box, Button } from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; // Added useEffect
 import Rating from '@mui/material/Rating';
 import CancelIcon from '@mui/icons-material/Cancel';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
@@ -17,6 +16,8 @@ import CallIcon from '@mui/icons-material/Call';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import { VerifiedOutlined } from '@mui/icons-material';
+import { Box, Button, Skeleton, Fade } from "@mui/material"; // Added Skeleton and Fade
+
 
 const ServiceCardInfo = ({
   imageUrl,
@@ -28,18 +29,58 @@ const ServiceCardInfo = ({
   isVerified = true
 }) => {
   const [liked, setLiked] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); 
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 2000); 
+    return () => clearTimeout(timer);
+  }, []);
+
 
   const handleLikeToggle = () => {
     setLiked(!liked);
   };
 
+  if (isLoading) {
+    return (
+      <Card sx={{ display: 'flex', flexDirection: 'row', marginLeft: '1rem', marginRight: '2rem', marginBottom: 2, width: '70vw', height: "13rem", borderRadius: 2, boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)' }}>
+        <Skeleton variant="rectangular" width="20%" height='80%' sx={{ borderRadius: 5, margin: 2 }} />
+        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 1, width: '70vw' }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' ,justifyContent: 'space-between' }}>
+              <Skeleton variant="text" width="60%" height={30} />
+              <Skeleton variant="circular" width={40} height={40} />
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+              <Skeleton variant="text" width="20%" height={20} />
+              <Skeleton variant="text" width="30%" height={20} sx={{ marginLeft: 2 }} />
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+              <Skeleton variant="text" width="40%" height={20} />
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: 1, gap: 1 }}>
+              <Skeleton variant="rectangular" width="20%" height={30} />
+              <Skeleton variant="rectangular" width="20%" height={30} />
+              <Skeleton variant="rectangular" width="20%" height={30} />
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: 2, gap: 2 }}>
+              <Skeleton variant="rectangular" width="30%" height={40} />
+              <Skeleton variant="rectangular" width="30%" height={40} />
+              <Skeleton variant="rectangular" width="30%" height={40} />
+            </Box>
+          </CardContent>
+        </Box>
+      </Card>
+    );
+  }
+
   return (
     <ThemeProvider theme={theme}>
-      <Card sx={{ display: 'flex', flexDirection: 'row', marginLeft: 2, marginRight: 2, marginBottom: 2, width: '60vw', height: "12rem", borderRadius: 2, boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)' }} >
+      <Card sx={{ display: 'flex', flexDirection: 'row', marginLeft: '1rem', marginRight: '1rem', marginBottom: 2, width: '70vw', height: "13rem", borderRadius: 2, boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)' }} >
 
         <CardMedia
           component="img"
-          sx={{ width: '20%', padding: 2, borderRadius: 5 }}
+          sx={{ width: '20%', padding: 2, borderRadius: "2rem" }}
           image={imageUrl}
           alt={serviceName}
         />
