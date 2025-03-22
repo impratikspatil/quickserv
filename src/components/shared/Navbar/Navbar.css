@@ -50,14 +50,16 @@
 .navbar-buttons {
     font-size: 0.9rem;
     background: linear-gradient(135deg, #ff9900, #ffb703);
-    color: rgb(255, 255, 255) !important;
     padding: 0.6rem 1rem;
     border-radius: 10px;
     font-family: "Poppins", sans-serif;
     font-weight: 500;
-    border: none;
     cursor: pointer;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    text-transform: none !important;
+    font-weight: 500 !important;
+    color: #fff !important;
+    border: none !important;
+    transition: all 0.3s ease-in-out;
 }
 
 .navbar-buttons:hover {
