@@ -1,0 +1,8 @@
+.contact-card{
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin-left: 3rem;
+    margin-top: 2rem;
+    width: 80%;
+    align-items: end;
+}

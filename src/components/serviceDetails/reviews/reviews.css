@@ -1,0 +1,45 @@
+.rating_overall_parent{flex: 1 1 100%;
+display: inline-flex;
+flex-flow: row wrap;
+padding: 2rem;
+}
+
+.rating_overall{
+flex: 1 1 100%;
+display: inline-flex;
+flex-flow: row wrap;
+padding: 0;
+}
+
+.green_box{
+    display: inline-flex;
+    font-weight: 500;
+    font-size: 5rex;
+    color: aliceblue;
+    justify-content: center;
+    align-items: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    background-color: #339d3a;
+    flex: none;
+}
+
+.rating_info{
+    margin-left: 1rem;
+}
+
+.rating_number{
+    font-weight: bold;
+    font-size: 3.5rex;
+    margin-top: 0.5rem;
+}
+
+.rating_text{
+    font-size: 2rex;
+    margin-top: 0.5rem;
+}
+
+.user_reviews{
+    margin-top: 2rem;
+}
