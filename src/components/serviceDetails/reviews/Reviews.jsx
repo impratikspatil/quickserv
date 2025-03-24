@@ -1,6 +1,6 @@
 import { Box } from "@mui/system";
 import React from "react";
-import "./reviews.css";
+import "./Reviews.css";
 import ReviewCard from "../../shared/ReviewCard/ReviewCard";
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
