@@ -1,0 +1,237 @@
+/* Container */
+.pricing-card-container {
+    max-width: 80%;
+    margin: 1rem;
+
+
+  }
+
+  /* Card Styling */
+  .pricing-card {
+    background: linear-gradient(135deg, #ffffff, #f9f9f9);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+
+  .pricing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Header Styling */
+  .pricing-card-header {
+    display: flex;
+    align-items: right;
+    margin-bottom: 1rem;
+  }
+
+  .pricing-card-name {
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    color: #333;
+  }
+
+  .pricing-card-content {
+    padding: 16px 0;
+    font-size: 16px;
+    color: #333;
+  }
+
+  .price-text {
+    font-size: 1.1rem !important;
+    color: #ff9900 !important;
+    font-weight: 500 !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .info-text {
+    color: #666 !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Footer Actions */
+  .pricing-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #eee;
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+
+  .pricing-card-footer-button {
+    text-transform: none;
+    color: gray;
+  }
+
+.pricing-container {
+  padding: 20px 0;
+  width: 100%;
+}
+
+.pricing-title {
+  color: #333;
+  margin-bottom: 1.5rem !important;
+  font-size: 1.25rem !important;
+  font-weight: 500 !important;
+}
+
+.pricing-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.pricing-cards-container {
+  display: flex;
+  gap: 1rem;
+  min-width: min-content;
+  width: calc(920px + 2rem); /* Width for 3 cards (300px * 3) + gaps */
+}
+
+.pricing-card {
+  flex: 0 0 300px;
+  position: relative;
+  transition: all 0.3s ease;
+  border: 1px solid #eee;
+}
+
+/* Scrollbar styling */
+.pricing-scroll-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.pricing-scroll-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.pricing-scroll-container::-webkit-scrollbar-thumb {
+  background: #ff9900;
+  border-radius: 10px;
+}
+
+.pricing-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #ffb703;
+}
+
+.pricing-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.popular {
+  border: 2px solid #ff9900;
+}
+
+.popular-tag {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: linear-gradient(90deg, #ff9900, #ffb703);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+}
+
+.pricing-card-content {
+  padding: 24px !important;
+}
+
+.plan-title {
+  color: #333;
+  font-size: 1.1rem !important;
+  font-weight: 500 !important;
+  margin-bottom: 1rem !important;
+}
+
+.price-container {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  margin: 1.5rem 0;
+  gap: 4px;
+}
+
+.rupee-icon {
+  color: #333;
+  font-size: 1.5rem !important;
+  margin-right: 4px;
+}
+
+.price {
+  color: #333;
+  font-weight: 600 !important;
+  font-size: 2rem !important;
+}
+
+.duration {
+  color: #666;
+  font-size: 0.85rem !important;
+}
+
+.pricing-divider {
+  margin: 1.5rem 0 !important;
+}
+
+.features-list {
+  margin-bottom: 1.5rem;
+}
+
+.feature-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+}
+
+.feature-icon {
+  color: #ff9900;
+  font-size: 1.25rem !important;
+}
+
+.select-plan-button {
+  background: linear-gradient(90deg, #ff9900, #ffb703) !important;
+  text-transform: none !important;
+  font-size: 0.9rem !important;
+  padding: 8px 0 !important;
+}
+
+.select-plan-button:hover {
+  background: linear-gradient(90deg, #ffb703, #ff9900) !important;
+}
+
+.additional-info {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.info-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #666;
+  font-size: 0.85rem !important;
+}
+
+.info-icon {
+  color: #ff9900;
+  font-size: 1.25rem !important;
+}
+
+@media (max-width: 960px) {
+  .pricing-card {
+    margin-bottom: 1rem;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .pricing-cards-container {
+    width: calc(920px + 2rem); /* Keep the same width for scrolling */
+  }
+}

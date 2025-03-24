@@ -1,0 +1,115 @@
+.rating_overall_parent {
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    max-width: 100%;
+}
+    
+.rating_overall {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+    
+.green_box {
+    display: inline-flex;
+    font-weight: 500;
+    font-size: 5rex;
+    color: aliceblue;
+    justify-content: center;
+    align-items: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #ff9900, #ffb703);
+    flex: none;
+}
+    
+.rating_info {
+    margin-left: 1rem;
+}
+    
+.rating_number {
+    font-weight: bold;
+    font-size: 3.5rex;
+    margin-top: 0.5rem;
+    color: #333;
+}
+    
+.rating_text {
+    font-size: 2rex;
+    margin-top: 0.5rem;
+    color: #666;
+}
+    
+.user_reviews {
+    width: 100%;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+.user_reviews h3 {
+    color: #333;
+    margin-bottom: 1rem;
+    position: sticky;
+    left: 0;
+}
+
+.reviews-container {
+    display: flex;
+    gap: 1rem;
+    overflow-x: scroll;
+    padding-bottom: 1rem;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    width: calc(620px + 1rem); /* Width of 2 cards (300px * 2) + gap (20px) */
+}
+
+.review-card {
+    flex: 0 0 300px;
+    margin-right: 1rem;
+}
+
+.reviews-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.reviews-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.reviews-container::-webkit-scrollbar-thumb {
+    background: #ff9900;
+    border-radius: 10px;
+}
+
+.reviews-container::-webkit-scrollbar-thumb:hover {
+    background: #ffb703;
+}
+
+@media screen and (max-width: 768px) {
+    .rating_overall_parent {
+        padding: 1rem;
+    }
+
+    .reviews-container {
+        width: calc(520px + 1rem); /* Width of 2 cards (250px * 2) + gap */
+    }
+
+    .review-card {
+        flex: 0 0 250px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .reviews-container {
+        width: calc(460px + 1rem); /* Width of 2 cards (220px * 2) + gap */
+    }
+
+    .review-card {
+        flex: 0 0 220px;
+    }
+}
