@@ -1,0 +1,66 @@
+.contact-card {
+  border: 1px solid #eee;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  position: sticky;
+  top: 20px;
+}
+
+.section-title {
+  font-weight: 600 !important;
+  margin-bottom: 1rem !important;
+  color: #333;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  margin: 1rem 0;
+  gap: 0.5rem;
+}
+
+.contact-item svg {
+  margin-top: 3px;
+}
+
+.contact-item p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.social-button {
+  flex: 1;
+  text-transform: none !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  font-size: 0.9rem !important;
+}
+
+.whatsapp {
+  background-color: #028b06 !important;
+  color: white !important;
+}
+
+.instagram {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888) !important;
+  color: white !important;
+}
+
+hr {
+  margin: 1.5rem 0;
+  border: none;
+  border-top: 1px solid #eee;
+}
+
+@media (max-width: 1024px) {
+  .contact-card {
+    position: static;
+    margin-bottom: 2rem;
+  }
+}

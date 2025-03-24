@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './assets/styles/main.scss';
 import LandingPage from './pages/LandingPage/LandingPage';
 import ServerInfoPage from './pages/ServiceListPage/ServerListPage';
-import ServiceDetailPage from './pages/ServiceDetailPage';
+import ServiceDetailPage from './pages/ServiceDetailPage/ServiceDetailPage';
 import PostService from './pages/PostServicePage/PostService';
 import { ThemeProvider } from "@emotion/react";
 import theme from "./theme/theme";
