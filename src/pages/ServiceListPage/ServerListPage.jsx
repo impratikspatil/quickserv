@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import List from '@mui/material/List';
 import theme from '../../theme/theme';
 import { ThemeProvider } from '@mui/material/styles';
@@ -16,7 +16,7 @@ import wash from '../../assets/images/wash.jpg';
 import { internal_service_details } from '../../assets/internal_service_details';
 import ServiceInfoCard from '../../components/service_info_card/service_info_card';
 import { useLocation } from "react-router-dom";
-
+import axios from 'axios';
 
 const ServerInfoPage = () => {
 
@@ -151,11 +151,33 @@ const ServerInfoPage = () => {
   ]
 
   const [SortBy, setSortBy] = useState('');
+  const [categories, setCategories] = useState([]);
+
 
   const handleSortByFilterChange = (event) => {
     setSortBy(event.target.value);
     console.log('Selected sort option:', event.target.value);
   };
+
+  useEffect(() => {
+
+
+    axios.get('http://localhost:8080/api/category')
+    .then(response => {
+
+      let data=response.data;
+      setCategories(data)
+
+      
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+
+   
+
+
+  }, );
 
 
   return (
@@ -170,7 +192,7 @@ const ServerInfoPage = () => {
     
         <div style={{display: 'flex', flexDirection: 'column', gap: 2}}>
           {/* <ServiceEnquiry></ServiceEnquiry> */}
-          <ServiceInfoCard service_name={service_category}></ServiceInfoCard>
+          <ServiceInfoCard service_name={service_category} categories={categories}></ServiceInfoCard>
         </div>
         
 
