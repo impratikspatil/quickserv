@@ -152,7 +152,7 @@ const ServerInfoPage = () => {
 
   const [SortBy, setSortBy] = useState('');
   const [categories, setCategories] = useState([]);
-
+  const [serviceInfoData, setServiceInfoData] = useState([]);
 
   const handleSortByFilterChange = (event) => {
     setSortBy(event.target.value);
@@ -166,6 +166,7 @@ const ServerInfoPage = () => {
     .then(response => {
 
       let data=response.data;
+      console.log("data",data);
       setCategories(data)
 
       
@@ -174,10 +175,18 @@ const ServerInfoPage = () => {
       console.error('Error fetching data:', error);
     });
 
-   
 
+    axios.get('http://localhost:8080/api/services')
+    .then(response => {
+      let data=response.data;
+      console.log("service data",data);
+      setServiceInfoData(data)
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
 
-  }, );
+  }, []);
 
 
   return (
@@ -210,15 +219,20 @@ const ServerInfoPage = () => {
     overflowY: 'auto', // Enable vertical scrolling
     paddingRight: '8px', // Add padding to prevent scrollbar overlap
   }}>
-          {ServiceInfoData.map((service) => (
+          {serviceInfoData.map((service) => (
             <ServiceCard
-              key={service.id}
-              serviceName={service.servicename}
+              key={service.serviceId}
+              serviceName={service.serviceName}
               rating={service.rating}
-              location={service.location}
-              contactNumber={service.contact}
+              location={service.address}
+              contactNumber={service.whatsappNumber}
               imageUrl={service.imageUrl}
               ratingCount={service.ratingCount}
+              rateType={service.rateType}
+              charges={service.price}
+              tags={service.tags}
+              isVerified={service.isVerified}
+              rateCount={service.rateCount}
             />
           ))}
         </List>
