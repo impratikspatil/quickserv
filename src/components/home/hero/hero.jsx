@@ -10,8 +10,24 @@ import Maintenance from '../../../assets/images/Maintenance.png'
 import home_improvement from '../../../assets/images/home_improvement.png'
 import movers from '../../../assets/images/movers.png'
 import cleaning_service from '../../../assets/images/cleaning_service.png'
+import {useNavigate } from 'react-router-dom';
+
+
 
 const Hero = React.forwardRef((props, ref) => {
+
+  const navigate = useNavigate();
+
+  const navigateTo = (section) => {
+    navigate(`/?section=${section}`);
+  };
+
+  const handlePostService = () => navigate('/post_service');
+
+
+
+
+
   return (
     <div className="hero__container" ref={ref}>
       {/* Left Section - Text & Buttons */}
@@ -23,9 +39,9 @@ const Hero = React.forwardRef((props, ref) => {
           Quick, reliable, and affordable services tailored to your needs.
         </p>
         <div className="hero__left__buttons">
-          <Button className="hero-section-buttons">Find Service</Button>
+          <Button onClick={() => navigateTo('category')} className="hero-section-buttons">Find Service</Button>
           <span style={{ marginLeft: "1rem" }}></span>
-          <Button className="hero-section-buttons">Post Service</Button>
+          <Button onClick={handlePostService} className="hero-section-buttons">Post Service</Button>
         </div>
       </div>
 

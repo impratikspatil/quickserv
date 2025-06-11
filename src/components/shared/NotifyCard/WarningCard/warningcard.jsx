@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Dialog, DialogContent, Typography } from "@mui/material";
-import './errorcard.css'
+import './warningcard.css'
 import CancelIcon from '@mui/icons-material/Cancel';
 
 

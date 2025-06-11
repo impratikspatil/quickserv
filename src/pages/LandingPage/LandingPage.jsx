@@ -19,16 +19,22 @@ const LandingPage = () => {
   const footerSectionRef=useRef(null)
   const location = useLocation();
 
+
+
   console.log("location", location);
 
 
   const handleServiceCategoryClick=(category_name)=>{
     navigate("/service", { state: { service_category: category_name } });
+    
 
   }
 
 
   useEffect(() => {
+
+
+
     const params = new URLSearchParams(location.search);
     if (params.get('section') === 'category' && categorySectionRef.current) {
       categorySectionRef.current.scrollIntoView({
@@ -41,6 +47,7 @@ const LandingPage = () => {
       aboutSectionRef.current.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
+
       });
     }
     if (params.get('section') === 'home' && homeSectionRef.current) {
@@ -65,7 +72,7 @@ const LandingPage = () => {
     <div>
       <Navbar  />
       <Hero ref={homeSectionRef} />
-      <CategoryGrid ref={categorySectionRef} onClickServiceCategory={handleServiceCategoryClick}/>
+      <CategoryGrid ref={categorySectionRef}  onClickServiceCategory={handleServiceCategoryClick}/>
       <div  ref={aboutSectionRef} style={{display:"flex",flexDirection:"row",justifyContent:'space-around'}}>
         <AboutUs />
         <WhyToChoose/>

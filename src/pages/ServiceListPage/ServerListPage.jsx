@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import List from '@mui/material/List';
 import theme from '../../theme/theme';
 import { ThemeProvider } from '@mui/material/styles';
@@ -16,7 +16,7 @@ import wash from '../../assets/images/wash.jpg';
 import { internal_service_details } from '../../assets/internal_service_details';
 import ServiceInfoCard from '../../components/service_info_card/service_info_card';
 import { useLocation } from "react-router-dom";
-
+import axios from 'axios';
 
 const ServerInfoPage = () => {
 
@@ -151,11 +151,42 @@ const ServerInfoPage = () => {
   ]
 
   const [SortBy, setSortBy] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [serviceInfoData, setServiceInfoData] = useState([]);
 
   const handleSortByFilterChange = (event) => {
     setSortBy(event.target.value);
     console.log('Selected sort option:', event.target.value);
   };
+
+  useEffect(() => {
+
+
+    axios.get('http://localhost:8080/api/category')
+    .then(response => {
+
+      let data=response.data;
+      console.log("data",data);
+      setCategories(data)
+
+      
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+
+
+    axios.get('http://localhost:8080/api/services')
+    .then(response => {
+      let data=response.data;
+      console.log("service data",data);
+      setServiceInfoData(data)
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+
+  }, []);
 
 
   return (
@@ -170,7 +201,7 @@ const ServerInfoPage = () => {
     
         <div style={{display: 'flex', flexDirection: 'column', gap: 2}}>
           {/* <ServiceEnquiry></ServiceEnquiry> */}
-          <ServiceInfoCard service_name={service_category}></ServiceInfoCard>
+          <ServiceInfoCard service_name={service_category} categories={categories}></ServiceInfoCard>
         </div>
         
 
@@ -188,15 +219,20 @@ const ServerInfoPage = () => {
     overflowY: 'auto', // Enable vertical scrolling
     paddingRight: '8px', // Add padding to prevent scrollbar overlap
   }}>
-          {ServiceInfoData.map((service) => (
+          {serviceInfoData.map((service) => (
             <ServiceCard
-              key={service.id}
-              serviceName={service.servicename}
+              key={service.serviceId}
+              serviceName={service.serviceName}
               rating={service.rating}
-              location={service.location}
-              contactNumber={service.contact}
+              location={service.address}
+              contactNumber={service.whatsappNumber}
               imageUrl={service.imageUrl}
               ratingCount={service.ratingCount}
+              rateType={service.rateType}
+              charges={service.price}
+              tags={service.tags}
+              isVerified={service.isVerified}
+              rateCount={service.rateCount}
             />
           ))}
         </List>

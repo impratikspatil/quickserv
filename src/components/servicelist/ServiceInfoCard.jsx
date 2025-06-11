@@ -26,12 +26,16 @@ const ServiceCardInfo = ({
   location,
   contactNumber,
   ratingCount,
-  isVerified = true
+  isVerified = true,
+  rateType,
+  charges,
+  tags = [] // Add new prop with default empty array
 }) => {
   const [liked, setLiked] = useState(false);
   const [isLoading, setIsLoading] = useState(true); 
 
   useEffect(() => {
+    console.log("imageUrl",imageUrl);
     const timer = setTimeout(() => setIsLoading(false), 2000); 
     return () => clearTimeout(timer);
   }, []);
@@ -76,11 +80,11 @@ const ServiceCardInfo = ({
 
   return (
     <ThemeProvider theme={theme}>
-      <Card sx={{ display: 'flex', flexDirection: 'row', marginLeft: '1rem', marginRight: '1rem', marginBottom: 2, width: '70vw', height: "13rem", borderRadius: 2, boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)' }} >
+      <Card sx={{ display: 'flex', flexDirection: 'row', marginLeft: '1rem', marginRight: '1rem', marginBottom: 2, width: '70vw', height: "13rem", borderRadius: 2, boxShadow: '0 2px 15px rgba(0, 0, 0, 0.2)' }} >
 
         <CardMedia
           component="img"
-          sx={{ width: '20%', padding: 2, borderRadius: "2rem" }}
+          sx={{ width: '10rem',height:"10rem", padding: 2, borderRadius: "2rem" }}
           image={imageUrl}
           alt={serviceName}
         />
@@ -97,19 +101,22 @@ const ServiceCardInfo = ({
 
             </Box>
 
-            <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row' ,alignItems:'center'}}>
 
               <Rating name="read-only" value={rating} readOnly size="small" />
 
-              <Typography variant="textcolor" sx={{ marginLeft: 2, fontSize: 12 }}>
-                {ratingCount} Ratings
-              </Typography>
+              {
+                ratingCount > 0 && 
+                <Typography variant="textcolor" sx={{ marginLeft: 0.5, fontSize: 12 }}>
+                  ({ratingCount})
+                  </Typography>
+              }
 
               <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: '1rem' }}>
                 {isVerified ? (
                   <VerifiedOutlined color="success" sx={{ fontSize: 18 }} />
                 ) : (
-                  <CancelIcon color="error" />
+                  <></>
                 )}
               </Box>
             </Box>
@@ -124,19 +131,35 @@ const ServiceCardInfo = ({
             </Box>
 
             <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: '0.5rem', gap: 1 }}>
-              <Button variant="outlined" sx={{ height: '1.5rem', fontSize: '0.5rem', width: 'max-content', padding: '0.4rem', textTransform: 'none' }}>Daily Cloths</Button>
-              <Button variant="outlined" sx={{ height: '1.5rem', fontSize: '0.5rem', width: 'max-content', padding: '0.4rem', textTransform: 'none' }}>Shoes Wash</Button>
-              <Button variant="outlined" sx={{ height: '1.5rem', fontSize: '0.5rem', width: 'max-content', padding: '0.4rem', textTransform: 'none' }}>Daily Cloths</Button>
-              <Button variant="outlined" sx={{ height: '1.5rem', fontSize: '0.5rem', width: 'max-content', padding: '0.4rem', textTransform: 'none' }}>Daily Cloths</Button>
-
-
+              {tags.map((service, index) => (
+                <Button 
+                  key={index}
+                  variant="outlined" 
+                  sx={{ 
+                    height: '1.5rem', 
+                    fontSize: '0.6rem', 
+                    width: 'max-content', 
+                    padding: '0.4rem', 
+                    textTransform: 'none' 
+                  }}
+                >
+                  {service}
+                </Button>
+              ))}
             </Box>
 
+            <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
             <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: '1rem', gap: 2 }}>
               <Button startIcon={<CallIcon />} variant="contained" color="primary" sx={{ borderRadius: 2, backgroundColor: '#028b06', textTransform: 'none', fontSize: 12 }}>{contactNumber}</Button>
               <Button startIcon={<WhatsAppIcon sx={{ color: '#028b06' }} />} variant="contained" color="primary" sx={{ borderRadius: 2, backgroundColor: '#ffffff', color: '#000000', textTransform: 'none', fontSize: 12 }}>WhatsApp</Button>
               <Button startIcon={<QuestionAnswerIcon />} variant="contained" color="primary" sx={{ borderRadius: 2, textTransform: 'none', fontSize: 12 }}>Enquiry</Button>
             </Box>
+
+            <Box sx={{marginTop:'1.5rem'}} >
+              <Typography  variant="textcolor" sx={{ fontSize: 14 }}>{charges}{rateType}</Typography>
+            </Box>
+
+            </div>
           </CardContent>
 
         </Box>
