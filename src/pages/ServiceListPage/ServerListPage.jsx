@@ -17,6 +17,7 @@ import { internal_service_details } from '../../assets/internal_service_details'
 import ServiceInfoCard from '../../components/service_info_card/service_info_card';
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
+import BaseURL from '../../config';
 
 const ServerInfoPage = () => {
 
@@ -162,7 +163,7 @@ const ServerInfoPage = () => {
   useEffect(() => {
 
 
-    axios.get('http://localhost:8080/api/category')
+    axios.get(BaseURL+'/api/category')
     .then(response => {
 
       let data=response.data;
@@ -176,7 +177,7 @@ const ServerInfoPage = () => {
     });
 
 
-    axios.get('http://localhost:8080/api/services')
+    axios.get(BaseURL+'/api/services')
     .then(response => {
       let data=response.data;
       console.log("service data",data);
