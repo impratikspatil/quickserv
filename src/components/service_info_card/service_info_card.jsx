@@ -1,6 +1,7 @@
 import React from "react";
 import { Divider } from "@mui/material";
 import { internal_service_details } from "../../assets/internal_service_details";
+import dataNotFoundImage from "../../assets/images/searching.png";
 import "./service_info_card.css";
 
 const ServiceInfoCard = ({ service_name = "",categories=[] }) => {
@@ -13,7 +14,12 @@ const ServiceInfoCard = ({ service_name = "",categories=[] }) => {
 
   // If the service category is not found, display a message
   if (!serviceCategory) {
-    return <div>Service not found.</div>;
+    return <div className="centered">
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}} >
+      <img src={dataNotFoundImage} alt="loading" />
+      <span>Fetching Service Details...</span>
+      </div>
+      </div>;
   }
 
   return (

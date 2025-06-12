@@ -92,3 +92,11 @@
       padding: 0.6rem;
     }
   }
+
+  .centered {
+    display: flex;
+    justify-content: center;   /* horizontal center */
+    align-items: center;       /* vertical center */
+    height: 100vh; 
+    width: 100vw;             /* full viewport height */
+  }
