@@ -21,6 +21,7 @@ import ErrorCard from '../../components/shared/NotifyCard/ErrorCard/errorcard';
 import SuccessCard from '../../components/shared/NotifyCard/SuccessCard/sucesscard';
 import WaitingCard from '../../components/shared/NotifyCard/WaitingCard/waitingcard';
 import WarningCard from '../../components/shared/NotifyCard/WarningCard/warningcard';
+import BaseURL from '../../config';
 
 const validationSchema = Yup.object().shape({
   serviceName: Yup.string().required('Service Name is required'),
@@ -86,7 +87,7 @@ const PostService = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:8080/api/services/create',
+        BaseURL+'/api/services/create',
         formData,
         {
           headers: {
@@ -269,7 +270,7 @@ const PostService = () => {
   ];
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/category')
+    axios.get(BaseURL+'/api/category')
       .then(response => {
 
         let data = response.data
@@ -284,7 +285,7 @@ const PostService = () => {
 
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/services')
+    axios.get(BaseURL+'/api/services')
       .then(response => {
 
         let data = response.data
