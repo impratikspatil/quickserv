@@ -1,0 +1,303 @@
+.service-card {
+  display: flex !important;
+  flex-direction: row !important;
+  margin: 0.75rem !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 200px !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  overflow: hidden !important;
+  
+}
+
+.service-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.service-image {
+  width: 12rem !important;
+  height: 10rem !important;
+  /* padding: 0.5rem !important; */
+  border-radius: 0.5rem !important;
+  object-fit: cover !important;
+  margin-top: 1rem !important;
+  /* flex-shrink: 0 !important; */
+}
+
+.service-content {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  padding: 0.25rem !important;
+  width: calc(100% - 5rem) !important;
+  min-width: 0 !important;
+}
+
+.service-content .MuiCardContent-root {
+  padding: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+
+.service-header {
+  display: flex !important;
+  flex-direction: row !important;
+  width: 100% !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.service-name {
+  font-size: 1.1rem !important;
+  font-weight: 500 !important;
+  color: #282626 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-width: 70% !important;
+}
+
+.like-button {
+  padding: 0.25rem !important;
+  transition: transform 0.2s ease !important;
+  flex-shrink: 0 !important;
+  color: #666 !important;
+}
+
+.like-button:hover {
+  transform: scale(1.1) !important;
+  color: #ff4d4d !important;
+}
+
+.service-rating {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
+  margin-top: 0.25rem !important;
+}
+
+.rating-stars {
+  color: #ffb703 !important;
+}
+
+.rating-count {
+  color: #666 !important;
+  font-size: 0.7rem !important;
+}
+
+.verified-icon {
+  font-size: 1rem !important;
+  margin-left: 0.25rem !important;
+  color: #00c853 !important;
+}
+
+.service-location {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
+  margin-top: 0.25rem !important;
+}
+
+.location-icon {
+  font-size: 0.9rem !important;
+  color: #16a0eb !important;
+  flex-shrink: 0 !important;
+}
+
+.location-text {
+  color: #1a1a1a !important;
+  font-size: 0.8rem !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  padding-top: 0.3rem !important;
+  padding-bottom: 0.3rem !important;
+}
+
+.service-tags {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 0.25rem !important;
+  margin-top: 0.25rem !important;
+  flex-wrap: wrap !important;
+}
+
+.service-tag {
+  background-color: transparent !important;
+  color: #2563eb !important;
+  height: 1.25rem !important;
+  border-radius: 0.2rem !important;
+  border: 1px solid #2563eb !important;
+}
+
+.service-tag span {
+  font-size: 0.7rem !important;
+}
+
+.service-tag:hover {
+  border-color: #1d4ed8 !important;
+  color: #1d4ed8 !important;
+  background-color: rgba(37, 99, 235, 0.05) !important;
+}
+
+.service-footer {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-top: 1.25rem !important;
+  gap: 0.5rem !important;
+}
+
+.service-actions {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 0.35rem !important;
+}
+
+.action-button {
+  text-transform: none !important;
+  font-size: 0.75rem !important;
+  border-radius: 0.35rem !important;
+  padding: 0.3rem 0.8rem !important;
+  min-width: auto !important;
+  white-space: nowrap !important;
+  height: 2rem !important;
+}
+
+.call-button {
+  background-color: #028b06 !important;
+  color: white !important;
+}
+
+.call-button:hover {
+  background-color: #027305 !important;
+}
+
+.whatsapp-button {
+  border-color: #028b06 !important;
+  color: #028b06 !important;
+}
+
+.whatsapp-button:hover {
+  background-color: rgba(2, 139, 6, 0.05) !important;
+  border-color: #028b06 !important;
+}
+
+.action-button.enquiry-button {
+  background-color: #2563eb !important;
+  color: white !important;
+}
+
+.action-button.enquiry-button:hover {
+  background-color: #1d4ed8 !important;
+}
+
+.action-button.enquiry-button.MuiButton-root {
+  background-color: #2563eb !important;
+}
+
+.action-button.enquiry-button.MuiButton-root:hover {
+  background-color: #1d4ed8 !important;
+}
+
+.service-price {
+  color: #333 !important;
+  font-weight: 500 !important;
+  font-size: 0.9rem !important;
+  white-space: nowrap !important;
+}
+
+/* Loading state styles */
+.service-card.loading {
+  background-color: #fff !important;
+}
+
+.service-card.loading .service-image {
+  margin: 0.5rem !important;
+}
+
+.service-card.loading .service-content {
+  padding: 0.5rem !important;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .service-card {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .service-card {
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 300px !important;
+  }
+
+  .service-image {
+    width: 100% !important;
+    height: 200px !important;
+    border-radius: 0.75rem 0.75rem 0 0 !important;
+    margin: 0 !important;
+  }
+
+  .service-content {
+    width: 100% !important;
+    padding: 1rem !important;
+  }
+
+  .service-actions {
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+
+  .action-button {
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-card {
+    width: 95vw !important;
+    margin: 0.5rem !important;
+  }
+
+  .service-name {
+    font-size: 1rem !important;
+  }
+
+  .service-tags {
+    gap: 0.25rem !important;
+  }
+
+  .service-tag {
+    font-size: 0.65rem !important;
+  }
+
+  .service-actions {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.35rem !important;
+  }
+
+  .action-button {
+    width: 100% !important;
+  }
+
+  .service-footer {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .service-price {
+    text-align: center !important;
+    margin-top: 0.5rem !important;
+  }
+}

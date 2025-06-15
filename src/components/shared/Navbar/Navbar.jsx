@@ -4,8 +4,8 @@ import { Avatar, Box, Button, Drawer, List, ListItem, ListItemButton, ListItemIc
 import { Inbox as InboxIcon, Mail as MailIcon, Person as PersonIcon } from '@mui/icons-material';
 import logo from '../../../assets/images/quickserv_logo.png';
 import profile from '../../../assets/images/image.png';
-import LoginDialog from '../../login/Login.jsx';
-import VerifyOTP from '../../login/VerifyOTP.jsx';
+// import LoginDialog from '../../login/Login.jsx';
+// import VerifyOTP from '../../login/VerifyOTP.jsx';
 import SucessCard from '../NotifyCard/SuccessCard/sucesscard.jsx';
 import WaitingCard from '../NotifyCard/WaitingCard/waitingcard.jsx';
 import ErrorCard from '../NotifyCard/ErrorCard/errorcard.jsx'
@@ -100,8 +100,8 @@ const Navbar = ({ isLogin = false, userName = 'Pratik Patil' }) => {
       <Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer(false)}>
         {drawerList}
       </Drawer>
-      {showLogin && <LoginDialog onClose={() => setShowLogin(false)} onClickSendOTP={handleOTPSend} />}
-      {showOtp && <VerifyOTP mobile={mobile} onClose={() => setShowOtp(false)} onClickVerifyOTP={handleVerifyOTP} />}
+      {/* {showLogin && <LoginDialog onClose={() => setShowLogin(false)} onClickSendOTP={handleOTPSend} />} */}
+      {/* {showOtp && <VerifyOTP mobile={mobile} onClose={() => setShowOtp(false)} onClickVerifyOTP={handleVerifyOTP} />} */}
       {showWaitingCard && <WaitingCard msg="Sending OTP to Mobile" mobile={mobile} />}
       {showSuccessCard && <SucessCard msg="OTP Verified Successfully" />}
     </div>

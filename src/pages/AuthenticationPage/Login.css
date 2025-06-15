@@ -1,0 +1,236 @@
+.login-container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 2rem auto;
+}
+
+.login-title {
+  color: #333;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.login-subtitle {
+  color: #666;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.login-input {
+  margin-bottom: 1rem;
+}
+
+.terms-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.privacy-link {
+  margin-bottom: 1.5rem;
+}
+
+.privacy-link a {
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.privacy-link a:hover {
+  text-decoration: underline;
+}
+
+.login-button {
+  margin: 1rem 0;
+  padding: 0.75rem;
+}
+
+.divider {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.google-button {
+  margin-top: 1rem;
+}
+
+.login-box {
+  margin-top: 3rem;
+  padding: 3rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  border-radius: 1.5rem;
+  background: linear-gradient(145deg, #ffffff, #f8f9fa);
+  text-align: center;
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(45deg, #FFB74D, #FF9800);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+  animation: slideUp 0.8s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.login-input {
+  margin-bottom: 0;
+  transition: transform 0.2s ease;
+}
+
+.login-input:hover {
+  transform: translateY(-2px);
+}
+
+.login-input .MuiOutlinedInput-root {
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.login-input .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #FF9800;
+}
+
+.login-terms {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.login-terms-text {
+  font-size: 0.9rem;
+  font-family: 'Poppins', sans-serif;
+  color: #555;
+}
+
+.login-policy-link {
+  font-size: 0.8rem !important;
+  margin-bottom: 1rem !important;
+  animation: fadeIn 1.4s ease-out;
+}
+
+.login-policy-link a {
+  color: #FF9800;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.login-policy-link a:hover {
+  color: #FFB74D;
+  text-decoration: underline;
+}
+
+.login-button {
+  margin-bottom: 1.5rem !important;
+  height: 3.5rem;
+  color: #1976D2;
+  text-transform: none;
+  transition: all 0.3s ease !important;
+  animation: fadeIn 1.6s ease-out !important;
+  letter-spacing: 0.5px;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(25, 118, 210, 0.3);
+  background: #1976D2;
+  color: white !important;
+}
+
+.login-button:disabled {
+  background: #f5f5f5;
+  color: #bdbdbd !important;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  border-color: #e0e0e0;
+}
+
+.login-divider {
+  margin: 1.5rem 0;
+  animation: fadeIn 1.8s ease-out;
+}
+
+.login-google-button {
+  margin-top: 1rem !important;
+  height: 3.5rem;
+  background: white;
+  color: #757575;
+  font-size: 1.1rem;
+  text-transform: none;
+  font-weight: 500;
+  border-radius: 4px;
+  border: 1px solid #dadce0;
+  transition: all 0.3s ease;
+  animation: fadeIn 2s ease-out;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  padding: 0 1rem;
+}
+
+.login-google-button:hover {
+  background: #f8f9fa;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  border-color: #dadce0;
+}
+
+.google-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.google-icon-wrapper svg {
+  width: 24px;
+  height: 24px;
+}
+  

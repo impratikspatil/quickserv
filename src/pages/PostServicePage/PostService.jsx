@@ -309,19 +309,10 @@ const PostService = () => {
     <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
       <Navbar />
       <div className="post-form-card-container">
-        {
-          errorCardVisibility && <ErrorCard msg={errorCardMsg} onClose={onClose}/>
-        }
-        {
-          successCardVisibility && <SuccessCard msg={successCardMsg} onClose={onClose}/>
-        }
-        {
-          warningCardVisibility && <WarningCard msg={warningCardMsg} onClose={onClose}/>
-        }
-        {
-          waitingCardVisibility && <WaitingCard msg={waitingCardMsg} onClose={onClose}/>
-        }
-        
+        {errorCardVisibility && <ErrorCard msg={errorCardMsg} onClose={onClose}/>}
+        {successCardVisibility && <SuccessCard msg={successCardMsg} onClose={onClose}/>}
+        {warningCardVisibility && <WarningCard msg={warningCardMsg} onClose={onClose}/>}
+        {waitingCardVisibility && <WaitingCard msg={waitingCardMsg} onClose={onClose}/>}
         
         <Formik
           initialValues={{
@@ -343,10 +334,9 @@ const PostService = () => {
         >
           {({ handleChange, handleBlur, values, errors, touched, setFieldValue }) => (
             <Form>
-              <Typography variant="h4" gutterBottom>Post Service</Typography>
+              <Typography variant="h4" gutterBottom>Post Your Service</Typography>
 
               <div className='form-field-container'>
-
                 <div className='form-row'>
                   <Field
                     name="serviceName"
@@ -466,7 +456,7 @@ const PostService = () => {
                     as={TextField}
                     label="Address"
                     multiline
-                    rows={4}
+                    rows={2}
                     fullWidth
                     error={touched.address && Boolean(errors.address)}
                     helperText={touched.address && errors.address}
@@ -477,7 +467,7 @@ const PostService = () => {
                     as={TextField}
                     label="Service Description"
                     multiline
-                    rows={4}
+                    rows={2}
                     fullWidth
                     error={touched.description && Boolean(errors.description)}
                     helperText={touched.description && errors.description}
@@ -488,46 +478,46 @@ const PostService = () => {
                   <TextField
                     label="Add services provided by you"
                     variant="outlined"
-                    style={{ width: "45vw" }}
+                    fullWidth
                     value={serviceName}
                     onChange={(e) => setServiceName(e.target.value)}
                     onKeyDown={(e) => handleAddChip(e, values, setFieldValue)}
                     error={Boolean(touched.tags && errors.tags)}
                     helperText={touched.tags && errors.tags}
                   />
-
-                  <Box mt={1} display="flex" flexWrap="wrap">
-                    {values.tags.map((chip) => (
-                      <Chip
-                        key={chip}
-                        label={chip}
-                        onDelete={() => handleDeleteChip(chip, values, setFieldValue)}
-                        style={{ margin: '4px' }}
-                      />
-                    ))}
-                  </Box>
-
-
-
                 </div>
 
+                <Box mt={1} display="flex" flexWrap="wrap" gap={1}>
+                  {values.tags.map((chip) => (
+                    <Chip
+                      key={chip}
+                      label={chip}
+                      onDelete={() => handleDeleteChip(chip, values, setFieldValue)}
+                    />
+                  ))}
+                </Box>
 
-
-                <div className='form-row' style={{ alignItems: "center",alignContent:"center" }} >
-
-                  <Box  >
-                  {values.image && (
-                      <Typography variant="body2" mt={1}>
+                <div className="button-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem' }}>
+                  <Box>
+                    {values.image && (
+                      <Typography className="selected-file-text">
                         Selected: {values.image.name}
                       </Typography>
                     )}
                     <Button
                       component="label"
-                      variant="contained"
+                      className="upload-button"
                       startIcon={<CloudUploadIcon />}
+                      sx={{
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+                        '&:hover': {
+                          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+                          transform: 'translateY(-1px)'
+                        },
+                        transition: 'all 0.2s ease-in-out'
+                      }}
                     >
                       Upload Image
-                      {/* As in below code we are using the VisuallyHiddenInput to upload the image where  type="file"  is used to upload the image and accept="image/*" is used to accept the image type */}
                       <VisuallyHiddenInput
                         type="file"   
                         accept="image/*"
@@ -537,21 +527,29 @@ const PostService = () => {
                       />
                     </Button>
                     {touched.image && errors.image && (
-                      <div className="error-message warning-msg">{errors.image}</div>
+                      <div className="warning-msg">{errors.image}</div>
                     )}
-                    
                   </Box>
-                
-                </div>
-                  <div style={{display:"flex",flexDirection:"row",gap:"1rem",justifyContent:"flex-end"}}>
-                   <Button type="reset" variant="contained" color="primary" size="medium" style={{ height: "2.5rem",width:"8rem",alignSelf:"flex-end"}}>
-                    Reset
-                  </Button>
-                  <Button type="submit" variant="contained" color="primary" size="medium" style={{ height: "2.5rem",width:"8rem",alignSelf:"flex-end"}}>
-                    Submit
-                  </Button>
-                </div>
 
+                  <Box sx={{ display: 'flex', gap: 2 }}>
+                    <Button 
+                      type="reset" 
+                      variant="outlined" 
+                      color="primary" 
+                      size="large"
+                    >
+                      Reset
+                    </Button>
+                    <Button 
+                      type="submit" 
+                      variant="contained" 
+                      color="primary" 
+                      size="large"
+                    >
+                      Submit
+                    </Button>
+                  </Box>
+                </div>
               </div>
             </Form>
           )}

@@ -5,10 +5,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useState, useEffect } from 'react'; // Added useEffect
+import { useState, useEffect } from 'react';
 import Rating from '@mui/material/Rating';
-import CancelIcon from '@mui/icons-material/Cancel';
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../theme/theme";
@@ -16,8 +14,8 @@ import CallIcon from '@mui/icons-material/Call';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import { VerifiedOutlined } from '@mui/icons-material';
-import { Box, Button, Skeleton, Fade } from "@mui/material"; // Added Skeleton and Fade
-
+import { Box, Button, Skeleton, Fade, Chip } from "@mui/material";
+import './ServiceInfoCard.css';
 
 const ServiceCardInfo = ({
   imageUrl,
@@ -29,17 +27,15 @@ const ServiceCardInfo = ({
   isVerified = true,
   rateType,
   charges,
-  tags = [] // Add new prop with default empty array
+  tags = []
 }) => {
   const [liked, setLiked] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log("imageUrl",imageUrl);
-    const timer = setTimeout(() => setIsLoading(false), 2000); 
+    const timer = setTimeout(() => setIsLoading(false), 1000);
     return () => clearTimeout(timer);
   }, []);
-
 
   const handleLikeToggle = () => {
     setLiked(!liked);
@@ -47,30 +43,35 @@ const ServiceCardInfo = ({
 
   if (isLoading) {
     return (
-      <Card sx={{ display: 'flex', flexDirection: 'row', marginLeft: '1rem', marginRight: '2rem', marginBottom: 2, width: '70vw', height: "13rem", borderRadius: 2, boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)' }}>
-        <Skeleton variant="rectangular" width="20%" height='80%' sx={{ borderRadius: 5, margin: 2 }} />
-        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 1, width: '70vw' }}>
+      <Card className="service-card loading">
+        <Skeleton variant="rectangular" className="service-image" />
+        <Box className="service-content">
           <CardContent>
-            <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' ,justifyContent: 'space-between' }}>
-              <Skeleton variant="text" width="60%" height={30} />
-              <Skeleton variant="circular" width={40} height={40} />
+            <Box className="service-header">
+              <Skeleton variant="text" width="40%" height={28} />
+              <Skeleton variant="circular" width={32} height={32} />
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-              <Skeleton variant="text" width="20%" height={20} />
-              <Skeleton variant="text" width="30%" height={20} sx={{ marginLeft: 2 }} />
+            <Box className="service-rating">
+              <Skeleton variant="text" width="120px" height={24} />
+              <Skeleton variant="text" width="60px" height={20} />
+              <Skeleton variant="circular" width={20} height={20} />
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-              <Skeleton variant="text" width="40%" height={20} />
+            <Box className="service-location">
+              <Skeleton variant="circular" width={20} height={20} />
+              <Skeleton variant="text" width="60%" height={20} />
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: 1, gap: 1 }}>
-              <Skeleton variant="rectangular" width="20%" height={30} />
-              <Skeleton variant="rectangular" width="20%" height={30} />
-              <Skeleton variant="rectangular" width="20%" height={30} />
+            <Box className="service-tags">
+              <Skeleton variant="rectangular" width="80px" height={24} sx={{ borderRadius: '4px' }} />
+              <Skeleton variant="rectangular" width="80px" height={24} sx={{ borderRadius: '4px' }} />
+              <Skeleton variant="rectangular" width="80px" height={24} sx={{ borderRadius: '4px' }} />
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: 2, gap: 2 }}>
-              <Skeleton variant="rectangular" width="30%" height={40} />
-              <Skeleton variant="rectangular" width="30%" height={40} />
-              <Skeleton variant="rectangular" width="30%" height={40} />
+            <Box className="service-footer">
+              <Box className="service-actions">
+                <Skeleton variant="rectangular" width="100px" height={32} sx={{ borderRadius: '6px' }} />
+                <Skeleton variant="rectangular" width="100px" height={32} sx={{ borderRadius: '6px' }} />
+                <Skeleton variant="rectangular" width="100px" height={32} sx={{ borderRadius: '6px' }} />
+              </Box>
+              <Skeleton variant="text" width="80px" height={24} />
             </Box>
           </CardContent>
         </Box>
@@ -80,94 +81,120 @@ const ServiceCardInfo = ({
 
   return (
     <ThemeProvider theme={theme}>
-      <Card sx={{ display: 'flex', flexDirection: 'row', marginLeft: '1rem', marginRight: '1rem', marginBottom: 2, width: '70vw', height: "13rem", borderRadius: 2, boxShadow: '0 2px 15px rgba(0, 0, 0, 0.2)' }} >
-
+      <Card className="service-card">
         <CardMedia
           component="img"
-          sx={{ width: '10rem',height:"10rem", padding: 2, borderRadius: "2rem" }}
+          className="service-image"
           image={imageUrl}
           alt={serviceName}
         />
-        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 1, width: '80%' }}>
+        <Box className="service-content">
           <CardContent>
-            <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between' }}>
-              <Typography sx={{ fontSize: 20 }}>
+            <Box className="service-header">
+              <Typography variant="h6" className="service-name">
                 {serviceName}
               </Typography>
-
-              <IconButton aria-label="like" onClick={handleLikeToggle}>
+              <IconButton 
+                aria-label="like" 
+                onClick={handleLikeToggle}
+                className="like-button"
+                size="small"
+              >
                 <FavoriteIcon color={liked ? "error" : "inherit"} />
               </IconButton>
-
             </Box>
 
-            <Box sx={{ display: 'flex', flexDirection: 'row' ,alignItems:'center'}}>
-
-              <Rating name="read-only" value={rating} readOnly size="small" />
-
-              {
-                ratingCount > 0 && 
-                <Typography variant="textcolor" sx={{ marginLeft: 0.5, fontSize: 12 }}>
+            <Box className="service-rating">
+              <Rating 
+                name="read-only" 
+                value={rating} 
+                readOnly 
+                size="small" 
+                className="rating-stars"
+              />
+              {ratingCount > 0 && (
+                <Typography variant="caption" className="rating-count">
                   ({ratingCount})
-                  </Typography>
-              }
-
-              <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: '1rem' }}>
-                {isVerified ? (
-                  <VerifiedOutlined color="success" sx={{ fontSize: 18 }} />
-                ) : (
-                  <></>
-                )}
-              </Box>
+                </Typography>
+              )}
+              {isVerified && (
+                <VerifiedOutlined 
+                  color="success" 
+                  className="verified-icon"
+                />
+              )}
             </Box>
 
-
-            <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: '0.2rem' }}>
-              <LocationOnOutlinedIcon sx={{ fontSize: '0.9rem' }}></LocationOnOutlinedIcon>
-
-              <Typography variant="textcolor" sx={{ fontSize: 12 }}>
+            <Box className="service-location">
+              <LocationOnOutlinedIcon className="location-icon" />
+              <Typography variant="body2" className="location-text">
                 {location}
               </Typography>
             </Box>
 
-            <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: '0.5rem', gap: 1 }}>
-              {tags.map((service, index) => (
-                <Button 
+            <Box className="service-tags">
+              {tags.slice(0, 3).map((tag, index) => (
+                <Chip
                   key={index}
-                  variant="outlined" 
-                  sx={{ 
-                    height: '1.5rem', 
-                    fontSize: '0.6rem', 
-                    width: 'max-content', 
-                    padding: '0.4rem', 
-                    textTransform: 'none' 
-                  }}
-                >
-                  {service}
-                </Button>
+                  label={tag}
+                  size="small"
+                  className="service-tag"
+                />
               ))}
             </Box>
 
-            <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-            <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: '1rem', gap: 2 }}>
-              <Button startIcon={<CallIcon />} variant="contained" color="primary" sx={{ borderRadius: 2, backgroundColor: '#028b06', textTransform: 'none', fontSize: 12 }}>{contactNumber}</Button>
-              <Button startIcon={<WhatsAppIcon sx={{ color: '#028b06' }} />} variant="contained" color="primary" sx={{ borderRadius: 2, backgroundColor: '#ffffff', color: '#000000', textTransform: 'none', fontSize: 12 }}>WhatsApp</Button>
-              <Button startIcon={<QuestionAnswerIcon />} variant="contained" color="primary" sx={{ borderRadius: 2, textTransform: 'none', fontSize: 12 }}>Enquiry</Button>
-            </Box>
+            <Box className="service-footer">
+              <Box className="service-actions">
+                <Button
+                  startIcon={<CallIcon />}
+                  variant="contained"
+                  className="action-button call-button"
+                  size="small"
+                  sx={{
+                    background: '#028b06 !important',
+                    '&:hover': {
+                      background: '#027305 !important',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 4px 12px rgba(2, 139, 6, 0.2)'
+                    }
+                  }}
+                >
+                  {contactNumber}
+                </Button>
+                <Button
+                  startIcon={<WhatsAppIcon />}
+                  variant="outlined"
+                  className="action-button whatsapp-button"
+                  size="small"
+                >
+                  WhatsApp
+                </Button>
+                <Button
+                  startIcon={<QuestionAnswerIcon />}
+                  variant="contained"
+                  className="action-button enquiry-button"
+                  size="small"
+                  sx={{
+                    background: '#2563eb !important',
+                    '&:hover': {
+                      background: '#1d4ed8 !important',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 4px 12px rgba(37, 99, 235, 0.2)'
+                    }
+                  }}
+                >
+                  Enquiry
+                </Button>
+              </Box>
 
-            <Box sx={{marginTop:'1.5rem'}} >
-              <Typography  variant="textcolor" sx={{ fontSize: 14 }}>{charges}{rateType}</Typography>
+              <Typography variant="subtitle1" className="service-price">
+                {charges}{rateType}
+              </Typography>
             </Box>
-
-            </div>
           </CardContent>
-
         </Box>
-
       </Card>
-
     </ThemeProvider>
-
   );
 };
 
