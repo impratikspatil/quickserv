@@ -18,6 +18,7 @@ import ServiceInfoCard from '../../components/service_info_card/service_info_car
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import BaseURL from '../../config';
+import './ServiceListPage.css';
 
 const ServerInfoPage = () => {
 
@@ -161,92 +162,77 @@ const ServerInfoPage = () => {
   };
 
   useEffect(() => {
-
-
+    // Fetch categories
     axios.get(BaseURL+'/api/category')
-    .then(response => {
+      .then(response => {
+        setCategories(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching categories:', error);
+      });
 
-      let data=response.data;
-      console.log("data",data);
-      setCategories(data)
-
-      
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
-
-
+    // Fetch services
     axios.get(BaseURL+'/api/services')
-    .then(response => {
-      let data=response.data;
-      console.log("service data",data);
-      setServiceInfoData(data)
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
-
+      .then(response => {
+        setServiceInfoData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching services:', error);
+      });
   }, []);
-
 
   return (
     <ThemeProvider theme={theme}>
-
-      <div style={{display: 'flex', flexDirection: 'column'}}> 
-
-      <Navbar></Navbar>
-
-      <div style={{ display: 'flex', flexDirection: 'row', marginTop: '5rem',justifyContent: 'space-between'}}>
-
-    
-        <div style={{display: 'flex', flexDirection: 'column', gap: 2}}>
-          {/* <ServiceEnquiry></ServiceEnquiry> */}
-          <ServiceInfoCard service_name={service_category} categories={categories}></ServiceInfoCard>
-        </div>
+      <div className="service-list-container">
+        <Navbar />
         
-
-        <div style={{display: 'flex', flexDirection: 'column', gap: 2}}>
-        <Box sx={{ display: 'flex', flexDirection: 'row', marginLeft: 1, gap: 2 }}>
-        <SortByFilter sortByValue={SortBy} handleChange={handleSortByFilterChange}></SortByFilter>
-        <Button startIcon={<VerifiedOutlined></VerifiedOutlined>} variant="outlined" sx={{ height: '2.5rem', fontSize: '0.8rem', width: 'max-content', color: 'black', alignSelf: 'center' }}>Verified</Button>
-        <LocationFilter></LocationFilter>
-        <GlobalSearchFilter></GlobalSearchFilter>
-        </Box>
-
-        <List sx={{
-    width: '100%',
-    height: 'calc(90vh - 5rem)', // Adjust height as needed
-    overflowY: 'auto', // Enable vertical scrolling
-    paddingRight: '8px', // Add padding to prevent scrollbar overlap
-  }}>
-          {serviceInfoData.map((service) => (
-            <ServiceCard
-              key={service.serviceId}
-              serviceName={service.serviceName}
-              rating={service.rating}
-              location={service.address}
-              contactNumber={service.whatsappNumber}
-              imageUrl={service.imageUrl}
-              ratingCount={service.ratingCount}
-              rateType={service.rateType}
-              charges={service.price}
-              tags={service.tags}
-              isVerified={service.isVerified}
-              rateCount={service.rateCount}
+        <div className="service-list-content">
+          <div className="filters-section">
+            <ServiceInfoCard 
+              service_name={service_category} 
+              categories={categories}
             />
-          ))}
-        </List>
+          </div>
 
+          <div className="services-section">
+            <div className="filters-header">
+              <GlobalSearchFilter />
+              <LocationFilter />
+              <SortByFilter 
+                sortByValue={SortBy} 
+                handleChange={handleSortByFilterChange}
+              />
+              <Button 
+                startIcon={<VerifiedOutlined />} 
+                variant="outlined" 
+                className="verified-button"
+              >
+                Verified
+              </Button>
+            </div>
+
+            <List className="services-list">
+              {serviceInfoData.map((service) => (
+                <ServiceCard
+                  key={service.serviceId}
+                  serviceName={service.serviceName}
+                  rating={service.rating}
+                  location={service.address}
+                  contactNumber={service.whatsappNumber}
+                  imageUrl={service.imageUrl}
+                  ratingCount={service.ratingCount}
+                  rateType={service.rateType}
+                  charges={service.price}
+                  tags={service.tags}
+                  isVerified={service.isVerified}
+                  rateCount={service.rateCount}
+                />
+              ))}
+            </List>
+          </div>
         </div>
-        
-
       </div>
-
-      </div>
-
     </ThemeProvider>
-
   );
 }
 

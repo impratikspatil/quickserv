@@ -1,9 +1,10 @@
 .service-info-card {
     width: 20vw;
+    height: 83vh;
     background: linear-gradient(135deg, #ffffff, #f9f9f9);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-    margin-left: 2rem;
+    padding: 1rem;
+    /* margin-left: 2rem; */
     /* margin-top: 4rem; */
     border-radius: 1.5rem;
     text-align: left;
@@ -28,7 +29,7 @@
   
   .service-info-card-header h2 {
     font-weight: 600;
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     color: #333;
     margin-bottom: 1rem;
     position: relative;

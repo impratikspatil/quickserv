@@ -3,11 +3,9 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     margin-top: 5rem;
-    margin-left: 2rem;
-    margin-right: 2rem;
+    margin-left: 1rem;
+    margin-right: 2.5rem;
     margin-bottom: 2rem;
-
-
 }
 
 .form-field {
@@ -22,19 +20,48 @@
     margin-top: 2rem;
 }
 
-
-
-.mr-top-1rem {
-    margin-top: 1rem !important;
-}
-
 .form-row {
     display: flex;
     flex-direction: row;
     gap: 1rem !important;
 }
 
-.warning-msg{
+/* Typography improvements */
+.post-form-card-container h4 {
+    font-size: 1.75rem !important;
+    font-weight: 600 !important;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem !important;
+}
+
+/* Input field improvements */
+.MuiInputLabel-root {
+    font-size: 0.95rem !important;
+    color: #555 !important;
+}
+
+.MuiOutlinedInput-root {
+    font-size: 0.95rem !important;
+}
+
+.MuiOutlinedInput-input {
+    padding: 0.75rem 1rem !important;
+}
+
+/* Button improvements */
+.MuiButton-root {
+    text-transform: none !important;
+    font-size: 0.95rem !important;
+    font-weight: 500 !important;
+}
+
+/* Chip improvements */
+.MuiChip-root {
+    font-size: 0.9rem !important;
+}
+
+/* Error message styles */
+.warning-msg {
     color: #d32f2f;
     font-size: 0.75rem;
     font-weight: 400;
@@ -42,4 +69,66 @@
     margin-top: 3px;
     margin-left: 14px;
     margin-right: 14px;
+}
+
+/* Upload button improvements */
+.upload-button {
+    font-size: 0.95rem !important;
+    text-transform: none !important;
+}
+
+/* Selected file text */
+.selected-file-text {
+    font-size: 0.9rem !important;
+    color: #666 !important;
+    margin-top: 0.5rem !important;
+}
+
+/* Submit and Reset buttons container */
+.button-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+    .post-form-card-container {
+        margin: 5rem 1.5rem 1.5rem 1.5rem;
+        padding: 2rem;
+    }
+
+    .form-row {
+        gap: 1rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .post-form-card-container {
+        margin: 4rem 1rem 1rem 1rem;
+        padding: 1.5rem;
+    }
+
+    .form-row {
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+
+    .MuiTextField-root,
+    .MuiFormControl-root {
+        width: 100% !important;
+    }
+}
+
+/* Animation for form elements */
+.MuiTextField-root,
+.MuiFormControl-root,
+.MuiButton-root {
+    transition: all 0.3s ease-in-out;
+}
+
+.MuiTextField-root:focus-within,
+.MuiFormControl-root:focus-within {
+    transform: translateY(-2px);
 }
