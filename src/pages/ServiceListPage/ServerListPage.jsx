@@ -25,6 +25,8 @@ const ServerInfoPage = () => {
   const location = useLocation();
   const { service_category } = location.state || {};
   console.log("service_category",service_category);
+  const token = localStorage.getItem('token');
+
   
 
   const ServiceInfoData = [
@@ -163,7 +165,11 @@ const ServerInfoPage = () => {
 
   useEffect(() => {
     // Fetch categories
-    axios.get(BaseURL+'api/category')
+    axios.get(BaseURL+'api/category',{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
       .then(response => {
         setCategories(response.data);
       })
@@ -172,7 +178,11 @@ const ServerInfoPage = () => {
       });
 
     // Fetch services
-    axios.get(BaseURL+'api/services')
+    axios.get(BaseURL+'api/services',{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
       .then(response => {
         setServiceInfoData(response.data);
       })
