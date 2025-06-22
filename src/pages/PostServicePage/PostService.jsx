@@ -550,7 +550,7 @@ const PostService = () => {
                     </Button>
                   </Box>
                 </div>
-              </div>
+                </div>
             </Form>
           )}
         </Formik>
