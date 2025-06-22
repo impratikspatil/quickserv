@@ -169,6 +169,7 @@ const ServerInfoPage = () => {
         Authorization: `Bearer ${token}`,
       }
     })
+
       .then(response => {
         setCategories(response.data);
       })
@@ -182,6 +183,7 @@ const ServerInfoPage = () => {
         Authorization: `Bearer ${token}`,
       }
     })
+
       .then(response => {
         setServiceInfoData(response.data);
       })
