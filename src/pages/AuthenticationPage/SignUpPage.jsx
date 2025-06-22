@@ -64,7 +64,9 @@ const SignUpPage = ({ onClickSendOTP }) => {
           password: values.password,
         });
     
-        login(response.data); // ✅ updated line
+        const token = response.data.token;
+
+        login(token); // ✅ updated line
         toast.success("Signup successful!");
         resetForm(); 
         navigate("/", { replace: true });

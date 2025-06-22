@@ -43,8 +43,8 @@ const Login = () => {
           password: values.password
         });
     
-        const token = response.data.token || response.data;
-    
+        const token = response.data.token;
+
         login(token); 
         toast.success("Login successful!");
         navigate("/");
