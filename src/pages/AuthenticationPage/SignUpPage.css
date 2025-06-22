@@ -1,9 +1,11 @@
+
+
 .login-box {
   background: #ffffff;
   padding: 2.5rem;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  margin: 2rem auto;
+  margin: 2em auto;
   max-width: 500px;
   width: 100%;
   display: flex;
@@ -78,12 +80,9 @@
   text-transform: none !important;
   border-radius: 8px !important;
   margin-bottom: 1.5rem !important;
-  background-color: #1976d2 !important;
 }
 
-.login-button:hover {
-  background-color: #1565c0 !important;
-}
+
 
 .login-divider {
   margin: 1.5rem 0 !important;
@@ -150,4 +149,16 @@
   align-items: center;
   justify-content: center;
   padding: 2rem 1rem;
+}
+
+.auth-background {
+  background-image: url("../../assets/images/wave.svg");
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: contain;
+  min-height:100vh !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 1rem;
 }
