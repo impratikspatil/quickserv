@@ -20,6 +20,7 @@ import BaseURL from "../../config";
 import "./Login.css";
 import { FcGoogle } from "react-icons/fc";
 import { useAuth } from "../../components/shared/AuthContext";
+import logo from "../../assets/images/quickserv_logo.png"
 
 const Login = () => {
   const navigate = useNavigate();
@@ -59,8 +60,13 @@ const Login = () => {
   });
 
   return (
+    <div className="auth-background">
     <Container maxWidth="sm">
       <Box className="login-box">
+      <Box textAlign="center" mb={2}>
+          <img src={logo} alt="QuickServ Logo" height={40} />
+        </Box>
+
         <Typography variant="h1" className="login-title">
           Welcome Back!
         </Typography>
@@ -140,8 +146,22 @@ const Login = () => {
             >
           Sign in with Google
         </Button>
+        <Box textAlign="center" mt={2}>
+          <Typography variant="body2">
+            Don&apos;t have an account?{" "}
+            <span
+              style={{ color: "#1976D2", cursor: "pointer", fontWeight: "bold" }}
+              onClick={() => navigate("/signup")}
+            >
+              Sign up here
+            </span>
+          </Typography>
+        </Box>
+
+       
       </Box>
     </Container>
+    </div>
   );
 };
 
