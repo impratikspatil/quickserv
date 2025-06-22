@@ -80,18 +80,22 @@ const PostService = () => {
   const [waitingCardMsg, setWaitingCardMsg] = useState('');
   const maxServiceNames = 10;
 
+  const token = localStorage.getItem('token');
+
 
 
 
   const AddNewService = async (formData) => {
+    
 
     try {
       const response = await axios.post(
-        BaseURL+'api/services/create',
+        BaseURL + '/api/services/create',
         formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,   // add token here
           },
         }
       );
@@ -270,7 +274,11 @@ const PostService = () => {
   ];
 
   useEffect(() => {
-    axios.get(BaseURL+'api/category')
+    axios.get(BaseURL+'/api/category', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
       .then(response => {
 
         let data = response.data
@@ -285,7 +293,12 @@ const PostService = () => {
 
 
   useEffect(() => {
-    axios.get(BaseURL+'api/services')
+    axios.get(BaseURL+'/api/services', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
+
       .then(response => {
 
         let data = response.data
