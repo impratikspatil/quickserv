@@ -80,6 +80,8 @@ const PostService = () => {
   const [waitingCardMsg, setWaitingCardMsg] = useState('');
   const maxServiceNames = 10;
 
+  const token = localStorage.getItem('token');
+
 
 
 
@@ -270,7 +272,11 @@ const PostService = () => {
   ];
 
   useEffect(() => {
-    axios.get(BaseURL+'api/category')
+    axios.get(BaseURL+'api/category',{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
       .then(response => {
 
         let data = response.data
@@ -285,7 +291,11 @@ const PostService = () => {
 
 
   useEffect(() => {
-    axios.get(BaseURL+'api/services')
+    axios.get(BaseURL+'api/services',{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
       .then(response => {
 
         let data = response.data
