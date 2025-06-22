@@ -1,3 +1,5 @@
+import { createContext, useContext, useState } from "react";
+
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
@@ -20,3 +22,6 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+// ✅ This is required for useAuth to work in other files
+export const useAuth = () => useContext(AuthContext);
