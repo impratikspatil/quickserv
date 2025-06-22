@@ -87,7 +87,7 @@ const PostService = () => {
 
     try {
       const response = await axios.post(
-        BaseURL+'/api/services/create',
+        BaseURL+'api/services/create',
         formData,
         {
           headers: {
@@ -270,7 +270,7 @@ const PostService = () => {
   ];
 
   useEffect(() => {
-    axios.get(BaseURL+'/api/category')
+    axios.get(BaseURL+'api/category')
       .then(response => {
 
         let data = response.data
@@ -285,7 +285,7 @@ const PostService = () => {
 
 
   useEffect(() => {
-    axios.get(BaseURL+'/api/services')
+    axios.get(BaseURL+'api/services')
       .then(response => {
 
         let data = response.data
