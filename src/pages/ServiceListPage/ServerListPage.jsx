@@ -163,7 +163,7 @@ const ServerInfoPage = () => {
 
   useEffect(() => {
     // Fetch categories
-    axios.get(BaseURL+'/api/category')
+    axios.get(BaseURL+'api/category')
       .then(response => {
         setCategories(response.data);
       })
@@ -172,7 +172,7 @@ const ServerInfoPage = () => {
       });
 
     // Fetch services
-    axios.get(BaseURL+'/api/services')
+    axios.get(BaseURL+'api/services')
       .then(response => {
         setServiceInfoData(response.data);
       })
