@@ -25,7 +25,8 @@ const ServerInfoPage = () => {
   const location = useLocation();
   const { service_category } = location.state || {};
   console.log("service_category",service_category);
-  const token = localStorage.getItem('token');
+  
+  
 
   
 
@@ -164,6 +165,9 @@ const ServerInfoPage = () => {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    console.log("token is ",token);
+    
     // Fetch categories
     axios.get(BaseURL+'api/category',{
       headers: {
