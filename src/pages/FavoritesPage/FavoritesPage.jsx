@@ -38,34 +38,38 @@ const FavoritesPage = () => {
           Your Favorites
         </Typography>
 
-        {loading ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 10 }}>
-            <CircularProgress />
-          </Box>
-        ) : favorites.length > 0 ? (
-          <List sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: 3 }}>
-            {favorites.map((service) => (
-              <ServiceCard
-                key={service.serviceId} // Use serviceId from backend
-                id={service.serviceId}  // Critical for toggling likes on this page
-                serviceName={service.serviceName}
-                rating={service.rating}
-                location={service.location}
-                contactNumber={service.whatsappNumber} // API uses 'whatsappNumber', not 'contact'
-                imageUrl={service.imageUrl}
-                charges={service.price}
-                rateType={service.rateType}
-                isVerified={service.isVerified}
-              />
-            ))}
-          </List>
-        ) : (
-          <Box sx={{ textAlign: 'center', mt: 10 }}>
-            <Typography variant="h6" color="textSecondary">
-              You haven't added any services to your favorites yet.
-            </Typography>
-          </Box>
-        )}
+        // Replace the mapping section in FavoritesPage.jsx
+{loading ? (
+  <Box sx={{ display: 'flex', justifyContent: 'center', mt: 10 }}>
+    <CircularProgress />
+  </Box>
+) : favorites.length > 0 ? (
+  /* This Box creates a clean vertical list of cards */
+  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+    {favorites.map((service) => (
+      <Box key={service.serviceId || service.id}>
+        <ServiceCard
+          id={service.serviceId}
+          serviceName={service.serviceName}
+          rating={parseFloat(service.rating)}
+          location={service.location}
+          contactNumber={service.whatsappNumber} // Matches ServiceDetails Field
+          imageUrl={service.imageUrl}
+          charges={service.price}
+          rateType={service.rateType}
+          isVerified={service.isVerified}
+          initialLiked={true} // Informs the card to show a red heart
+        />
+      </Box>
+    ))}
+  </Box>
+) : (
+  <Box sx={{ textAlign: 'center', mt: 10 }}>
+    <Typography variant="h6" color="textSecondary">
+      You haven't added any services to your favorites yet.
+    </Typography>
+  </Box>
+)}
       </Container>
     </Box>
   );
