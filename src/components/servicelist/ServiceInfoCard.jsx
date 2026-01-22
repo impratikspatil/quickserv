@@ -16,9 +16,11 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import { VerifiedOutlined } from '@mui/icons-material';
 import { Box, Button, Skeleton, Fade, Chip } from "@mui/material";
 import './ServiceInfoCard.css';
+import Icon from '@mui/material/Icon';
 
 const ServiceCardInfo = ({
   imageUrl,
+  categoryIcon,
   serviceName,
   rating,
   location,
@@ -82,12 +84,38 @@ const ServiceCardInfo = ({
   return (
     <ThemeProvider theme={theme}>
       <Card className="service-card">
-        <CardMedia
-          component="img"
-          className="service-image"
-          image={imageUrl}
-          alt={serviceName}
-        />
+      <Box className="service-image-container">
+  {imageUrl ? (
+    <CardMedia
+      component="img"
+      className="service-image"
+      image={imageUrl}
+      alt={serviceName}
+    />
+  ) : (
+    <Box
+      className="service-image-fallback"
+      sx={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        bgcolor: '#f0f4f8', // Light professional background
+        color: '#2563eb'    // Matches your "Enquiry" button blue
+      }}
+    >
+      {/* Import Icon from '@mui/material/Icon' */}
+      <Box 
+        component="span" 
+        className="material-icons" 
+        sx={{ fontSize: '64px' }}
+      >
+        {categoryIcon || 'home_repair_service'} 
+      </Box>
+    </Box>
+  )}
+</Box>
         <Box className="service-content">
           <CardContent>
             <Box className="service-header">

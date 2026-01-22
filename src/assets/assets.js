@@ -1,7 +1,23 @@
 import category_1 from "../assets/images/carpenter.png";
 
-
+// Static/predefined categories - used as fallback when API doesn't return data
 export const category_list = [
+  {
+    category_name: "Plumbing",
+    category_icon: "plumbing", // Material Icon
+  },
+  {
+    category_name: "Painting",
+    category_icon: "format_paint", // Material Icon
+  },
+  {
+    category_name: "Carpentry",
+    category_icon: "carpenter", // Material Icon
+  },
+  {
+    category_name: "Electrician",
+    category_icon: "electrical_services", // Material Icon
+  },
   {
     category_name: "Cleaning Services",
     category_icon: "cleaning_services", // Material Icon
@@ -45,10 +61,6 @@ export const category_list = [
   {
     category_name: "Waste Management",
     category_icon: "delete", // Material Icon
-  },
-  {
-    category_name: "Green Home Services",
-    category_icon: "eco", // Material Icon
   },
 ];
 

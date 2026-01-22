@@ -19,6 +19,7 @@ import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import BaseURL from '../../config';
 import './ServiceListPage.css';
+import { category_list } from '../../assets/assets';
 
 const ServerInfoPage = () => {
 
@@ -156,8 +157,14 @@ const ServerInfoPage = () => {
   ]
 
   const [SortBy, setSortBy] = useState('');
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState(category_list);
   const [serviceInfoData, setServiceInfoData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const getCategoryIcon = (categoryName) => {
+    const category = category_list.find(cat => cat.category_name === categoryName);
+    return category ? category.category_icon : 'settings'; // 'settings' is a generic fallback
+  };
 
   const handleSortByFilterChange = (event) => {
     setSortBy(event.target.value);
@@ -167,32 +174,47 @@ const ServerInfoPage = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     console.log("token is ",token);
+    setLoading(true);
     
-    // Fetch categories
-    axios.get(BaseURL+'api/category',{
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
-    })
-      .then(response => {
-        setCategories(response.data);
+    // Only make API calls if token exists (optional for testing)
+    if (token) {
+      // Fetch categories
+      axios.get(BaseURL+'api/category',{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
       })
-      .catch(error => {
-        console.error('Error fetching categories:', error);
-      });
+        .then(response => {
+          setCategories(response.data);
+        })
+        .catch(error => {
+          console.error('Error fetching categories:', error);
+        });
 
-    // Fetch services
-    axios.get(BaseURL+'api/services',{
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
-    })
-      .then(response => {
-        setServiceInfoData(response.data);
+      // Fetch services
+      axios.get(BaseURL+'api/services',{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
       })
-      .catch(error => {
-        console.error('Error fetching services:', error);
-      });
+        .then(response => {
+          const data = response.data || [];
+          console.log("services data is ",data);
+          setServiceInfoData(data);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error('Error fetching services:', error);
+          // Use fallback data if API fails
+          setServiceInfoData(ServiceInfoData);
+          setLoading(false);
+        });
+    } else {
+      console.log('No token found - using fallback data for testing.');
+      // Use hardcoded data as fallback when no token
+      setServiceInfoData(ServiceInfoData);
+      setLoading(false);
+    }
   }, []);
 
   return (
@@ -225,24 +247,60 @@ const ServerInfoPage = () => {
               </Button>
             </div>
 
-            <List className="services-list">
-              {serviceInfoData.map((service) => (
-                <ServiceCard
-                  key={service.serviceId}
-                  serviceName={service.serviceName}
-                  rating={service.rating}
-                  location={service.address}
-                  contactNumber={service.whatsappNumber}
-                  imageUrl={service.imageUrl}
-                  ratingCount={service.ratingCount}
-                  rateType={service.rateType}
-                  charges={service.price}
-                  tags={service.tags}
-                  isVerified={service.isVerified}
-                  rateCount={service.rateCount}
-                />
-              ))}
-            </List>
+            {loading ? (
+              <div style={{ padding: '2rem', textAlign: 'center' }}>
+                <p>Loading services...</p>
+              </div>
+            ) : serviceInfoData.length > 0 ? (
+              <List className="services-list">
+                {serviceInfoData
+                  .filter(service => {
+                    // Filter by category if service_category is provided
+                    if (!service_category) return true;
+                    // Check if service matches the selected category
+                    // API services might have serviceCategory field, hardcoded might not
+                    return service.serviceCategory === service_category || 
+                           service.category === service_category ||
+                           !service.serviceCategory; // Show all if no category filter matches
+                  })
+                  .map((service) => {
+                    // NEW: Logic to handle fallback icons
+                    const categoryName = service.serviceCategory || service_category || "General";
+                    const iconName = getCategoryIcon(categoryName);
+                    
+                    // Construct image path if it exists, otherwise pass null
+                    const displayImage = service.imageUrl 
+                      ? (service.imageUrl.startsWith('http') ? service.imageUrl : `${BaseURL}${service.imageUrl}`) 
+                      : null;
+                  
+                    return (
+                      <ServiceCard
+                        key={service.serviceId || service.id}
+                        serviceName={service.serviceName || service.servicename}
+                        rating={service.rating || 0}
+                        location={service.address || service.location || 'Location not specified'}
+                        contactNumber={service.whatsappNumber || service.contact}
+                        
+                        // CHANGED: Pass displayImage and the fallback iconName
+                        imageUrl={displayImage}
+                        categoryIcon={iconName} 
+                        
+                        ratingCount={service.ratingCount || 0}
+                        rateType={service.rateType || '/service'}
+                        charges={service.price || service.charges || 0}
+                        tags={service.tags || []}
+                        isVerified={service.isVerified || false}
+                        rateCount={service.rateCount || 0}
+                      />
+                    );
+                  }
+                  )}
+              </List>
+            ) : (
+              <div style={{ padding: '2rem', textAlign: 'center' }}>
+                <p>No services found{service_category ? ` for ${service_category}` : ''}.</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
