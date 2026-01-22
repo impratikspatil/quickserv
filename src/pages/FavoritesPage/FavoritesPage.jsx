@@ -46,11 +46,12 @@ const FavoritesPage = () => {
           <List sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: 3 }}>
             {favorites.map((service) => (
               <ServiceCard
-                key={service.id}
+                key={service.serviceId} // Use serviceId from backend
+                id={service.serviceId}  // Critical for toggling likes on this page
                 serviceName={service.serviceName}
                 rating={service.rating}
                 location={service.location}
-                contactNumber={service.contact}
+                contactNumber={service.whatsappNumber} // API uses 'whatsappNumber', not 'contact'
                 imageUrl={service.imageUrl}
                 charges={service.price}
                 rateType={service.rateType}
