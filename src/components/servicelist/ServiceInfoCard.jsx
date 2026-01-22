@@ -39,8 +39,39 @@ const ServiceCardInfo = ({
     return () => clearTimeout(timer);
   }, []);
 
-  const handleLikeToggle = () => {
-    setLiked(!liked);
+  const handleLikeToggle = async () => {
+    const token = localStorage.getItem('token');
+    // You'll need to get the logged-in user's ID, likely from the decoded JWT token
+    const userId = getUserIdFromToken(token); 
+  
+    try {
+      const response = await axios.post(
+        `${BaseURL}api/users/${userId}/favorites/toggle`, 
+        { serviceId: serviceIdProp }, // The ID of the current card
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      
+      // If successful, update the heart color
+      setLiked(!liked);
+    } catch (error) {
+      console.error("Error toggling favorite", error);
+    }
+  };
+
+  const handleCall = () => {
+    window.location.href = `tel:${contactNumber}`;
+  };
+  
+  const handleWhatsApp = () => {
+    // Cleans the number and opens WhatsApp
+    const cleanNumber = contactNumber.replace(/\D/g, ''); 
+    window.open(`https://wa.me/${cleanNumber}?text=Hi, I found your service on QuickServ!`, '_blank');
+  };
+
+  const handleEnquiry = () => {
+    // This could scroll to your ServiceEnquiry component 
+    // or open a modal/email
+    alert(`Opening enquiry for ${serviceName}`);
   };
 
   if (isLoading) {
@@ -176,6 +207,7 @@ const ServiceCardInfo = ({
                 <Button
                   startIcon={<CallIcon />}
                   variant="contained"
+                  onClick={handleCall}
                   className="action-button call-button"
                   size="small"
                   sx={{
@@ -192,6 +224,7 @@ const ServiceCardInfo = ({
                 <Button
                   startIcon={<WhatsAppIcon />}
                   variant="outlined"
+                  onClick={handleWhatsApp}
                   className="action-button whatsapp-button"
                   size="small"
                 >
@@ -200,6 +233,7 @@ const ServiceCardInfo = ({
                 <Button
                   startIcon={<QuestionAnswerIcon />}
                   variant="contained"
+                  onClick={handleEnquiry}
                   className="action-button enquiry-button"
                   size="small"
                   sx={{

@@ -13,6 +13,8 @@ import SignUpPage from './pages/AuthenticationPage/SignUpPage';
 import { ToastContainer } from 'react-toastify';
 import { useAuth } from './components/shared/AuthContext';
 import ProtectedRoute from './components/shared/ProtectedRoute';
+import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
+import ProfilePage from './pages/Profile/ProfilePage';
 
 
 
@@ -30,6 +32,8 @@ function App() {
           <Route path="/post_service" element={<PostService />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
+          <Route path="/profile" element={<ProfilePage   />} />
         </Routes>
         <ToastContainer />  
       </Router>
