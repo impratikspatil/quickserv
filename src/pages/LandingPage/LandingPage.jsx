@@ -18,7 +18,13 @@ const LandingPage = () => {
   const location = useLocation();
 
   const handleServiceCategoryClick = (category_name) => {
-    navigate("/service", { state: { service_category: category_name } });
+    const token = localStorage.getItem('token');
+  
+    if (token) {
+      navigate("/service", { state: { service_category: category_name } });
+    } else {
+      navigate("/login", { state: { from: "/service", category: category_name } });
+    }
   }
 
   const scrollToSection = (ref) => {

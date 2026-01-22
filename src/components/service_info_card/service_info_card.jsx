@@ -14,12 +14,7 @@ const ServiceInfoCard = ({ service_name = "",categories=[] }) => {
 
   // If the service category is not found, display a message
   if (!serviceCategory) {
-    return <div className="centered">
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}} >
-      <img src={dataNotFoundImage} alt="loading" />
-      <span>Fetching Service Details...</span>
-      </div>
-      </div>;
+    return null;
   }
 
   return (
