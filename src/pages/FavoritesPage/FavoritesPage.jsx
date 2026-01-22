@@ -12,9 +12,10 @@ const FavoritesPage = () => {
   useEffect(() => {
     const fetchFavorites = async () => {
       const token = localStorage.getItem('token');
+      if (!token) return;
       try {
         // Change this URL to your actual Spring Boot favorites endpoint
-        const response = await axios.get(`${BaseURL}api/services/favorites`, {
+        const response = await axios.get(`${BaseURL}api/users/favorites`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setFavorites(response.data);
