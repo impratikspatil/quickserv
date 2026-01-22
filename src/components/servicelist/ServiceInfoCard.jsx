@@ -15,10 +15,24 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import { VerifiedOutlined } from '@mui/icons-material';
 import { Box, Button, Skeleton, Fade, Chip } from "@mui/material";
+import { jwtDecode } from "jwt-decode";
 import './ServiceInfoCard.css';
 import Icon from '@mui/material/Icon';
 
+const getUserIdFromToken = (token) => {
+  if (!token) return null;
+  try {
+    const decoded = jwtDecode(token);
+    // Use 'sub' or 'userId' depending on what your Spring Boot backend puts in the JWT
+    return decoded.userId || decoded.sub; 
+  } catch (error) {
+    console.error("Invalid token:", error);
+    return null;
+  }
+};
+
 const ServiceCardInfo = ({
+  id,
   imageUrl,
   categoryIcon,
   serviceName,
@@ -45,16 +59,16 @@ const ServiceCardInfo = ({
     const userId = getUserIdFromToken(token); 
   
     try {
-      const response = await axios.post(
+      // Logic: If successfully toggled on backend, update UI
+      await axios.post(
         `${BaseURL}api/users/${userId}/favorites/toggle`, 
-        { serviceId: serviceIdProp }, // The ID of the current card
+        { serviceId: id }, // Use the 'id' from props
         { headers: { Authorization: `Bearer ${token}` } }
       );
       
-      // If successful, update the heart color
       setLiked(!liked);
     } catch (error) {
-      console.error("Error toggling favorite", error);
+      console.error("Error toggling favorite:", error.response?.data || error.message);
     }
   };
 
