@@ -20,8 +20,6 @@ import axios from 'axios';
 import BaseURL from '../../config';
 import './ServiceListPage.css';
 import { category_list } from '../../assets/assets';
-import axios from 'axios';
-import BaseURL from '../../config';
 
 const ServerInfoPage = () => {
 
