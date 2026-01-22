@@ -22,6 +22,7 @@ import SuccessCard from '../../components/shared/NotifyCard/SuccessCard/sucessca
 import WaitingCard from '../../components/shared/NotifyCard/WaitingCard/waitingcard';
 import WarningCard from '../../components/shared/NotifyCard/WarningCard/warningcard';
 import BaseURL from '../../config';
+import { category_list } from '../../assets/assets';
 
 const validationSchema = Yup.object().shape({
   serviceName: Yup.string().required('Service Name is required'),
@@ -42,9 +43,9 @@ const validationSchema = Yup.object().shape({
   description: Yup.string().required('Service Description is required'),
   tags: Yup.array().min(1, 'Service tags are required'),
   image: Yup.mixed()
-    .required('Image is required')
-    .test('fileSize', 'File too large', value => !value || (value && value.size <= 5 * 1024 * 1024)) // 5MB
-    .test('fileType', 'Unsupported File Format', value => !value || (value && ['image/jpeg', 'image/png'].includes(value.type))),
+    .nullable()
+    .test('fileSize', 'File too large. Maximum size is 2MB', value => !value || (value && value.size <= 2 * 1024 * 1024)) // 2MB
+    .test('fileType', 'Unsupported File Format. Only JPEG and PNG are allowed', value => !value || (value && ['image/jpeg', 'image/png', 'image/jpg'].includes(value.type))),
 
 });
 
@@ -60,6 +61,15 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
+// Map static categories to match API format (categoryName instead of category_name)
+const mapStaticCategories = () => {
+  return category_list.map((cat, index) => ({
+    categoryName: cat.category_name,
+    categoryId: `static_${index + 1}`, // Temporary ID for static categories
+    categoryIcon: cat.category_icon
+  }));
+};
+
 const PostService = () => {
   // const [rateType, setRateType] = useState('');
   // const [state, setState] = useState('');
@@ -68,7 +78,9 @@ const PostService = () => {
   // const [tags, setTags] = useState([]);
   const [serviceName, setServiceName] = useState('');
   // const [serviceCategory, setServiceCategory] = useState('');
-  const [serviceCategories, setServiceCategories] = useState([]);
+  
+  // Initialize with static categories
+  const [serviceCategories, setServiceCategories] = useState(mapStaticCategories());
   const [AllServicesData, setAllServicesData] = useState([]);
   const [errorCardVisibility, setErrorCardVisibility] = useState(false);
   const [successCardVisibility, setSuccessCardVisibility] = useState(false);
@@ -85,77 +97,87 @@ const PostService = () => {
 
 
 
-  const AddNewService = async (formData) => {
+  const AddNewService = async (serviceData, imageFile) => {
+    const token = localStorage.getItem('token');
 
     try {
-      const response = await axios.post(
-        BaseURL+'api/services/create',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
-      console.log("add new service response:", response.data);
+      // Create FormData to send multipart/form-data
+      const formData = new FormData();
 
-      setTimeout(() => {
-        setWaitingCardVisibility(false);
-        setSuccessCardMsg("Service Added Successfully");
-        setSuccessCardVisibility(true);
-      }, 2000);
-    } catch (err) {
+      // Append all text fields from serviceData
+      Object.keys(serviceData).forEach(key => {
+        formData.append(key, serviceData[key]);
+      });
+
+      // Append the actual physical file object if it exists
+      if (imageFile) {
+        formData.append('image', imageFile); // 'image' matches @RequestParam("image") in Java
+      }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          // IMPORTANT: Do NOT set 'Content-Type'. Axios/Browser handles it for FormData.
+        }
+      };
+
+      const response = await axios.post(
+        BaseURL + 'api/services/create',
+        formData,
+        config
+      );
+
+      setWaitingCardVisibility(false);
+      setSuccessCardMsg("Service Added Successfully");
+      setSuccessCardVisibility(true);
       
+    } catch (err) {
       console.error("Failed to add service:", err);
-    
-      setTimeout(() => {
-        setWaitingCardVisibility(false);
-        setErrorCardMsg("Failed to Add Service");
-        setErrorCardVisibility(true);
-      }, 2000);
+      setWaitingCardVisibility(false);
+      setErrorCardMsg(err.response?.data?.message || "Failed to Add Service");
+      setErrorCardVisibility(true);
     }
   };
 
-  const handleSubmit = (data) => {
+  const handleSubmit = async (data) => {
     setWaitingCardMsg("Adding Service Please Wait...");
     setWaitingCardVisibility(true);
-    const formData = new FormData();
 
-    let categoryId = serviceCategories.find((item) => item.categoryName == data.serviceCategory).categoryId
+    const selectedCategory = serviceCategories.find((item) => item.categoryName == data.serviceCategory);
+    let categoryId = selectedCategory?.categoryId;
+    
+    if (categoryId && typeof categoryId === 'string' && categoryId.startsWith('static_')) {
+      categoryId = parseInt(categoryId.replace('static_', '')) || 0;
+    }
+    categoryId = categoryId ? parseInt(categoryId) : 0;
 
     const maxServerId = AllServicesData.length > 0
       ? Math.max(...AllServicesData.map(service => service.serviceId))
       : 0;
-    const nextServiceId = maxServerId + 1;
 
-    formData.append("serviceId", nextServiceId);
-    formData.append("whatsappNumber", data.whatsappNumber);
-    formData.append("serviceName", data.serviceName);
-    formData.append("description", data.description);
-    formData.append("serviceCategory", data.serviceCategory);
-    formData.append("price", parseFloat(data.pricing));
-    formData.append("state", data.state);
-    formData.append("district", data.district);
-    formData.append("pincode", data.pincode);
-    formData.append("address", data.address);
-    formData.append("rateType", data.rateType);
-    formData.append("rating", "");
-    formData.append("location", "");
-    formData.append("categoryId", parseInt(categoryId));
-    formData.append("isVerified", false);
-    formData.append("rateCount", 0);
+    // This is the text-data object
+    const serviceData = {
+      serviceId: maxServerId + 1,
+      whatsappNumber: data.whatsappNumber,
+      serviceName: data.serviceName,
+      description: data.description,
+      serviceCategory: data.serviceCategory,
+      price: parseFloat(data.pricing),
+      state: data.state,
+      district: data.district,
+      pincode: data.pincode,
+      address: data.address,
+      rateType: data.rateType,
+      rating: 0,
+      location: data.address || "",
+      categoryId: categoryId,
+      isVerified: false,
+      rateCount: 0,
+      tags: data.tags.join(","),
+    };
 
-    // Add tags
-    data.tags.forEach(tag => {
-      formData.append("tags", tag);
-    });
-
-    // Add the image file
-    if (data.image) {
-      formData.append("image", data.image);
-    }
-
-    AddNewService(formData);
+    // Send the text data AND the raw file object
+    AddNewService(serviceData, data.image);
   };
 
   const handleAddChip = (event, values, setFieldValue) => {
@@ -278,14 +300,23 @@ const PostService = () => {
       }
     })
       .then(response => {
-
         let data = response.data
-        // console.log("response.date",data);
+        console.log("response.data of service categories", data);
 
-        setServiceCategories(data);
+        // Check if API returned data and it's not empty
+        if (data && Array.isArray(data) && data.length > 0) {
+          setServiceCategories(data);
+        } else {
+          // API returned empty array - use static categories
+          console.log('No categories from API, using static categories');
+          setServiceCategories(mapStaticCategories());
+        }
       })
       .catch(error => {
         console.error('Error fetching categories:', error);
+        // On error, use static categories as fallback
+        console.log('Using static categories as fallback');
+        setServiceCategories(mapStaticCategories());
       });
   }, []);
 
@@ -527,10 +558,10 @@ const PostService = () => {
                         transition: 'all 0.2s ease-in-out'
                       }}
                     >
-                      Upload Image
+                      Upload Image (Optional)
                       <VisuallyHiddenInput
                         type="file"   
-                        accept="image/*"
+                        accept="image/jpeg,image/jpg,image/png"
                         onChange={(event) => { 
                           setFieldValue('image', event.currentTarget.files[0]);
                         }}

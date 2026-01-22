@@ -25,14 +25,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/service"
-              element={
-                <ProtectedRoute isAuthenticated={user !== null}>
-                  <ServerInfoPage />
-                </ProtectedRoute>
-              }
-          />
-          {/* <Route path="/service" element={<ServerInfoPage />} /> */}
+          <Route path="/service" element={<ServerInfoPage />} />
           <Route path="/service_details" element={<ServiceDetailPage />} />
           <Route path="/post_service" element={<PostService />} />
           <Route path="/login" element={<Login />} />
