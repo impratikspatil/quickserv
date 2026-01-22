@@ -325,3 +325,11 @@
   background-color: #e2e8f0;
   transform: scale(1.02);
 }
+
+.service-list-content {
+  margin-top: 90px; /* Adjust to match your Navbar height */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

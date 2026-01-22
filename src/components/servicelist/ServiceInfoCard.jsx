@@ -58,20 +58,22 @@ const ServiceCardInfo = ({
 
   const handleLikeToggle = async () => {
     const token = localStorage.getItem('token');
-    // You'll need to get the logged-in user's ID, likely from the decoded JWT token
-    const userId = getUserIdFromToken(token); 
+    if (!token) {
+      alert("Please login to favorite services");
+      return;
+    }
   
     try {
-      // Logic: If successfully toggled on backend, update UI
-      await axios.post(
-        `${BaseURL}api/users/${userId}/favorites/toggle`, 
-        { serviceId: id }, // Use the 'id' from props
+      // Simplified URL: no userId needed in path!
+      const response = await axios.post(
+        `${BaseURL}api/users/favorites/toggle`, 
+        { serviceId: id }, // 'id' from props
         { headers: { Authorization: `Bearer ${token}` } }
       );
       
       setLiked(!liked);
     } catch (error) {
-      console.error("Error toggling favorite:", error.response?.data || error.message);
+      console.error("Error toggling favorite:", error);
     }
   };
 
