@@ -18,7 +18,8 @@ import { Box, Button, Skeleton, Fade, Chip } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
 import './ServiceInfoCard.css';
 import Icon from '@mui/material/Icon';
-
+import axios from 'axios';
+import BaseURL from '../../config';
 const getUserIdFromToken = (token) => {
   if (!token) return null;
   try {
