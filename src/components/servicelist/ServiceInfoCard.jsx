@@ -46,11 +46,17 @@ const ServiceCardInfo = ({
   isVerified = true,
   rateType,
   charges,
-  tags = []
+  tags = [],
+  initialLiked = false
 }) => {
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(initialLiked);
   const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
+    setLiked(initialLiked);
+  }, [initialLiked]);
+
+  
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 1000);
     return () => clearTimeout(timer);
