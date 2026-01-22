@@ -275,6 +275,7 @@ const ServerInfoPage = () => {
                   
                     return (
                       <ServiceCard
+                        id={service.serviceId || service.id}
                         key={service.serviceId || service.id}
                         serviceName={service.serviceName || service.servicename}
                         rating={service.rating || 0}
