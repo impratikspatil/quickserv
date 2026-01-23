@@ -43,7 +43,7 @@ const FavoritesPage = () => {
             <CircularProgress />
           </Box>
         ) : favorites.length > 0 ? (
-          <List sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: 3 }}>
+          <List sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(600px, 1fr))', gap: 3 }}>
             {favorites.map((service) => (
               <ServiceCard
                 key={service.serviceId} // Use serviceId from backend
