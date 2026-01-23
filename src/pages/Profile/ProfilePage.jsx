@@ -20,9 +20,20 @@ const ProfilePage = () => {
       const response = await axios.get(`${BaseURL}api/users/me`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setUser(response.data);
-    } catch (err) { console.error(err); }
-    finally { setLoading(false); }
+      console.log("Backend Response:", response.data);
+      // Fallbacks ensure the inputs stay controlled (never undefined)
+      setUser({
+        name: response.data.name || '',
+        emailId: response.data.emailId || '',
+        contactNumber: response.data.contactNumber || '',
+        location: response.data.location || '',
+        profileImage: response.data.profileImage || ''
+      });
+    } catch (err) { 
+      console.error("Fetch error:", err); 
+    } finally { 
+      setLoading(false); 
+    }
   };
 
   const handleImageChange = (e) => {
@@ -45,24 +56,27 @@ const ProfilePage = () => {
       location: user.location,
       profileImage: user.profileImage,
       emailId: user.emailId,
-      contactNumber: user.contactNumber ? parseInt(user.contactNumber, 10) : null,
+      // Sending as string to avoid Long/Integer overflow issues in Spring Boot
+      contactNumber: user.contactNumber ? String(user.contactNumber).replace(/\D/g, '') : null,
     };
   
     try {
-      await axios.put(`${BaseURL}api/users/update`, payload, {
+      const response = await axios.put(`${BaseURL}api/users/update`, payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      // Update local state with fresh data from the server response
+      setUser(response.data);
       alert("Profile updated successfully!");
     } catch (err) {
       console.error("Error Detail:", err.response?.data);
-      alert("Update failed: " + (err.response?.data?.message || "Check console"));
+      alert("Update failed: " + (err.response?.data || "Check console"));
     } finally {
       setUpdating(false);
     }
   };
 
   if (loading) return <Box sx={{ display: 'flex', justifyContent: 'center', mt: 10 }}><CircularProgress /></Box>;
-
+  
   return (
     <Box sx={{ bgcolor: '#f5f5f5', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Navbar userName={user.name} />
@@ -90,7 +104,9 @@ const ProfilePage = () => {
             <Avatar 
               src={user.profileImage} 
               sx={{ width: 130, height: 130, border: '5px solid #fff', boxShadow: '0px 4px 15px rgba(0,0,0,0.1)' }} 
-            />
+            >
+              {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+            </Avatar>
             <input accept="image/*" id="icon-button-file" type="file" style={{ display: 'none' }} onChange={handleImageChange} />
             <label htmlFor="icon-button-file">
               <IconButton 
@@ -108,12 +124,23 @@ const ProfilePage = () => {
           </Box>
 
           <Grid container spacing={2.5}>
+          <Grid item xs={12}>
+              <TextField 
+                fullWidth label="Email Address" 
+                value={user.emailId} 
+                disabled 
+                variant="outlined"
+                InputLabelProps={{ shrink: true }}
+                sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, bgcolor: '#fafafa' } }}
+              />
+            </Grid>
             <Grid item xs={12}>
               <TextField 
                 fullWidth label="Full Name" name="name" 
                 value={user.name} 
                 onChange={(e) => setUser({...user, name: e.target.value})} 
                 variant="outlined"
+                InputLabelProps={{ shrink: true }}
                 sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
               />
             </Grid>
@@ -121,6 +148,7 @@ const ProfilePage = () => {
               <TextField 
                 fullWidth label="Contact Number" name="contactNumber" 
                 value={user.contactNumber} 
+                InputLabelProps={{ shrink: true }}
                 onChange={(e) => setUser({...user, contactNumber: e.target.value})}
                 sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
               />
@@ -129,6 +157,7 @@ const ProfilePage = () => {
               <TextField 
                 fullWidth label="Location" name="location" 
                 value={user.location} 
+                InputLabelProps={{ shrink: true }}
                 onChange={(e) => setUser({...user, location: e.target.value})}
                 sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
               />
