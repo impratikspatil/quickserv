@@ -160,28 +160,29 @@ const Navbar = ({ isLogin = false, userName = 'Pratik Patil' }) => {
           <Button className='navbar-buttons' onClick={() => navigateTo('category')}>Find Service</Button>
           <Button className='navbar-buttons' onClick={handlePostService}>Post Service</Button>
           {localStorage.getItem('token') ? (
-          <img
-            src={profile} 
-            className='circular-image'
-            onClick={toggleDrawer(true)}
-            alt='Profile'
-            /* Maintain specific size here if CSS isn't loading */
-            style={{ 
-              width: '40px', 
-              height: '40px', 
-              cursor: 'pointer', 
-              border: '2px solid #2563eb',
-              borderRadius: '50%',
-              objectFit: 'cover' 
-            }}
-          />
-        ) : (
-          <PersonIcon 
-            className='profile-icon' 
-            onClick={() => navigate('/login')} 
-            sx={{ fontSize: 32, cursor: 'pointer' }} // Adjust Icon size to match
-          />
-        )}
+            <img
+              src={profile} 
+              className='circular-image'
+              onClick={toggleDrawer(true)}
+              alt='Profile'
+              style={{ 
+                width: '40px', 
+                height: '40px', 
+                cursor: 'pointer', 
+                border: '2px solid #ffb703',
+                borderRadius: '50%',
+                objectFit: 'cover' 
+              }}
+            />
+          ) : (
+            <Button 
+              variant="outlined" // Use "outlined" to distinguish it from "Post Service"
+              onClick={() => navigate('/login')}
+              className='navbar-buttons'
+            >
+              Login
+            </Button>
+          )}
         </Box>
       </div>
       <Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer(false)}>
