@@ -47,7 +47,9 @@ const Login = () => {
 
         login(token); 
         toast.success("Login successful!");
-        navigate("/");
+        
+        // Reload to update navbar with user details
+        window.location.href = '/';
     
       } catch (error) {
         console.error("Login error:", error);

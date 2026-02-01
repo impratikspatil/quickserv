@@ -5,6 +5,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 
 const GlobalSearchFilter = ({
+    onSearchChange,
+    searchValue = '',
     globalSearchData = [
         { title: 'Pratik Washing Service', year: 2023 },
         { title: 'The Gourmet Kitchen', year: 2022 },
@@ -23,8 +25,15 @@ const GlobalSearchFilter = ({
         <Autocomplete
             size='small'
             sx={{ width: 300, alignSelf: 'center' }}
-            id="free-solo-demo"
+            id="global-search-filter"
             freeSolo
+            value={searchValue}
+            onChange={(event, newValue) => {
+                onSearchChange(newValue || '');
+            }}
+            onInputChange={(event, newInputValue) => {
+                onSearchChange(newInputValue || '');
+            }}
             options={globalSearchData.map((option) => option.title)}
             renderInput={(params) => (
                 <TextField
@@ -40,7 +49,6 @@ const GlobalSearchFilter = ({
                     }}
                 />
             )}
-            disableClearable // Optional: To hide the clear button
         />
     );
 }

@@ -7,19 +7,20 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import "./AboutService.css";
 
 const AboutService = ({
-  summary = "Fitness center specializing in personalized training, weight loss consulting, and diverse workout programs.",
+  description,
+  summary = description || "Specialized service provider offering quality solutions for your needs.",
   yoe = "2020",
-  timings = "6:00 AM - 10:00 PM",
-  location = "Near Kaka Halwai, Near Abhinav Kala, Sadashiv Peth, Pune",
+  timings = "8:00 AM - 7:00 PM",
+  location = "Pune, Maharashtra",
   features = [
-    "Personal Training Programs",
-    "State-of-the-art Equipment",
-    "Certified Trainers",
-    "Nutrition Consultation",
-    "Locker Facility",
-    "Shower Facility",
-    "Flexible Timing",
-    "Diet Plans"
+    "Professional Service",
+    "Experienced Team",
+    "Quality Guaranteed",
+    "Affordable Pricing",
+    "Customer Support",
+    "Flexible Scheduling",
+    "Reliable & Trustworthy",
+    "Quick Response Time"
   ]
 }) => {
   return (

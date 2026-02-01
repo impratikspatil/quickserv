@@ -3,6 +3,7 @@
   margin: 20px auto;
   padding: 20px;
   max-width: 1200px;
+  padding-top: 80px; /* Account for navbar */
 }
 
 .service_header {
@@ -26,6 +27,23 @@
   align-items: center;
   justify-content: center;
   gap: 5px;
+}
+
+.service_rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-top: 10px;
+}
+
+.rating_count {
+  color: #666;
+  font-weight: 400;
+  font-size: 1rem;
 }
 
 .service_images {
@@ -57,6 +75,12 @@
 .service_sidebar {
   flex: 1;
   min-width: 300px; /* Minimum width for contact card */
+  position: sticky;
+  top: 100px; /* Distance from top when sticky */
+  align-self: flex-start; /* Prevents stretching */
+  height: fit-content; /* Only as tall as content */
+  max-height: calc(100vh - 120px); /* Max height to prevent overflow */
+  overflow-y: auto; /* Allow scrolling if content is too tall */
 }
 
 .tab_container {
@@ -91,6 +115,9 @@
 
   .service_sidebar {
     min-width: 100%;
+    position: relative; /* Disable sticky on mobile */
+    top: auto;
+    max-height: none;
   }
 }
 

@@ -15,17 +15,31 @@ import {
   BookmarkBorder as SavedIcon, 
   History as PostedIcon, 
   PrivacyTipOutlined as PrivacyIcon, 
-  LogoutOutlined as LogoutIcon 
+  LogoutOutlined as LogoutIcon,
+  EventNote as BookingsIcon 
 } from '@mui/icons-material';
+import { useAuth } from '../AuthContext';
+import BaseURL from '../../../config';
 
-const Navbar = ({ isLogin = false, userName = 'Pratik Patil' }) => {
+const Navbar = ({ isLogin = false }) => {
   const navigate = useNavigate();
+  const { user, userDetails, logout } = useAuth();
   const [showWaitingCard, setShowWaitingCard] = useState(false);
   const [showSuccessCard, setShowSuccessCard] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showOtp, setShowOtp] = useState(false);
   const [mobile, setMobile] = useState("");
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+
+  // Get user name from userDetails or use default
+  const userName = userDetails?.name || 'User';
+  
+  // Get profile image from userDetails or use default
+  const profileImage = userDetails?.profileImage 
+    ? (userDetails.profileImage.startsWith('http') 
+        ? userDetails.profileImage 
+        : `${BaseURL}${userDetails.profileImage}`)
+    : profile;
 
   const navigateTo = (section) => {
     navigate(`/?section=${section}`);
@@ -69,7 +83,7 @@ const Navbar = ({ isLogin = false, userName = 'Pratik Patil' }) => {
     }}
   >
     <Avatar
-      src={profile}
+      src={profileImage}
       sx={{ 
         width: 90, 
         height: 90, 
@@ -80,6 +94,9 @@ const Navbar = ({ isLogin = false, userName = 'Pratik Patil' }) => {
     />
     <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: '-0.5px' }}>
       {userName}
+    </Typography>
+    <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.85rem' }}>
+      {userDetails?.emailId || ''}
     </Typography>
     <Button 
       size="small" 
@@ -97,6 +114,7 @@ const Navbar = ({ isLogin = false, userName = 'Pratik Patil' }) => {
   
       <List sx={{ p: 1 }}>
         {[
+          { text: 'My Bookings', icon: <BookingsIcon /> },
           { text: 'Favorites', icon: <FavoriteIcon /> },
           { text: 'Posted by you', icon: <PostedIcon /> },
           { text: 'Privacy Policy', icon: <PrivacyIcon /> },
@@ -126,9 +144,9 @@ const Navbar = ({ isLogin = false, userName = 'Pratik Patil' }) => {
   );
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // This is the most important line
-    navigate('/'); // Send them to landing page
-    window.location.reload(); // Refresh to update the Navbar immediately
+    logout();
+    navigate('/');
+    window.location.reload();
   };
 
   const handleDrawerItemClick = (text) => {
@@ -139,6 +157,8 @@ const Navbar = ({ isLogin = false, userName = 'Pratik Patil' }) => {
       handleLogout(); // Calls your logout function
     } else if (text === 'Favorites') {
       navigate('/favorites');
+    } else if (text === 'My Bookings') {
+      navigate('/bookings');
     } else if (text === 'Posted by you') {
       navigate('/my-services');
     }
@@ -159,9 +179,9 @@ const Navbar = ({ isLogin = false, userName = 'Pratik Patil' }) => {
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 ,marginRight:'2rem'}}>
           <Button className='navbar-buttons' onClick={() => navigateTo('category')}>Find Service</Button>
           <Button className='navbar-buttons' onClick={handlePostService}>Post Service</Button>
-          {localStorage.getItem('token') ? (
+          {user ? (
             <img
-              src={profile} 
+              src={profileImage} 
               className='circular-image'
               onClick={toggleDrawer(true)}
               alt='Profile'
