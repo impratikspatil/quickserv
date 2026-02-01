@@ -20,11 +20,13 @@ import axios from 'axios';
 import BaseURL from '../../config';
 import './ServiceListPage.css';
 import { category_list } from '../../assets/assets';
+import { useAuth } from '../../components/shared/AuthContext';
 
 const ServerInfoPage = () => {
 
   const location = useLocation();
   const { service_category } = location.state || {};
+  const { userDetails } = useAuth();
   console.log("service_category",service_category);
   
   
@@ -160,6 +162,11 @@ const ServerInfoPage = () => {
   const [categories, setCategories] = useState(category_list);
   const [serviceInfoData, setServiceInfoData] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  // Filter states
+  const [searchQuery, setSearchQuery] = useState('');
+  const [locationFilter, setLocationFilter] = useState('');
+  const [verifiedOnly, setVerifiedOnly] = useState(false);
 
   const getCategoryIcon = (categoryName) => {
     const category = category_list.find(cat => cat.category_name === categoryName);
@@ -169,6 +176,18 @@ const ServerInfoPage = () => {
   const handleSortByFilterChange = (event) => {
     setSortBy(event.target.value);
     console.log('Selected sort option:', event.target.value);
+  };
+
+  const handleSearchChange = (value) => {
+    setSearchQuery(value);
+  };
+
+  const handleLocationChange = (value) => {
+    setLocationFilter(value);
+  };
+
+  const handleVerifiedToggle = () => {
+    setVerifiedOnly(!verifiedOnly);
   };
 
   useEffect(() => {
@@ -232,16 +251,30 @@ const ServerInfoPage = () => {
 
           <div className="services-section">
             <div className="filters-header">
-              <GlobalSearchFilter />
-              <LocationFilter />
+              <GlobalSearchFilter 
+                onSearchChange={handleSearchChange}
+                searchValue={searchQuery}
+              />
+              <LocationFilter 
+                onLocationChange={handleLocationChange}
+                locationValue={locationFilter}
+              />
               <SortByFilter 
                 sortByValue={SortBy} 
                 handleChange={handleSortByFilterChange}
               />
               <Button 
                 startIcon={<VerifiedOutlined />} 
-                variant="outlined" 
+                variant={verifiedOnly ? "contained" : "outlined"}
                 className="verified-button"
+                onClick={handleVerifiedToggle}
+                sx={{
+                  backgroundColor: verifiedOnly ? '#028b06' : 'transparent',
+                  color: verifiedOnly ? 'white' : '#028b06',
+                  '&:hover': {
+                    backgroundColor: verifiedOnly ? '#027505' : 'rgba(2, 139, 6, 0.04)'
+                  }
+                }}
               >
                 Verified
               </Button>
@@ -254,14 +287,59 @@ const ServerInfoPage = () => {
             ) : serviceInfoData.length > 0 ? (
               <List className="services-list">
                 {serviceInfoData
+                  // Filter by category
                   .filter(service => {
-                    // Filter by category if service_category is provided
                     if (!service_category) return true;
-                    // Check if service matches the selected category
-                    // API services might have serviceCategory field, hardcoded might not
                     return service.serviceCategory === service_category || 
                            service.category === service_category ||
-                           !service.serviceCategory; // Show all if no category filter matches
+                           !service.serviceCategory;
+                  })
+                  // Filter by search query (service name or description)
+                  .filter(service => {
+                    if (!searchQuery) return true;
+                    const query = searchQuery.toLowerCase();
+                    const serviceName = (service.serviceName || service.servicename || '').toLowerCase();
+                    const description = (service.description || '').toLowerCase();
+                    return serviceName.includes(query) || description.includes(query);
+                  })
+                  // Filter by location
+                  .filter(service => {
+                    if (!locationFilter) return true;
+                    const location = (service.address || service.location || '').toLowerCase();
+                    return location.includes(locationFilter.toLowerCase());
+                  })
+                  // Filter by verified status
+                  .filter(service => {
+                    if (!verifiedOnly) return true;
+                    return service.isVerified === true;
+                  })
+                  // Sort services
+                  .sort((a, b) => {
+                    if (!SortBy) return 0;
+                    
+                    switch(SortBy) {
+                      case 'ratings':
+                        // Sort by rating (highest first)
+                        const ratingA = parseFloat(a.rating) || 0;
+                        const ratingB = parseFloat(b.rating) || 0;
+                        return ratingB - ratingA;
+                      
+                      case 'popularity':
+                        // Sort by rating count (most popular first)
+                        const countA = a.ratingCount || a.rateCount || 0;
+                        const countB = b.ratingCount || b.rateCount || 0;
+                        return countB - countA;
+                      
+                      case 'distance':
+                        // For now, sort alphabetically by location
+                        // In a real app, you'd calculate actual distance based on user's location
+                        const locA = (a.address || a.location || '').toLowerCase();
+                        const locB = (b.address || b.location || '').toLowerCase();
+                        return locA.localeCompare(locB);
+                      
+                      default:
+                        return 0;
+                    }
                   })
                   .map((service) => {
                     // NEW: Logic to handle fallback icons
@@ -292,6 +370,9 @@ const ServerInfoPage = () => {
                         tags={service.tags || []}
                         isVerified={service.isVerified || false}
                         rateCount={service.rateCount || 0}
+                        
+                        // Check if this service is in user's favorites
+                        initialLiked={userDetails?.favoriteServiceIds?.includes(String(service.serviceId || service.id)) || false}
                       />
                     );
                   }
