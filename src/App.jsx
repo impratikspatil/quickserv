@@ -16,6 +16,8 @@ import ProtectedRoute from './components/shared/ProtectedRoute';
 import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import BookingsPage from './pages/BookingsPage/BookingsPage';
+import MyServicesPage from './pages/MyServicesPage/MyServicesPage';
+import ProviderBookingsPage from './pages/ProviderBookingsPage/ProviderBookingsPage';
 
 
 
@@ -37,6 +39,8 @@ function App() {
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/profile" element={<ProfilePage   />} />
           <Route path="/bookings" element={<BookingsPage />} />
+          <Route path="/my-services" element={<MyServicesPage />} />
+          <Route path="/provider-bookings" element={<ProviderBookingsPage />} />
         </Routes>
         <ToastContainer />  
       </Router>
