@@ -11,6 +11,7 @@ import {
   MenuItem,
   Box,
   Chip,
+  CircularProgress,
 } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
@@ -23,6 +24,7 @@ import WaitingCard from '../../components/shared/NotifyCard/WaitingCard/waitingc
 import WarningCard from '../../components/shared/NotifyCard/WarningCard/warningcard';
 import BaseURL from '../../config';
 import { category_list } from '../../assets/assets';
+import statesDistrictsData from '../../data/indiaStatesDistricts.json';
 
 const validationSchema = Yup.object().shape({
   serviceName: Yup.string().required('Service Name is required'),
@@ -93,6 +95,26 @@ const PostService = () => {
   const maxServiceNames = 10;
 
   const token = localStorage.getItem('token');
+  
+  // Geolocation states
+  const [detectingLocation, setDetectingLocation] = useState(false);
+  const [locationData, setLocationData] = useState({ latitude: null, longitude: null, city: null });
+
+  // Get states and districts from JSON
+  const states = Object.keys(statesDistrictsData);
+  const [districts, setDistricts] = useState([]);
+
+  // Update districts when state changes
+  const handleStateChange = (stateName, setFieldValue) => {
+    setFieldValue('state', stateName);
+    setFieldValue('district', ''); // Reset district when state changes
+    
+    if (stateName) {
+      setDistricts(statesDistrictsData[stateName] || []);
+    } else {
+      setDistricts([]);
+    }
+  };
 
 
 
@@ -174,10 +196,52 @@ const PostService = () => {
       isVerified: false,
       rateCount: 0,
       tags: data.tags.join(","),
+      // Include geolocation data if available
+      latitude: locationData.latitude,
+      longitude: locationData.longitude,
+      city: locationData.city || data.district
     };
 
     // Send the text data AND the raw file object
     AddNewService(serviceData, data.image);
+  };
+
+  // Detect user's current location
+  const handleDetectLocation = () => {
+    if (!navigator.geolocation) {
+      setWarningCardMsg('Geolocation is not supported by your browser');
+      setWarningCardVisibility(true);
+      setTimeout(() => setWarningCardVisibility(false), 3000);
+      return;
+    }
+
+    setDetectingLocation(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        
+        // Try to get city name using reverse geocoding (optional)
+        try {
+          // For now, just store coordinates
+          setLocationData({ latitude, longitude, city: null });
+          setSuccessCardMsg('Location detected! Coordinates will be saved with your service.');
+          setSuccessCardVisibility(true);
+          setTimeout(() => setSuccessCardVisibility(false), 3000);
+        } catch (error) {
+          console.error('Error with geocoding:', error);
+          setLocationData({ latitude, longitude, city: null });
+        } finally {
+          setDetectingLocation(false);
+        }
+      },
+      (error) => {
+        console.error('Error getting location:', error);
+        setWarningCardMsg('Could not get your location. Please enable location access.');
+        setWarningCardVisibility(true);
+        setTimeout(() => setWarningCardVisibility(false), 3000);
+        setDetectingLocation(false);
+      }
+    );
   };
 
   const handleAddChip = (event, values, setFieldValue) => {
@@ -200,98 +264,6 @@ const PostService = () => {
     const updatedTags = values.tags.filter(tag => tag !== chipToDelete);
     setFieldValue('tags', updatedTags);
   };
-
-
-  const states = [
-    "Andhra Pradesh",
-    "Arunachal Pradesh",
-    "Assam",
-    "Bihar",
-    "Chhattisgarh",
-    "Goa",
-    "Gujarat",
-    "Haryana",
-    "Himachal Pradesh",
-    "Jammu and Kashmir",
-    "Jharkhand",
-    "Karnataka",
-    "Kerala",
-    "Ladakh",
-    "Lakshadweep",
-    "Madhya Pradesh",
-    "Maharashtra",
-    "Manipur",
-    "Meghalaya",
-    "Mizoram",
-    "Nagaland",
-    "Odisha",
-    "Punjab",
-    "Rajasthan",
-    "Sikkim",
-    "Tamil Nadu",
-    "Telangana",
-    "Tripura",
-    "Uttar Pradesh",
-    "Uttarakhand",
-    "West Bengal",
-    "Chandigarh", // Union Territory
-    "Dadra and Nagar Haveli and Daman and Diu", // Union Territory
-    "Delhi", // National Capital Territory
-    "Puducherry", // Union Territory
-    "Andaman and Nicobar Islands", // Union Territory
-  ];
-
-  const StateDistrictMapping = {
-    "Maharashtra": [
-      "Ahmednagar",
-      "Akola",
-      "Amravati",
-      "Aurangabad",
-      "Beed",
-      "Bhandara",
-      "Buldhana",
-      "Chandrapur",
-      "Dhule",
-      "Gadchiroli",
-      "Gondia",
-      "Hingoli",
-      "Jalgaon",
-      "Jalna",
-      "Kolhapur",
-      "Latur",
-      "Mumbai City",
-      "Mumbai Suburban",
-      "Nagpur",
-      "Nanded",
-      "Nandurbar",
-      "Nashik",
-      "Osmanabad",
-      "Palghar",
-      "Parbhani",
-      "Pune",
-      "Raigad",
-      "Ratnagiri",
-      "Sangli",
-      "Satara",
-      "Sindhudurg",
-      "Solapur",
-      "Thane",
-      "Wardha",
-      "Washim",
-      "Yavatmal"
-    ]
-  };
-
-  const Pincode = [
-    "400001",
-    "400002",
-    "400003",
-    "400004",
-    "400005",
-    "400006",
-    "400007",
-
-  ];
 
   useEffect(() => {
     axios.get(BaseURL+'api/category',{
@@ -436,13 +408,12 @@ const PostService = () => {
                       as={Select}
                       label="State"
                       onChange={(e) => {
-                        handleChange(e);
-                        setFieldValue('district', ''); // reset district when state changes
+                        handleStateChange(e.target.value, setFieldValue);
                       }}
                       error={touched.state && Boolean(errors.state)}
                     >
-                      {states.map((name) => (
-                        <MenuItem key={name} value={name}>{name}</MenuItem>
+                      {states.map((stateName) => (
+                        <MenuItem key={stateName} value={stateName}>{stateName}</MenuItem>
                       ))}
                     </Field>
                     <ErrorMessage name="state" component="div" className="error-message warning-msg" />
@@ -455,9 +426,10 @@ const PostService = () => {
                       as={Select}
                       label="District"
                       error={touched.district && Boolean(errors.district)}
+                      disabled={!values.state || districts.length === 0}
                     >
-                      {(StateDistrictMapping[values.state] || []).map((name) => (
-                        <MenuItem key={name} value={name}>{name}</MenuItem>
+                      {districts.map((districtName) => (
+                        <MenuItem key={districtName} value={districtName}>{districtName}</MenuItem>
                       ))}
                     </Field>
                     <ErrorMessage name="district" component="div" className="error-message warning-msg" />
@@ -514,6 +486,35 @@ const PostService = () => {
                     helperText={touched.description && errors.description}
                   />
                 </div>
+
+                {/* Location Detection Button */}
+                <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Button
+                    variant="outlined"
+                    onClick={handleDetectLocation}
+                    disabled={detectingLocation}
+                    startIcon={detectingLocation ? <CircularProgress size={16} /> : null}
+                    sx={{
+                      textTransform: 'none',
+                      color: '#ff9800',
+                      borderColor: '#ff9800',
+                      '&:hover': {
+                        borderColor: '#f57c00',
+                        backgroundColor: 'rgba(255, 152, 0, 0.04)'
+                      }
+                    }}
+                  >
+                    {detectingLocation ? 'Detecting...' : 'Detect My Location (for Near Me feature)'}
+                  </Button>
+                  {locationData.latitude && (
+                    <Chip 
+                      label="✓ Location detected" 
+                      color="success" 
+                      size="small"
+                      sx={{ fontWeight: 500 }}
+                    />
+                  )}
+                </Box>
 
                 <div className='form-row'>
                   <TextField

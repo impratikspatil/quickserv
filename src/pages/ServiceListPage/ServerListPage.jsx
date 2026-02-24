@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import List from '@mui/material/List';
 import theme from '../../theme/theme';
 import { ThemeProvider } from '@mui/material/styles';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Chip, CircularProgress } from '@mui/material';
 import GlobalSearchFilter from '../../components/shared/filters/GlobalSearchFilter';
 import LocationFilter from '../../components/shared/filters/LocationFilter';
 import washingImg from '../../assets/images/washing.jpg';
 import SortByFilter from '../../components/shared/filters/SortByFilter';
-import { VerifiedOutlined } from '@mui/icons-material';
+import { VerifiedOutlined, MyLocation as MyLocationIcon } from '@mui/icons-material';
 import Divider from '@mui/material/Divider';
 import Navbar from '../../components/shared/Navbar/Navbar';
 import ServiceCard from '../../components/servicelist/ServiceInfoCard'
@@ -21,6 +21,7 @@ import BaseURL from '../../config';
 import './ServiceListPage.css';
 import { category_list } from '../../assets/assets';
 import { useAuth } from '../../components/shared/AuthContext';
+import { toast } from 'react-toastify';
 
 const ServerInfoPage = () => {
 
@@ -167,6 +168,12 @@ const ServerInfoPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [locationFilter, setLocationFilter] = useState('');
   const [verifiedOnly, setVerifiedOnly] = useState(false);
+  
+  // Location-based states
+  const [userLocation, setUserLocation] = useState(null);
+  const [nearMeActive, setNearMeActive] = useState(false);
+  const [loadingLocation, setLoadingLocation] = useState(false);
+  const [radiusKm, setRadiusKm] = useState(10); // Default 10km radius
 
   const getCategoryIcon = (categoryName) => {
     const category = category_list.find(cat => cat.category_name === categoryName);
@@ -188,6 +195,66 @@ const ServerInfoPage = () => {
 
   const handleVerifiedToggle = () => {
     setVerifiedOnly(!verifiedOnly);
+  };
+
+  // Get user's current location and fetch nearby services
+  const handleNearMe = () => {
+    if (!navigator.geolocation) {
+      toast.error('Geolocation is not supported by your browser');
+      return;
+    }
+
+    setLoadingLocation(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLocation({ latitude, longitude });
+        setNearMeActive(true);
+        
+        // Fetch nearby services
+        const token = localStorage.getItem('token');
+        try {
+          const response = await axios.get(
+            `${BaseURL}api/services/search/nearby?latitude=${latitude}&longitude=${longitude}&radiusKm=${radiusKm}`,
+            {
+              headers: { Authorization: `Bearer ${token}` }
+            }
+          );
+          setServiceInfoData(response.data);
+          toast.success(`Found ${response.data.length} services within ${radiusKm}km`);
+        } catch (error) {
+          console.error('Error fetching nearby services:', error);
+          toast.error('Failed to load nearby services');
+        } finally {
+          setLoadingLocation(false);
+        }
+      },
+      (error) => {
+        console.error('Error getting location:', error);
+        toast.error('Could not get your location. Please enable location access.');
+        setLoadingLocation(false);
+      }
+    );
+  };
+
+  // Clear "Near Me" filter
+  const handleClearNearMe = () => {
+    setNearMeActive(false);
+    setUserLocation(null);
+    // Reload all services
+    const token = localStorage.getItem('token');
+    if (token) {
+      axios.get(BaseURL+'api/services',{
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(response => {
+        setServiceInfoData(response.data || []);
+        toast.info('Showing all services');
+      })
+      .catch(error => {
+        console.error('Error fetching services:', error);
+      });
+    }
   };
 
   useEffect(() => {
@@ -263,6 +330,46 @@ const ServerInfoPage = () => {
                 sortByValue={SortBy} 
                 handleChange={handleSortByFilterChange}
               />
+              
+              {/* Near Me Button */}
+              {!nearMeActive ? (
+                <Button 
+                  startIcon={loadingLocation ? <CircularProgress size={18} /> : <MyLocationIcon />} 
+                  variant="outlined"
+                  className="near-me-button"
+                  onClick={handleNearMe}
+                  disabled={loadingLocation}
+                  sx={{
+                    color: '#ff9800',
+                    borderColor: '#ff9800',
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    fontSize: '0.875rem',
+                    '&:hover': {
+                      borderColor: '#f57c00',
+                      backgroundColor: 'rgba(255, 152, 0, 0.04)'
+                    }
+                  }}
+                >
+                  {loadingLocation ? 'Finding...' : 'Near Me'}
+                </Button>
+              ) : (
+                <Chip
+                  icon={<MyLocationIcon />}
+                  label={`Within ${radiusKm}km`}
+                  onDelete={handleClearNearMe}
+                  sx={{
+                    bgcolor: '#ff9800',
+                    color: 'white',
+                    fontWeight: 600,
+                    fontSize: '0.875rem',
+                    '& .MuiChip-deleteIcon': {
+                      color: 'white'
+                    }
+                  }}
+                />
+              )}
+              
               <Button 
                 startIcon={<VerifiedOutlined />} 
                 variant={verifiedOnly ? "contained" : "outlined"}

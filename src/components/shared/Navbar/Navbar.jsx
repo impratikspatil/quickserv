@@ -16,7 +16,8 @@ import {
   History as PostedIcon, 
   PrivacyTipOutlined as PrivacyIcon, 
   LogoutOutlined as LogoutIcon,
-  EventNote as BookingsIcon 
+  EventNote as BookingsIcon,
+  Assignment as RequestsIcon
 } from '@mui/icons-material';
 import { useAuth } from '../AuthContext';
 import BaseURL from '../../../config';
@@ -115,6 +116,7 @@ const Navbar = ({ isLogin = false }) => {
       <List sx={{ p: 1 }}>
         {[
           { text: 'My Bookings', icon: <BookingsIcon /> },
+          { text: 'Booking Requests', icon: <RequestsIcon /> },
           { text: 'Favorites', icon: <FavoriteIcon /> },
           { text: 'Posted by you', icon: <PostedIcon /> },
           { text: 'Privacy Policy', icon: <PrivacyIcon /> },
@@ -159,6 +161,8 @@ const Navbar = ({ isLogin = false }) => {
       navigate('/favorites');
     } else if (text === 'My Bookings') {
       navigate('/bookings');
+    } else if (text === 'Booking Requests') {
+      navigate('/provider-bookings');
     } else if (text === 'Posted by you') {
       navigate('/my-services');
     }
