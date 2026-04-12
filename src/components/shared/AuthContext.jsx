@@ -16,8 +16,10 @@ export const AuthProvider = ({ children }) => {
     if (navigate) navigate("/login"); // only if passed
   };
 
+  const isAuthenticated = !!user;
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

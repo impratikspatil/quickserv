@@ -29,7 +29,7 @@ import { useAuth } from "../../components/shared/AuthContext";
 import "./Login.css";
 import logo from "../../assets/images/quickserv_logo.png"
 import wave from '../../assets/images/wave.svg';
-
+import { GoogleLogin } from '@react-oauth/google';
 
 
 const SignUpPage = ({ onClickSendOTP }) => {
@@ -206,14 +206,31 @@ const SignUpPage = ({ onClickSendOTP }) => {
               <Typography variant="body2">Or sign up with</Typography>
             </Divider>
 
-            <Button
-              variant="outlined"
-              fullWidth
-              className="login-google-button"
-              startIcon={<FcGoogle size={24} />}
-            >
-              Sign up with Google
-            </Button>
+            <Box mt={2}>
+              <GoogleLogin
+                onSuccess={async (credentialResponse) => {
+                  try {
+                    const res = await axios.post(BaseURL + "auth/google", {
+                      token: credentialResponse.credential
+                    });
+
+                    const token = res.data.token;
+
+                    login(token);
+                    toast.success("Google signup successful!");
+
+                    navigate("/", { replace: true });
+
+                  } catch (err) {
+                    console.error(err);
+                    toast.error("Google signup failed");
+                  }
+                }}
+                onError={() => {
+                  toast.error("Google Signup Failed");
+                }}
+              />
+            </Box>
             <Box textAlign="center" mt={2}>
               <Typography variant="body2">
                 Already have an account?{" "}

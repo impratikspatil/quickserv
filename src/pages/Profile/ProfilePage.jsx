@@ -101,6 +101,21 @@ const ProfilePage = () => {
           </Typography>
           
           <Box sx={{ position: 'relative', display: 'inline-block', mb: 4 }}>
+          {user.profileImage && (
+            <IconButton 
+              size="small"
+              onClick={() => setUser({ ...user, profileImage: '' })}
+              sx={{ 
+                position: 'absolute', top: 0, right: -10, // Adjusted for better visibility
+                bgcolor: '#ff4d4d', color: 'white', 
+                '&:hover': { bgcolor: '#cc0000' },
+                zIndex: 2,
+                boxShadow: '0px 2px 8px rgba(0,0,0,0.2)'
+              }}
+            >
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          )}
             <Avatar 
               src={user.profileImage} 
               sx={{ width: 130, height: 130, border: '5px solid #fff', boxShadow: '0px 4px 15px rgba(0,0,0,0.1)' }} 
