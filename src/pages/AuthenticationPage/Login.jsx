@@ -15,14 +15,16 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import BaseURL from "../../config";
 import "./Login.css";
 import { FcGoogle } from "react-icons/fc";
 import { useAuth } from "../../components/shared/AuthContext";
 import logo from "../../assets/images/quickserv_logo.png"
+import { useLocation, useNavigate } from "react-router-dom";
+import { GoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -47,9 +49,12 @@ const Login = () => {
 
         login(token); 
         toast.success("Login successful!");
-        
-        // Reload to update navbar with user details
-        window.location.href = '/';
+        const redirectTo = location.state?.redirectTo || "/";
+        const category = location.state?.selectedCategory;
+
+        navigate(redirectTo, {
+          state: category ? { service_category: category } : {}
+        });
     
       } catch (error) {
         console.error("Login error:", error);
@@ -140,14 +145,38 @@ const Login = () => {
           <Typography variant="body2">Or continue with</Typography>
         </Divider>
 
-        <Button
-              variant="outlined"
-              fullWidth
-              className="login-google-button"
-              startIcon={<FcGoogle size={24} />}
-            >
-          Sign in with Google
-        </Button>
+        <Box mt={2}>
+  <GoogleLogin
+    onSuccess={async (credentialResponse) => {
+      try {
+        console.log("Google Token:", credentialResponse.credential);
+
+        const res = await axios.post(BaseURL + "auth/google", {
+          token: credentialResponse.credential
+        });
+
+        const token = res.data.token;
+
+        login(token);
+        toast.success("Google login successful!");
+
+        const redirectTo = location.state?.redirectTo || "/";
+        const category = location.state?.selectedCategory;
+
+        navigate(redirectTo, {
+          state: category ? { service_category: category } : {}
+        });
+
+      } catch (err) {
+        console.error(err);
+        toast.error("Google login failed");
+      }
+    }}
+    onError={() => {
+      toast.error("Google Login Failed");
+    }}
+  />
+</Box>
         <Box textAlign="center" mt={2}>
           <Typography variant="body2">
             Don&apos;t have an account?{" "}

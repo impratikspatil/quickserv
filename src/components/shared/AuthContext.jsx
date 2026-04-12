@@ -58,6 +58,8 @@ export const AuthProvider = ({ children }) => {
     setUserDetails(newDetails);
   };
 
+  const isAuthenticated = !!user;
+
   return (
     <AuthContext.Provider value={{ 
       user, 
@@ -65,6 +67,7 @@ export const AuthProvider = ({ children }) => {
       loading, 
       login, 
       logout, 
+      isAuthenticated,
       updateUserDetails,
       refreshUser: () => fetchUserDetails(localStorage.getItem("token"))
     }}>

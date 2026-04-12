@@ -8,6 +8,7 @@ import Footer from '../../components/home/footer/footer';
 import AboutUs from '../../components/home/about_us/about_us';
 import WhyToChoose from '../../components/home/why_to_choose/why_to_choose';
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../components/shared/AuthContext";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -16,27 +17,25 @@ const LandingPage = () => {
   const homeSectionRef = useRef(null);
   const footerSectionRef = useRef(null);
   const location = useLocation();
+  const { isAuthenticated } = useAuth();
 
   const handleServiceCategoryClick = (category_name) => {
-    const token = localStorage.getItem('token');
-  
-    if (token) {
-      navigate("/service", { state: { service_category: category_name } });
-    } else {
-      navigate("/login", { state: { from: "/service", category: category_name } });
-    }
+
+        if (isAuthenticated) {
+          navigate("/service", { state: { service_category: category_name } });
+        } else {
+          navigate("/login", {
+            state: {
+              redirectTo: "/service",
+              selectedCategory: category_name
+            }
+          });
+        }
   }
 
   const scrollToSection = (ref) => {
     if (ref.current) {
-      const navbarHeight = 64; // Height of the navbar
-      const elementPosition = ref.current.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+      ref.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -50,7 +49,7 @@ const LandingPage = () => {
       scrollToSection(aboutSectionRef);
     } else if (section === 'home' && homeSectionRef.current) {
       scrollToSection(homeSectionRef);
-    } else if (section === 'foote' && footerSectionRef.current) {
+    } else if (section === 'footer' && footerSectionRef.current) {
       scrollToSection(footerSectionRef);
     }
   }, [location]);
@@ -58,13 +57,22 @@ const LandingPage = () => {
   return (
     <div>
       <Navbar />
-      <Hero ref={homeSectionRef} />
-      <CategoryGrid ref={categorySectionRef} onClickServiceCategory={handleServiceCategoryClick} />
-      <div ref={aboutSectionRef} style={{ display: "flex", flexDirection: "row", justifyContent: 'space-around' }}>
+      <div ref={homeSectionRef}>
+  <Hero />
+</div>
+
+      <div ref={categorySectionRef}>
+        <CategoryGrid onClickServiceCategory={handleServiceCategoryClick} />
+      </div>
+
+      
+      <div ref={aboutSectionRef} className="flex flex-row justify-around gap-6 px-10">
         <AboutUs />
         <WhyToChoose />
       </div>
-      <Footer ref={footerSectionRef} />
+      <div ref={footerSectionRef}>
+        <Footer />
+      </div>
     </div>
   );
 };
