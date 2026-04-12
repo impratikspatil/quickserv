@@ -1,11 +1,13 @@
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Reviews.css";
 import ReviewCard from "../../shared/ReviewCard/ReviewCard";
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import { Button, IconButton } from "@mui/material";
+import { Button, IconButton, CircularProgress, Typography } from "@mui/material";
+import axios from 'axios';
+import BaseURL from '../../../config';
 
 const reviewData = [
   {
@@ -52,7 +54,29 @@ const reviewData = [
   }
 ];
 
-const Reviews = () => {
+const Reviews = ({ serviceId, rating, rateCount }) => {
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (serviceId) {
+      fetchReviews();
+    }
+  }, [serviceId]);
+
+  const fetchReviews = async () => {
+    try {
+      const response = await axios.get(`${BaseURL}api/reviews/service/${serviceId}`);
+      setReviews(response.data);
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+      // Use fallback data if API fails
+      setReviews(reviewData);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const actionButtons = (
     <Box sx={{ display: 'flex', gap: 2 }}>
       <Button
@@ -90,32 +114,47 @@ const Reviews = () => {
     </Box>
   );
 
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
     <div>
       <Box>
         <div className="rating_overall_parent">
           <div className="rating_overall">
-            <div className="green_box">4.5</div>
+            <div className="green_box">{rating || '0'}</div>
             <div className="rating_info">
-              <div className="rating_number">{reviewData.length} Ratings</div>
+              <div className="rating_number">{rateCount || reviews.length} Ratings</div>
               <div className="rating_text">Rating index based on quickserv</div>
             </div>
           </div>
           <div className="user_reviews">
             <h3>User Reviews</h3>
-            <div className="reviews-container">
-              {reviewData.map((review, index) => (
-                <ReviewCard 
-                  key={index}
-                  name={review.name}
-                  reviewCount={review.reviewCount}
-                  rating={review.rating}
-                  comment={review.comment}
-                  avatar={review.avatar}
-                  actionButtons={actionButtons}
-                />
-              ))}
-            </div>
+            {reviews.length > 0 ? (
+              <div className="reviews-container">
+                {reviews.map((review, index) => (
+                  <ReviewCard 
+                    key={review.reviewId || index}
+                    name={review.userName}
+                    reviewCount={review.helpful || 0}
+                    rating={review.rating}
+                    comment={review.comment}
+                    avatar={review.avatar || ''}
+                    actionButtons={actionButtons}
+                  />
+                ))}
+              </div>
+            ) : (
+              <Box sx={{ textAlign: 'center', p: 4, color: '#666' }}>
+                <Typography variant="h6">No reviews yet</Typography>
+                <Typography variant="body2">Be the first to review this service!</Typography>
+              </Box>
+            )}
           </div>
         </div>
       </Box>

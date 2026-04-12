@@ -15,6 +15,9 @@ import { useAuth } from './components/shared/AuthContext';
 import ProtectedRoute from './components/shared/ProtectedRoute';
 import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
 import ProfilePage from './pages/Profile/ProfilePage';
+import BookingsPage from './pages/BookingsPage/BookingsPage';
+import MyServicesPage from './pages/MyServicesPage/MyServicesPage';
+import ProviderBookingsPage from './pages/ProviderBookingsPage/ProviderBookingsPage';
 
 
 
@@ -29,11 +32,15 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/service" element={<ServerInfoPage />} />
           <Route path="/service_details" element={<ServiceDetailPage />} />
+          <Route path="/service_details/:serviceId" element={<ServiceDetailPage />} />
           <Route path="/post_service" element={<PostService />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/profile" element={<ProfilePage   />} />
+          <Route path="/bookings" element={<BookingsPage />} />
+          <Route path="/my-services" element={<MyServicesPage />} />
+          <Route path="/provider-bookings" element={<ProviderBookingsPage />} />
         </Routes>
         <ToastContainer />  
       </Router>

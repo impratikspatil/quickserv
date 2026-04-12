@@ -69,7 +69,9 @@ const SignUpPage = ({ onClickSendOTP }) => {
         login(token); // ✅ updated line
         toast.success("Signup successful!");
         resetForm(); 
-        navigate("/", { replace: true });
+        
+        // Reload to update navbar with user details
+        window.location.href = '/';
       } catch (error) {
         console.error("Signup error:", error);
         toast.error(error.response?.data || "Signup failed. Try again.");

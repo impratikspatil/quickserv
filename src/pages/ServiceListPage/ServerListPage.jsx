@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import List from '@mui/material/List';
 import theme from '../../theme/theme';
 import { ThemeProvider } from '@mui/material/styles';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Chip, CircularProgress } from '@mui/material';
 import GlobalSearchFilter from '../../components/shared/filters/GlobalSearchFilter';
 import LocationFilter from '../../components/shared/filters/LocationFilter';
 import washingImg from '../../assets/images/washing.jpg';
 import SortByFilter from '../../components/shared/filters/SortByFilter';
-import { VerifiedOutlined } from '@mui/icons-material';
+import { VerifiedOutlined, MyLocation as MyLocationIcon } from '@mui/icons-material';
 import Divider from '@mui/material/Divider';
 import Navbar from '../../components/shared/Navbar/Navbar';
 import ServiceCard from '../../components/servicelist/ServiceInfoCard'
@@ -20,11 +20,14 @@ import axios from 'axios';
 import BaseURL from '../../config';
 import './ServiceListPage.css';
 import { category_list } from '../../assets/assets';
+import { useAuth } from '../../components/shared/AuthContext';
+import { toast } from 'react-toastify';
 
 const ServerInfoPage = () => {
 
   const location = useLocation();
   const { service_category } = location.state || {};
+  const { userDetails } = useAuth();
   console.log("service_category",service_category);
   
   
@@ -160,6 +163,17 @@ const ServerInfoPage = () => {
   const [categories, setCategories] = useState(category_list);
   const [serviceInfoData, setServiceInfoData] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  // Filter states
+  const [searchQuery, setSearchQuery] = useState('');
+  const [locationFilter, setLocationFilter] = useState('');
+  const [verifiedOnly, setVerifiedOnly] = useState(false);
+  
+  // Location-based states
+  const [userLocation, setUserLocation] = useState(null);
+  const [nearMeActive, setNearMeActive] = useState(false);
+  const [loadingLocation, setLoadingLocation] = useState(false);
+  const [radiusKm, setRadiusKm] = useState(10); // Default 10km radius
 
   const getCategoryIcon = (categoryName) => {
     const category = category_list.find(cat => cat.category_name === categoryName);
@@ -169,6 +183,78 @@ const ServerInfoPage = () => {
   const handleSortByFilterChange = (event) => {
     setSortBy(event.target.value);
     console.log('Selected sort option:', event.target.value);
+  };
+
+  const handleSearchChange = (value) => {
+    setSearchQuery(value);
+  };
+
+  const handleLocationChange = (value) => {
+    setLocationFilter(value);
+  };
+
+  const handleVerifiedToggle = () => {
+    setVerifiedOnly(!verifiedOnly);
+  };
+
+  // Get user's current location and fetch nearby services
+  const handleNearMe = () => {
+    if (!navigator.geolocation) {
+      toast.error('Geolocation is not supported by your browser');
+      return;
+    }
+
+    setLoadingLocation(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLocation({ latitude, longitude });
+        setNearMeActive(true);
+        
+        // Fetch nearby services
+        const token = localStorage.getItem('token');
+        try {
+          const response = await axios.get(
+            `${BaseURL}api/services/search/nearby?latitude=${latitude}&longitude=${longitude}&radiusKm=${radiusKm}`,
+            {
+              headers: { Authorization: `Bearer ${token}` }
+            }
+          );
+          setServiceInfoData(response.data);
+          toast.success(`Found ${response.data.length} services within ${radiusKm}km`);
+        } catch (error) {
+          console.error('Error fetching nearby services:', error);
+          toast.error('Failed to load nearby services');
+        } finally {
+          setLoadingLocation(false);
+        }
+      },
+      (error) => {
+        console.error('Error getting location:', error);
+        toast.error('Could not get your location. Please enable location access.');
+        setLoadingLocation(false);
+      }
+    );
+  };
+
+  // Clear "Near Me" filter
+  const handleClearNearMe = () => {
+    setNearMeActive(false);
+    setUserLocation(null);
+    // Reload all services
+    const token = localStorage.getItem('token');
+    if (token) {
+      axios.get(BaseURL+'api/services',{
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(response => {
+        setServiceInfoData(response.data || []);
+        toast.info('Showing all services');
+      })
+      .catch(error => {
+        console.error('Error fetching services:', error);
+      });
+    }
   };
 
   useEffect(() => {
@@ -232,16 +318,70 @@ const ServerInfoPage = () => {
 
           <div className="services-section">
             <div className="filters-header">
-              <GlobalSearchFilter />
-              <LocationFilter />
+              <GlobalSearchFilter 
+                onSearchChange={handleSearchChange}
+                searchValue={searchQuery}
+              />
+              <LocationFilter 
+                onLocationChange={handleLocationChange}
+                locationValue={locationFilter}
+              />
               <SortByFilter 
                 sortByValue={SortBy} 
                 handleChange={handleSortByFilterChange}
               />
+              
+              {/* Near Me Button */}
+              {!nearMeActive ? (
+                <Button 
+                  startIcon={loadingLocation ? <CircularProgress size={18} /> : <MyLocationIcon />} 
+                  variant="outlined"
+                  className="near-me-button"
+                  onClick={handleNearMe}
+                  disabled={loadingLocation}
+                  sx={{
+                    color: '#ff9800',
+                    borderColor: '#ff9800',
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    fontSize: '0.875rem',
+                    '&:hover': {
+                      borderColor: '#f57c00',
+                      backgroundColor: 'rgba(255, 152, 0, 0.04)'
+                    }
+                  }}
+                >
+                  {loadingLocation ? 'Finding...' : 'Near Me'}
+                </Button>
+              ) : (
+                <Chip
+                  icon={<MyLocationIcon />}
+                  label={`Within ${radiusKm}km`}
+                  onDelete={handleClearNearMe}
+                  sx={{
+                    bgcolor: '#ff9800',
+                    color: 'white',
+                    fontWeight: 600,
+                    fontSize: '0.875rem',
+                    '& .MuiChip-deleteIcon': {
+                      color: 'white'
+                    }
+                  }}
+                />
+              )}
+              
               <Button 
                 startIcon={<VerifiedOutlined />} 
-                variant="outlined" 
+                variant={verifiedOnly ? "contained" : "outlined"}
                 className="verified-button"
+                onClick={handleVerifiedToggle}
+                sx={{
+                  backgroundColor: verifiedOnly ? '#028b06' : 'transparent',
+                  color: verifiedOnly ? 'white' : '#028b06',
+                  '&:hover': {
+                    backgroundColor: verifiedOnly ? '#027505' : 'rgba(2, 139, 6, 0.04)'
+                  }
+                }}
               >
                 Verified
               </Button>
@@ -254,14 +394,59 @@ const ServerInfoPage = () => {
             ) : serviceInfoData.length > 0 ? (
               <List className="services-list">
                 {serviceInfoData
+                  // Filter by category
                   .filter(service => {
-                    // Filter by category if service_category is provided
                     if (!service_category) return true;
-                    // Check if service matches the selected category
-                    // API services might have serviceCategory field, hardcoded might not
                     return service.serviceCategory === service_category || 
                            service.category === service_category ||
-                           !service.serviceCategory; // Show all if no category filter matches
+                           !service.serviceCategory;
+                  })
+                  // Filter by search query (service name or description)
+                  .filter(service => {
+                    if (!searchQuery) return true;
+                    const query = searchQuery.toLowerCase();
+                    const serviceName = (service.serviceName || service.servicename || '').toLowerCase();
+                    const description = (service.description || '').toLowerCase();
+                    return serviceName.includes(query) || description.includes(query);
+                  })
+                  // Filter by location
+                  .filter(service => {
+                    if (!locationFilter) return true;
+                    const location = (service.address || service.location || '').toLowerCase();
+                    return location.includes(locationFilter.toLowerCase());
+                  })
+                  // Filter by verified status
+                  .filter(service => {
+                    if (!verifiedOnly) return true;
+                    return service.isVerified === true;
+                  })
+                  // Sort services
+                  .sort((a, b) => {
+                    if (!SortBy) return 0;
+                    
+                    switch(SortBy) {
+                      case 'ratings':
+                        // Sort by rating (highest first)
+                        const ratingA = parseFloat(a.rating) || 0;
+                        const ratingB = parseFloat(b.rating) || 0;
+                        return ratingB - ratingA;
+                      
+                      case 'popularity':
+                        // Sort by rating count (most popular first)
+                        const countA = a.ratingCount || a.rateCount || 0;
+                        const countB = b.ratingCount || b.rateCount || 0;
+                        return countB - countA;
+                      
+                      case 'distance':
+                        // For now, sort alphabetically by location
+                        // In a real app, you'd calculate actual distance based on user's location
+                        const locA = (a.address || a.location || '').toLowerCase();
+                        const locB = (b.address || b.location || '').toLowerCase();
+                        return locA.localeCompare(locB);
+                      
+                      default:
+                        return 0;
+                    }
                   })
                   .map((service) => {
                     // NEW: Logic to handle fallback icons
@@ -292,6 +477,9 @@ const ServerInfoPage = () => {
                         tags={service.tags || []}
                         isVerified={service.isVerified || false}
                         rateCount={service.rateCount || 0}
+                        
+                        // Check if this service is in user's favorites
+                        initialLiked={userDetails?.favoriteServiceIds?.includes(String(service.serviceId || service.id)) || false}
                       />
                     );
                   }
