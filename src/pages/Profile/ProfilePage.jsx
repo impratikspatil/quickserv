@@ -4,14 +4,23 @@ import { PhotoCamera as PhotoCameraIcon, Save as SaveIcon } from '@mui/icons-mat
 import Navbar from '../../components/shared/Navbar/Navbar';
 import axios from 'axios';
 import BaseURL from '../../config';
+import profile from '../../assets/images/image.png';
+import {Delete as DeleteIcon} from '@mui/icons-material';    
 
 const ProfilePage = () => {
   const [user, setUser] = useState({ name: '', emailId: '', contactNumber: '', location: '', profileImage: '' });
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
+  const profileImage = user?.profileImage || profile;
 
   useEffect(() => {
-    fetchUserData();
+    const localUser = JSON.parse(localStorage.getItem("user"));
+  
+    if (localUser) {
+      setUser(localUser); // quick render
+    }
+  
+    fetchUserData(); // always sync with backend
   }, []);
 
   const fetchUserData = async () => {
@@ -50,13 +59,12 @@ const ProfilePage = () => {
   const handleUpdate = async () => {
     setUpdating(true);
     const token = localStorage.getItem('token');
-    
+  
     const payload = {
       name: user.name,
       location: user.location,
       profileImage: user.profileImage,
       emailId: user.emailId,
-      // Sending as string to avoid Long/Integer overflow issues in Spring Boot
       contactNumber: user.contactNumber ? String(user.contactNumber).replace(/\D/g, '') : null,
     };
   
@@ -64,12 +72,16 @@ const ProfilePage = () => {
       const response = await axios.put(`${BaseURL}api/users/update`, payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      // Update local state with fresh data from the server response
+  
       setUser(response.data);
+  
+     
+      localStorage.setItem("user", JSON.stringify(response.data));
+  
       alert("Profile updated successfully!");
     } catch (err) {
       console.error("Error Detail:", err.response?.data);
-      alert("Update failed: " + (err.response?.data || "Check console"));
+      alert("Update failed");
     } finally {
       setUpdating(false);
     }
@@ -79,7 +91,7 @@ const ProfilePage = () => {
   
   return (
     <Box sx={{ bgcolor: '#f5f5f5', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Navbar userName={user.name} />
+      <Navbar  />
       
       {/* Increased padding-top to create space below Navbar */}
       <Container maxWidth="sm" sx={{ mt: 10, mb: 5, flexGrow: 1 }}>
@@ -117,7 +129,7 @@ const ProfilePage = () => {
             </IconButton>
           )}
             <Avatar 
-              src={user.profileImage} 
+              src={profileImage}
               sx={{ width: 130, height: 130, border: '5px solid #fff', boxShadow: '0px 4px 15px rgba(0,0,0,0.1)' }} 
             >
               {user.name ? user.name.charAt(0).toUpperCase() : 'U'}

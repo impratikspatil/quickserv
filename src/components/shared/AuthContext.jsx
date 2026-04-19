@@ -5,7 +5,9 @@ import BaseURL from "../../config";
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    return JSON.parse(localStorage.getItem("user"));
+  });
   const [userDetails, setUserDetails] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -41,14 +43,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = (token) => {
+  const login = (token, userData) => {
     localStorage.setItem("token", token);
-    setUser(token);
-    fetchUserDetails(token);
+    localStorage.setItem("user", JSON.stringify(userData));
+    setUser(userData);
   };
 
   const logout = (navigate) => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setUser(null);
     setUserDetails(null);
     if (navigate) navigate("/login");

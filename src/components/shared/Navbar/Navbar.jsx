@@ -24,7 +24,8 @@ import BaseURL from '../../../config';
 
 const Navbar = ({ isLogin = false }) => {
   const navigate = useNavigate();
-  const { user, userDetails, logout } = useAuth();
+  const { user, logout } = useAuth();
+  
   const [showWaitingCard, setShowWaitingCard] = useState(false);
   const [showSuccessCard, setShowSuccessCard] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
@@ -33,14 +34,11 @@ const Navbar = ({ isLogin = false }) => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   // Get user name from userDetails or use default
-  const userName = userDetails?.name || 'User';
+  const userName = user?.name || 'User';
   
   // Get profile image from userDetails or use default
-  const profileImage = userDetails?.profileImage 
-    ? (userDetails.profileImage.startsWith('http') 
-        ? userDetails.profileImage 
-        : `${BaseURL}${userDetails.profileImage}`)
-    : profile;
+  const profileImage = user?.profileImage || profile;
+
 
   const navigateTo = (section) => {
     navigate(`/?section=${section}`);
@@ -84,7 +82,7 @@ const Navbar = ({ isLogin = false }) => {
     }}
   >
     <Avatar
-      src={profileImage}
+      src={user?.profileImage}
       sx={{ 
         width: 90, 
         height: 90, 
@@ -92,12 +90,12 @@ const Navbar = ({ isLogin = false }) => {
         border: '4px solid white',
         boxShadow: '0 2px 8px rgba(0,0,0,0.1)' 
       }}
-    />
+    >{user?.name?.charAt(0)}</Avatar>
     <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: '-0.5px' }}>
       {userName}
     </Typography>
     <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.85rem' }}>
-      {userDetails?.emailId || ''}
+      {user?.emailId || ''}
     </Typography>
     <Button 
       size="small" 
