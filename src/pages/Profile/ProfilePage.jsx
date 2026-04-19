@@ -67,11 +67,11 @@ const ProfilePage = () => {
     const token = localStorage.getItem('token');
   
     const payload = {
-      name: user.name,
-      location: user.location,
-      profileImage: user.profileImage,
+      name: user.name || "",
+      location: user.location || "",
+      profileImage: user.profileImage || "",
       contactNumber: user.contactNumber 
-        ? Number(String(user.contactNumber).replace(/\D/g, '')) 
+        ? Number(user.contactNumber) 
         : null,
     };
   
