@@ -6,16 +6,19 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    return JSON.parse(localStorage.getItem("user"));
+    try {
+      const stored = localStorage.getItem("user");
+      return stored && stored !== "undefined" ? JSON.parse(stored) : null;
+    } catch {
+      return null;
+    }
   });
-  const [userDetails, setUserDetails] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch user details when component mounts or token changes
   useEffect(() => {
     const token = localStorage.getItem("token");
+  
     if (token) {
-      setUser(token);
       fetchUserDetails(token);
     } else {
       setLoading(false);
@@ -29,14 +32,19 @@ export const AuthProvider = ({ children }) => {
           Authorization: `Bearer ${token}`
         }
       });
-      setUserDetails(response.data);
+  
+  
+      // 🔥 IMPORTANT: keep user in sync
+      setUser(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
+  
     } catch (error) {
       console.error("Error fetching user details:", error);
-      // If token is invalid, clear it
+  
       if (error.response?.status === 401) {
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
         setUser(null);
-        setUserDetails(null);
       }
     } finally {
       setLoading(false);
@@ -47,18 +55,13 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(userData));
     setUser(userData);
+    setLoading(false);
   };
 
-  const logout = (navigate) => {
+  const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
-    setUserDetails(null);
-    if (navigate) navigate("/login");
-  };
-
-  const updateUserDetails = (newDetails) => {
-    setUserDetails(newDetails);
   };
 
   const isAuthenticated = !!user;
@@ -66,12 +69,10 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={{ 
       user, 
-      userDetails, 
       loading, 
       login, 
       logout, 
       isAuthenticated,
-      updateUserDetails,
       refreshUser: () => fetchUserDetails(localStorage.getItem("token"))
     }}>
       {children}
