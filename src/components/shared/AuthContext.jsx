@@ -25,6 +25,22 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  useEffect(() => {
+    const handler = () => {
+      try {
+        const stored = localStorage.getItem("user");
+        const parsed = stored && stored !== "undefined" ? JSON.parse(stored) : null;
+        setUser(parsed);
+      } catch {
+        setUser(null);
+      }
+    };
+  
+    window.addEventListener("userUpdated", handler);
+  
+    return () => window.removeEventListener("userUpdated", handler);
+  }, []);
+
   const fetchUserDetails = async (token) => {
     try {
       const response = await axios.get(`${BaseURL}api/users/me`, {

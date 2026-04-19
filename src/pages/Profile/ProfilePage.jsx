@@ -70,8 +70,9 @@ const ProfilePage = () => {
       name: user.name,
       location: user.location,
       profileImage: user.profileImage,
-      emailId: user.emailId,
-      contactNumber: user.contactNumber ? String(user.contactNumber).replace(/\D/g, '') : null,
+      contactNumber: user.contactNumber 
+        ? Number(String(user.contactNumber).replace(/\D/g, '')) 
+        : null,
     };
   
     try {
@@ -80,9 +81,9 @@ const ProfilePage = () => {
       });
   
       setUser(response.data);
-  
-     
       localStorage.setItem("user", JSON.stringify(response.data));
+  
+      window.dispatchEvent(new Event("userUpdated"));
   
       toast.success("Profile updated successfully!");
     } catch (err) {
