@@ -44,10 +44,12 @@ const Login = () => {
           emailId: values.email,
           password: values.password
         });
-    
-        const token = response.data.token;
 
-        login(token); 
+        console.log("LOGIN RESPONSE:", response.data);
+    
+        const { token, user } = response.data;
+
+        login(token, user);
         toast.success("Login successful!");
         const redirectTo = location.state?.redirectTo || "/";
         const category = location.state?.selectedCategory;
@@ -155,9 +157,11 @@ const Login = () => {
           token: credentialResponse.credential
         });
 
-        const token = res.data.token;
+        console.log("GOOGLE RESPONSE:", res.data);
 
-        login(token);
+        const { token, user } = res.data;
+
+        login(token, user);
         toast.success("Google login successful!");
 
         const redirectTo = location.state?.redirectTo || "/";
