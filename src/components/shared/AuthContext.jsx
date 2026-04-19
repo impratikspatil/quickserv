@@ -80,5 +80,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// ✅ This is required for useAuth to work in other files
 export const useAuth = () => useContext(AuthContext);
