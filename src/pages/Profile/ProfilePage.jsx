@@ -67,11 +67,12 @@ const ProfilePage = () => {
     const token = localStorage.getItem('token');
   
     const payload = {
-      name: user.name,
-      location: user.location,
-      profileImage: user.profileImage,
-      emailId: user.emailId,
-      contactNumber: user.contactNumber ? String(user.contactNumber).replace(/\D/g, '') : null,
+      name: user.name || "",
+      location: user.location || "",
+      profileImage: user.profileImage || "",
+      contactNumber: user.contactNumber 
+        ? Number(user.contactNumber) 
+        : null,
     };
   
     try {
@@ -80,9 +81,9 @@ const ProfilePage = () => {
       });
   
       setUser(response.data);
-  
-     
       localStorage.setItem("user", JSON.stringify(response.data));
+  
+      window.dispatchEvent(new Event("userUpdated"));
   
       toast.success("Profile updated successfully!");
     } catch (err) {
