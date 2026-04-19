@@ -5,7 +5,8 @@ import Navbar from '../../components/shared/Navbar/Navbar';
 import axios from 'axios';
 import BaseURL from '../../config';
 import profile from '../../assets/images/image.png';
-import {Delete as DeleteIcon} from '@mui/icons-material';    
+import {Delete as DeleteIcon} from '@mui/icons-material';
+import { toast } from "react-toastify";    
 
 const ProfilePage = () => {
   const [user, setUser] = useState({ name: '', emailId: '', contactNumber: '', location: '', profileImage: '' });
@@ -14,13 +15,18 @@ const ProfilePage = () => {
   const profileImage = user?.profileImage || profile;
 
   useEffect(() => {
-    const localUser = JSON.parse(localStorage.getItem("user"));
+    let localUser = null;
+  
+    try {
+      localUser = JSON.parse(localStorage.getItem("user"));
+    } catch (e) {}
   
     if (localUser) {
-      setUser(localUser); // quick render
+      setUser(localUser);
+      setLoading(false);
+    } else {
+      fetchUserData();
     }
-  
-    fetchUserData(); // always sync with backend
   }, []);
 
   const fetchUserData = async () => {
@@ -78,10 +84,10 @@ const ProfilePage = () => {
      
       localStorage.setItem("user", JSON.stringify(response.data));
   
-      alert("Profile updated successfully!");
+      toast.success("Profile updated successfully!");
     } catch (err) {
       console.error("Error Detail:", err.response?.data);
-      alert("Update failed");
+      toast.error(err.response?.data || "Update failed");
     } finally {
       setUpdating(false);
     }
